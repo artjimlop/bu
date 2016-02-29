@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/Users/arturo/bu2/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="e5f32fa48a3eb2de0c987025c11b6e3864b634d9">
+        <dex dex="/Users/arturo/bu2/app/build/intermediates/pre-dexed/debug/classes-574dc122c46b7140a12013b6111867959af5470c.jar" />
+    </item>
+    <item
+        jar="/Users/arturo/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.2.0/support-annotations-23.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="c5bf571bb10462bd90e5419ade67793f71acbc87">
+        <dex dex="/Users/arturo/bu2/app/build/intermediates/pre-dexed/debug/support-annotations-23.2.0-42986d42ca7f4b25563bc3e5f3e3260eacdf4d35.jar" />
+    </item>
+    <item
+        jar="/Users/arturo/bu2/app/build/intermediates/exploded-aar/com.android.support/design/23.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="1aa5b025efe97f5006f5be16d6ca67c6c3c0c0d8">
+        <dex dex="/Users/arturo/bu2/app/build/intermediates/pre-dexed/debug/classes-fe22eff389c9f4a7cb7976894ed80ac8b666471f.jar" />
+    </item>
+    <item
+        jar="/Users/arturo/bu2/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="d4c936aa8c7d2522c82e3f1829c791d9e367f009">
+        <dex dex="/Users/arturo/bu2/app/build/intermediates/pre-dexed/debug/classes-1a390c9690c25b076d488e611d8f0ad50f255e68.jar" />
+    </item>
+    <item
+        jar="/Users/arturo/bu2/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="292a9fa091757208efa65e77eef63088247e51f3">
+        <dex dex="/Users/arturo/bu2/app/build/intermediates/pre-dexed/debug/classes-7df01abb7eb23fe28b53d16eb1fc9a83aff06529.jar" />
+    </item>
+    <item
+        jar="/Users/arturo/bu2/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.2.0/jars/libs/internal_impl-23.2.0.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6e239441500605809818997dd63b62a947195f8c">
+        <dex dex="/Users/arturo/bu2/app/build/intermediates/pre-dexed/debug/internal_impl-23.2.0-2beee8fbd86c36b9e51cef48577cb3fbb338ca5b.jar" />
+    </item>
+    <item
+        jar="/Users/arturo/bu2/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="6e3578f92f7462d1a935a1d36173e3bdd1234976">
+        <dex dex="/Users/arturo/bu2/app/build/intermediates/pre-dexed/debug/classes-e36bbc187203824accf005c11ba242317dc262fb.jar" />
+    </item>
+    <item
+        jar="/Users/arturo/bu2/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.2.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="8c108c22c99e794eff255bb34d2a461200c4cbb0">
+        <dex dex="/Users/arturo/bu2/app/build/intermediates/pre-dexed/debug/classes-28d685ddeffc1d8bc288f5859332542f9af36553.jar" />
+    </item>
+
+</items>
