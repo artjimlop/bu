@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="rosie-1.0.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.karumi.rosie/rosie/1.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.karumi.rosie/rosie/1.0.0/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.karumi.rosie/rosie/1.0.0/61ebff383b9995ac825eb90aaeb3485cdea116a6/rosie-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
