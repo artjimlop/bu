@@ -23,9 +23,9 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:support-v13:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:support-v13:23.2.0'
+    compile 'com.android.support:design:23.2.0'
     compile 'com.karumi.rosie:rosie:1.0.0'
     provided 'com.squareup.dagger:dagger-compiler:1.2.2'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
@@ -39,4 +39,5 @@ dependencies {
     }
     androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.1')
     testCompile 'junit:junit:4.12'
+    androidTestCompile 'com.android.support:support-annotations:23.2.0'
 }
