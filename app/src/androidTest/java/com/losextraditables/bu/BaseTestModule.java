@@ -3,7 +3,6 @@ package com.losextraditables.bu;
 import android.content.Context;
 
 import com.karumi.rosie.daggerutils.ForActivity;
-import com.losextraditables.bu.instagrammers.ApplicationModule;
 
 import dagger.Module;
 import dagger.Provides;

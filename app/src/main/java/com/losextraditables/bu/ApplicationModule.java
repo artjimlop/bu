@@ -1,4 +1,4 @@
-package com.losextraditables.bu.instagrammers;
+package com.losextraditables.bu;
 
 import com.karumi.rosie.domain.usecase.error.ErrorHandler;
 import com.losextraditables.bu.base.view.error.BuErrorFactory;

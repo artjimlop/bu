@@ -1,7 +1,6 @@
 package com.losextraditables.bu.base.view.error;
 
 import com.karumi.rosie.domain.usecase.error.ErrorFactory;
-import com.losextraditables.bu.BuApiException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.net.UnknownHostException;
