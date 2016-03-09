@@ -1,7 +1,9 @@
-package com.losextraditables.bu.login;
+package com.losextraditables.bu.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import com.losextraditables.bu.login.Session;
 
 import javax.inject.Inject;
 
@@ -30,15 +32,6 @@ public class InstagramSession implements Session {
 		return sharedPref.edit();
 	}
 
-	public void storeAccessToken(Context context, String accessToken) {
-		SharedPreferences.Editor editor = initializeEditor(context);
-		editor.putString(API_ACCESS_TOKEN, accessToken);
-		editor.commit();
-	}
-
-	/**
-	 * Reset access token and user name
-	 */
 	public void resetAccessToken(Context context) {
 		SharedPreferences.Editor editor = initializeEditor(context);
 		editor.putString(API_ID, null);
@@ -48,39 +41,21 @@ public class InstagramSession implements Session {
 		editor.commit();
 	}
 
-	/**
-	 * Get user name
-	 * 
-	 * @return User name
-	 */
 	public String getUsername(Context context) {
 		SharedPreferences sharedPref = context.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
 		return sharedPref.getString(API_USERNAME, null);
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
+
 	public String getId(Context context) {
 		SharedPreferences sharedPref = context.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
 		return sharedPref.getString(API_ID, null);
 	}
-	
-	/**
-	 * 
-	 * @return
-	 */
+
 	public String getName(Context context) {
 		SharedPreferences sharedPref = context.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
 		return sharedPref.getString(API_NAME, null);
 	}
 
-	/**
-	 * Get access token
-	 * 
-	 * @return Access token
-	 */
 	public String getAccessToken(Context context) {
 		SharedPreferences sharedPref = context.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
 		return sharedPref.getString(API_ACCESS_TOKEN, null);

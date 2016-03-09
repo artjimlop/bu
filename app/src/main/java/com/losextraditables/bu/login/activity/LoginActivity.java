@@ -1,16 +1,12 @@
 package com.losextraditables.bu.login.activity;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
+import com.losextraditables.bu.utils.InstagramSession;
 import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.utils.ApplicationData;
 import com.losextraditables.bu.utils.InstagramApp;
@@ -29,6 +25,8 @@ public class LoginActivity extends BuActivity {
     Button login;
 
     @Inject InstagramApp instagramApp;
+    @Inject
+    InstagramSession instagramSession;
 
     @Override
     protected int getLayoutId() {
@@ -56,6 +54,10 @@ public class LoginActivity extends BuActivity {
             @Override
             public void onSuccess() {
                 login.setText("Disconnect");
+                Log.d("SESION: ", instagramSession.getAccessToken(getBaseContext()));
+                Log.d("SESION: ", instagramSession.getId(getBaseContext()));
+                Log.d("SESION: ", instagramSession.getUsername(getBaseContext()));
+                Log.d("SESION: ", instagramSession.getName(getBaseContext()));
             }
 
             @Override
@@ -65,15 +67,5 @@ public class LoginActivity extends BuActivity {
             }
         });
         instagramApp.authorize();
-    }
-
-    private void displayInfoDialogView() {
-
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(
-                LoginActivity.this);
-        alertDialog.setTitle("Profile Info");
-
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        alertDialog.create().show();
     }
 }

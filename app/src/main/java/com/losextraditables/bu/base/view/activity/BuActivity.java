@@ -8,8 +8,7 @@ import android.view.View;
 import com.karumi.rosie.view.RosieActivity;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.BaseModule;
-import com.losextraditables.bu.instagrammers.InstagrammersListModule;
-import com.losextraditables.bu.login.InstagramSession;
+import com.losextraditables.bu.utils.InstagramSession;
 import com.losextraditables.bu.login.activity.LoginActivity;
 
 import java.util.Arrays;
