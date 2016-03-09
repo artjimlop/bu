@@ -37,6 +37,11 @@ public class LoginActivity extends BuActivity {
         return Arrays.asList((Object) new LoginModule());
     }
 
+    @Override
+    protected void redirectToLogin() {
+        /* no - op */
+    }
+
     @Override protected void onPreparePresenter() {
         super.onPreparePresenter();
     }
