@@ -5,4 +5,5 @@
     <string name="connection_error">Connection troubles. Oh shit!</string>
     <string name="instagram_dialog_loading">Loading...</string>
     <string name="instagram_dialog_title">Instagram</string>
+    <string name="login_button_connect">Connect</string>
 </resources>
