@@ -19,7 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.utils.InstagramApp;
+import com.losextraditables.bu.utils.InstagramLogin;
 
 import butterknife.BindString;
 import butterknife.ButterKnife;
@@ -108,7 +108,7 @@ public class InstagramDialog extends Dialog {
 	private class OAuthWebViewClient extends WebViewClient {
 		@Override
 		public boolean shouldOverrideUrlLoading(WebView view, String url) {
-			if (url.startsWith(InstagramApp.callbackUrl)) {
+			if (url.startsWith(InstagramLogin.callbackUrl)) {
 				String urls[] = url.split("=");
 				authDialogListener.onComplete(urls[1]);
 				InstagramDialog.this.dismiss();

@@ -9,7 +9,7 @@ import com.losextraditables.bu.base.view.activity.BuActivity;
 import com.losextraditables.bu.utils.InstagramSession;
 import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.utils.ApplicationData;
-import com.losextraditables.bu.utils.InstagramApp;
+import com.losextraditables.bu.utils.InstagramLogin;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +24,8 @@ public class LoginActivity extends BuActivity {
     @Bind(R.id.btnConnect)
     Button login;
 
-    @Inject InstagramApp instagramApp;
+    @Inject
+    InstagramLogin instagramLogin;
     @Inject
     InstagramSession instagramSession;
 
@@ -52,9 +53,9 @@ public class LoginActivity extends BuActivity {
     }
 
     private void connectOrDisconnectUser() {
-        instagramApp.initialize(this, ApplicationData.CLIENT_ID,
+        instagramLogin.initialize(this, ApplicationData.CLIENT_ID,
                 ApplicationData.CLIENT_SECRET, ApplicationData.CALLBACK_URL);
-        instagramApp.setListener(new InstagramApp.OAuthAuthenticationListener() {
+        instagramLogin.setListener(new InstagramLogin.OAuthAuthenticationListener() {
 
             @Override
             public void onSuccess() {
@@ -71,6 +72,6 @@ public class LoginActivity extends BuActivity {
                         .show();
             }
         });
-        instagramApp.authorize();
+        instagramLogin.authorize();
     }
 }

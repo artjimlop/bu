@@ -1,6 +1,7 @@
 package com.losextraditables.bu.base.view;
 
 import com.losextraditables.bu.base.view.activity.BuActivity;
+import com.losextraditables.bu.login.activity.LoginActivity;
 import com.losextraditables.bu.utils.InstagramSession;
 import com.losextraditables.bu.login.Session;
 
@@ -10,7 +11,8 @@ import dagger.Provides;
 @Module(library = true,
         complete = false,
         injects = {
-                BuActivity.class
+                BuActivity.class,
+                LoginActivity.class
         })public class BaseModule {
 
         @Provides

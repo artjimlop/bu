@@ -18,7 +18,7 @@ import java.util.HashMap;
 
 import javax.inject.Inject;
 
-public class InstagramApp {
+public class InstagramLogin {
 
 	private Context context;
 	@Inject InstagramSession session;
@@ -46,7 +46,7 @@ public class InstagramApp {
 
 	private static final String TAG = "InstagramAPI";
 
-	@Inject public InstagramApp() {
+	@Inject public InstagramLogin() {
 	}
 
 	public void initialize(Context context, String clientId, String clientSecret,
@@ -55,12 +55,12 @@ public class InstagramApp {
 		this.clientId = clientId;
 		this.clientSecret = clientSecret;
 		accessToken = session.getAccessToken(context);
-		InstagramApp.callbackUrl = callbackUrl;
+		InstagramLogin.callbackUrl = callbackUrl;
 		String authUrl = AUTH_URL
 				+ "?client_id="
 				+ clientId
 				+ "&redirect_uri="
-				+ InstagramApp.callbackUrl
+				+ InstagramLogin.callbackUrl
 				+ "&response_type=code&display=touch&scope=likes+comments+relationships";
 
 		InstagramDialog.OAuthDialogListener listener = new InstagramDialog.OAuthDialogListener() {
