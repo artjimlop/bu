@@ -1,21 +1,24 @@
 package com.losextraditables.bu.instagrammers.view.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.instagrammers.view.holder.UserViewHolder;
 import com.losextraditables.bu.instagrammers.model.UserModel;
+import com.losextraditables.bu.instagrammers.view.holder.UserViewHolder;
 
 import java.util.List;
 
 public class InstagrammersAdapter extends RecyclerView.Adapter<UserViewHolder> {
 
+    private final Context context;
     private List<UserModel> instagrammers;
 
-    public InstagrammersAdapter() {
+    public InstagrammersAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
@@ -23,7 +26,7 @@ public class InstagrammersAdapter extends RecyclerView.Adapter<UserViewHolder> {
                                                    int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_instagrammer_list_adapter, parent, false);
-        return new UserViewHolder(v);
+        return new UserViewHolder(v, context);
     }
 
     @Override

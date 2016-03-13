@@ -45,7 +45,7 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new InstagrammersAdapter();
+        adapter = new InstagrammersAdapter(this);
         instagrammersList.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(this);
         instagrammersList.setLayoutManager(linearLayoutManager);

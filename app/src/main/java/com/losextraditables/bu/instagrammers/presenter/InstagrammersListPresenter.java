@@ -31,7 +31,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
         userModel.setBio("bio");
         userModel.setFullName("fullname");
         userModel.setUserName("username");
-        userModel.setProfilePicture("picture");
+        userModel.setProfilePicture("http://developer.android.com/assets/images/android_logo@2x.png");
         userModel.setUserId("userId");
         userModel.setWebsite("website");
         return Arrays.asList(userModel);

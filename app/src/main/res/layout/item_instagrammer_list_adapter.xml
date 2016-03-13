@@ -12,7 +12,7 @@
     android:paddingTop="8dp"
     tools:background="@color/application_background">
 
-    <LinearLayout
+    <ImageView
         android:id="@+id/instagrammer_picture"
         android:layout_width="84dp"
         android:layout_height="84dp"
