@@ -2,13 +2,17 @@ package com.losextraditables.bu.instagrammers.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
+import com.losextraditables.bu.instagrammers.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.presenter.InstagrammersListPresenter;
+import com.losextraditables.bu.instagrammers.viewmodel.UserModel;
 import com.losextraditables.bu.login.activity.LoginActivity;
 
 import java.util.Arrays;
@@ -20,12 +24,15 @@ import butterknife.Bind;
 
 public class InstagrammersListActivity extends BuActivity implements InstagrammersListPresenter.View {
 
-    @Bind(R.id.contant_main_text)
-    TextView contentText;
+    @Bind(R.id.instagrammers_list)
+    RecyclerView instagrammersList;
 
     @Inject
     @Presenter
     InstagrammersListPresenter presenter;
+
+    private InstagrammersAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
 
     @Override
     protected int getLayoutId() {
@@ -39,6 +46,11 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adapter = new InstagrammersAdapter();
+        instagrammersList.setAdapter(adapter);
+        linearLayoutManager = new LinearLayoutManager(this);
+        instagrammersList.setLayoutManager(linearLayoutManager);
+        presenter.showMockedUsers();
     }
 
     @Override
@@ -53,8 +65,9 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     }
 
     @Override
-    public void showHelloWorld(String hello) {
-        contentText.setText(hello);
+    public void showMockedUserList(List<UserModel> userModels) {
+        adapter.setUsers(userModels);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
