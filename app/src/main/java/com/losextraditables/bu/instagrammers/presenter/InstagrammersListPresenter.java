@@ -4,7 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.karumi.rosie.domain.usecase.UseCaseHandler;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
-import com.losextraditables.bu.instagrammers.viewmodel.UserModel;
+import com.losextraditables.bu.instagrammers.model.UserModel;
 
 import java.util.Arrays;
 import java.util.List;

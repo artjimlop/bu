@@ -1,4 +1,4 @@
-package com.losextraditables.bu.instagrammers.holder;
+package com.losextraditables.bu.instagrammers.view.holder;
 
 
 import android.support.v7.widget.RecyclerView;
@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.instagrammers.viewmodel.UserModel;
+import com.losextraditables.bu.instagrammers.model.UserModel;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

@@ -1,18 +1,17 @@
-package com.losextraditables.bu.instagrammers.activity;
+package com.losextraditables.bu.instagrammers.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
-import com.losextraditables.bu.instagrammers.adapter.InstagrammersAdapter;
+import com.losextraditables.bu.instagrammers.model.UserModel;
 import com.losextraditables.bu.instagrammers.presenter.InstagrammersListPresenter;
-import com.losextraditables.bu.instagrammers.viewmodel.UserModel;
+import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.login.activity.LoginActivity;
 
 import java.util.Arrays;

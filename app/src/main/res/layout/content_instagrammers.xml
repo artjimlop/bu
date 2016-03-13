@@ -8,7 +8,7 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="@color/application_background"
     tools:showIn="@layout/activity_instagrammers"
-    tools:context=".instagrammers.activity.InstagrammersListActivity">
+    tools:context=".instagrammers.view.activity.InstagrammersListActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/instagrammers_list"

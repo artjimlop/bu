@@ -1,4 +1,4 @@
-package com.losextraditables.bu.instagrammers.adapter;
+package com.losextraditables.bu.instagrammers.view.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -6,8 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.instagrammers.holder.UserViewHolder;
-import com.losextraditables.bu.instagrammers.viewmodel.UserModel;
+import com.losextraditables.bu.instagrammers.view.holder.UserViewHolder;
+import com.losextraditables.bu.instagrammers.model.UserModel;
 
 import java.util.List;
 
