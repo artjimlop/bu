@@ -1,5 +1,7 @@
 package com.losextraditables.bu.instagrammers.activity;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.widget.TextView;
 
 import com.karumi.rosie.view.Presenter;
@@ -7,6 +9,7 @@ import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
 import com.losextraditables.bu.instagrammers.presenter.InstagrammersListPresenter;
+import com.losextraditables.bu.login.activity.LoginActivity;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,6 +34,17 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
 
     @Override protected List<Object> getActivityScopeModules() {
         return Arrays.asList((Object) new InstagrammersListModule());
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void redirectToLogin() {
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 
     @Override protected void onPreparePresenter() {
