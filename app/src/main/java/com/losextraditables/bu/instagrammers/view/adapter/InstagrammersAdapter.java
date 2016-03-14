@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.instagrammers.model.UserModel;
+import com.losextraditables.bu.instagrammers.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.holder.UserViewHolder;
 
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.List;
 public class InstagrammersAdapter extends RecyclerView.Adapter<UserViewHolder> {
 
     private final Context context;
-    private List<UserModel> instagrammers;
+    private List<InstagrammerModel> instagrammers;
 
     public InstagrammersAdapter(Context context) {
         this.context = context;
@@ -40,7 +40,7 @@ public class InstagrammersAdapter extends RecyclerView.Adapter<UserViewHolder> {
         return instagrammers.size();
     }
 
-    public void setUsers(List<UserModel> users) {
+    public void setUsers(List<InstagrammerModel> users) {
         instagrammers = users;
     }
 }

@@ -1,6 +1,6 @@
 package com.losextraditables.bu.instagrammers.model;
 
-public class UserModel {
+public class InstagrammerModel {
 
     private String userId;
     private String userName;

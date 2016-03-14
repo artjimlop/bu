@@ -9,7 +9,7 @@ import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
-import com.losextraditables.bu.instagrammers.model.UserModel;
+import com.losextraditables.bu.instagrammers.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.presenter.InstagrammersListPresenter;
 import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.login.activity.LoginActivity;
@@ -49,7 +49,7 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
         instagrammersList.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(this);
         instagrammersList.setLayoutManager(linearLayoutManager);
-        presenter.showMockedUsers();
+        presenter.showMockedInstagrammers();
     }
 
     @Override
@@ -64,8 +64,8 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     }
 
     @Override
-    public void showMockedUserList(List<UserModel> userModels) {
-        adapter.setUsers(userModels);
+    public void showMockedInstagrammers(List<InstagrammerModel> instagrammerModels) {
+        adapter.setUsers(instagrammerModels);
         adapter.notifyDataSetChanged();
     }
 

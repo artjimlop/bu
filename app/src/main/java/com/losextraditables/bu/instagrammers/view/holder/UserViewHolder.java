@@ -8,10 +8,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.instagrammers.model.UserModel;
+import com.losextraditables.bu.instagrammers.model.InstagrammerModel;
 import com.squareup.picasso.Picasso;
-
-import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,9 +30,9 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
         this.context = context;
     }
 
-    public void render(final UserModel userModel) {
-        name.setText(userModel.getFullName());
-        username.setText(userModel.getUserName());
-        Picasso.with(context).load(userModel.getProfilePicture()).into(picture);
+    public void render(final InstagrammerModel instagrammerModel) {
+        name.setText(instagrammerModel.getFullName());
+        username.setText(instagrammerModel.getUserName());
+        Picasso.with(context).load(instagrammerModel.getProfilePicture()).into(picture);
     }
 }
