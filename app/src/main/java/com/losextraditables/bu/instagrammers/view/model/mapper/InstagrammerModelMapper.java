@@ -1,8 +1,8 @@
-package com.losextraditables.bu.instagrammers.model.mapper;
+package com.losextraditables.bu.instagrammers.view.model.mapper;
 
 import com.karumi.rosie.mapper.Mapper;
 import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
-import com.losextraditables.bu.instagrammers.model.InstagrammerModel;
+import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 
 import java.util.ArrayList;
 import java.util.List;

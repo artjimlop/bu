@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.instagrammers.model.InstagrammerModel;
+import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.holder.UserViewHolder;
 
 import java.util.List;

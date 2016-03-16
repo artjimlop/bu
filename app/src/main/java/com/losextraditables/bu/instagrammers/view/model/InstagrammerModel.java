@@ -1,4 +1,4 @@
-package com.losextraditables.bu.instagrammers.model;
+package com.losextraditables.bu.instagrammers.view.model;
 
 public class InstagrammerModel {
 

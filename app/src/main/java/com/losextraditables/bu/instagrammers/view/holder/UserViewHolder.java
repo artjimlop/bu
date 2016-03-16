@@ -8,7 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.instagrammers.model.InstagrammerModel;
+import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;

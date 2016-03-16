@@ -1,4 +1,4 @@
-package com.losextraditables.bu.instagrammers.presenter;
+package com.losextraditables.bu.instagrammers.view.presenter;
 
 import com.karumi.rosie.domain.usecase.UseCaseHandler;
 import com.karumi.rosie.domain.usecase.annotation.Success;
@@ -7,8 +7,8 @@ import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
 import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.domain.usecase.GetFollowedInstagrammers;
-import com.losextraditables.bu.instagrammers.model.InstagrammerModel;
-import com.losextraditables.bu.instagrammers.model.mapper.InstagrammerModelMapper;
+import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
+import com.losextraditables.bu.instagrammers.view.model.mapper.InstagrammerModelMapper;
 
 import java.util.List;
 
