@@ -2,7 +2,10 @@ package com.losextraditables.bu.instagrammers.domain.usecase;
 
 import com.karumi.rosie.domain.usecase.RosieUseCase;
 import com.karumi.rosie.domain.usecase.annotation.UseCase;
+import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.repository.FollowedInstagrammersRepository;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -16,7 +19,11 @@ public class GetFollowedInstagrammers extends RosieUseCase {
     }
 
     @UseCase
-    public void getInsagrammets() throws Exception {
-        notifySuccess(followedInstagrammersRepository.getInstagrammers());
+    public void getInstagrammers() throws Exception {
+        notifySuccess(getInstagrammersFromRepository());
+    }
+
+    protected List<Instagrammer> getInstagrammersFromRepository() throws Exception {
+        return followedInstagrammersRepository.getInstagrammers();
     }
 }
