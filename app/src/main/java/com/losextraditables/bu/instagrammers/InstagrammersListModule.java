@@ -1,6 +1,6 @@
 package com.losextraditables.bu.instagrammers;
 
-import com.losextraditables.bu.instagrammers.activity.InstagrammersListActivity;
+import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 
 import dagger.Module;
 

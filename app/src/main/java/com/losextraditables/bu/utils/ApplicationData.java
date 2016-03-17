@@ -1,7 +1,9 @@
 package com.losextraditables.bu.utils;
 
+import com.losextraditables.bu.BuildConfig;
+
 public class ApplicationData {
-	public static final String CLIENT_ID = "103babf92fe1445f8bc4a38a8e2cfa58";
-	public static final String CLIENT_SECRET = "a1b7991ed1dc43df9ba8e706d4296b23";
+	public static final String CLIENT_ID = BuildConfig.CLIENT_ID;
+	public static final String CLIENT_SECRET = BuildConfig.CLIENT_SECRET;
 	public static final String CALLBACK_URL = "instagram://connect";
 }

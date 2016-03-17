@@ -1,5 +1,31 @@
 apply plugin: 'com.android.application'
 
+private Properties loadProperties() {
+    Properties props = new Properties()
+    props.load(new FileInputStream("./bu/bu.properties"))
+    props
+}
+
+private checkProperties() {
+    new File("./bu/bu.properties").exists()
+}
+
+def getClientId() {
+    if (checkProperties()) {
+        Properties props = loadProperties()
+        return props['CLIENT_ID']
+    }
+    "null"
+}
+
+def getClientSecret() {
+    if (checkProperties()) {
+        Properties props = loadProperties()
+        return props['CLIENT_SECRET']
+    }
+    "null"
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -10,14 +36,18 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        buildConfigField "String", "CLIENT_ID", getClientId()
+        buildConfigField "String", "CLIENT_SECRET", getClientSecret()
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     android {
         packagingOptions {
             exclude 'LICENSE.txt'
@@ -45,4 +75,6 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.1')
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support:support-annotations:23.2.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    testCompile 'org.mockito:mockito-core:1.10.19'
 }
