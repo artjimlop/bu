@@ -1,11 +1,13 @@
 package com.losextraditables.bu.login.activity;
 
-import android.util.Log;
+import android.content.Context;
+import android.content.Intent;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
+import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.utils.InstagramSession;
 import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.utils.ApplicationData;
@@ -59,11 +61,7 @@ public class LoginActivity extends BuActivity {
 
             @Override
             public void onSuccess() {
-                login.setText("Disconnect");
-                Log.d("SESION: ", instagramSession.getAccessToken(getBaseContext()));
-                Log.d("SESION: ", instagramSession.getId(getBaseContext()));
-                Log.d("SESION: ", instagramSession.getUsername(getBaseContext()));
-                Log.d("SESION: ", instagramSession.getName(getBaseContext()));
+                goToInstagrammersList();
             }
 
             @Override
@@ -73,5 +71,11 @@ public class LoginActivity extends BuActivity {
             }
         });
         instagramLogin.authorize();
+    }
+
+    private void goToInstagrammersList() {
+        Intent intent = new Intent(this, InstagrammersListActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 }
