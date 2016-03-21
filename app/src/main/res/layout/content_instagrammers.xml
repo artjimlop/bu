@@ -5,17 +5,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@color/application_background"
     tools:showIn="@layout/activity_instagrammers"
-    tools:context=".instagrammers.activity.InstagrammersListActivity">
+    tools:context=".instagrammers.view.activity.InstagrammersListActivity">
 
-    <TextView
-        android:id="@+id/contant_main_text"
-        android:text="Hello World!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/instagrammers_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/instagrammers_list_padding"
+        android:paddingTop="@dimen/instagrammers_list_padding"
+        xmlns:android="http://schemas.android.com/apk/res/android" />
+
 </RelativeLayout>

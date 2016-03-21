@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?selectableItemBackground"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    tools:background="@color/application_background">
+
+    <ImageView
+        android:id="@+id/instagrammer_picture"
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/accent_material_light"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:scaleType="centerCrop"/>
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_toEndOf="@+id/instagrammer_picture"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/instagrammer_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="8dp"
+            android:ellipsize="end"
+            android:fontFamily="sans-serif-medium"
+            android:maxLines="2"
+            android:singleLine="true"
+            android:textColor="#ffffff"
+            android:textSize="14sp"
+            tools:text="Instagrammer Name" />
+
+        <TextView
+            android:id="@+id/instagrammer_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textColor="#BDBDBD"
+            tools:text="atInstagrammer" />
+    </LinearLayout>
+</RelativeLayout>
