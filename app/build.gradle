@@ -36,7 +36,7 @@ def getRedirectUri() {
 
 def versionMajor = 0
 def versionMinor = 0
-def versionRevision = 1
+def versionRevision = 2
 
 android {
     compileSdkVersion 23
