@@ -4,14 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
+import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
-import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.login.activity.LoginActivity;
 
 import java.util.Arrays;
@@ -45,7 +46,12 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new InstagrammersAdapter(this);
+        adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
+            @Override
+            public void onItemClick(View view, InstagrammerModel instagrammerModel) {
+                presenter.goToInstagrammerDetail(instagrammerModel);
+            }
+        });
         instagrammersList.setAdapter(adapter);
         linearLayoutManager = new LinearLayoutManager(this);
         instagrammersList.setLayoutManager(linearLayoutManager);
@@ -70,6 +76,11 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     }
 
     @Override
+    public void goToInstagrammerDetail() {
+        startActivity(new Intent(this, InstagrammerDetailActivity.class));
+    }
+
+    @Override
     public void hideLoading() {
 
     }
@@ -78,4 +89,5 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     public void showLoading() {
 
     }
+
 }

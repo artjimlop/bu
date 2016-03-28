@@ -14,13 +14,14 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidviewhover.BlurLayout;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
+import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserViewHolder extends RecyclerView.ViewHolder {
+public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private final Context context;
     @Bind(R.id.user_blur_image)
@@ -31,11 +32,15 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
     View hover;
     TextView username;
     ImageView avatar;
+    InstagrammersListPresenter.ItemClickListener onClickListener;
 
-    public UserViewHolder(View itemView, Context context) {
+    InstagrammerModel instagrammerModel;
+
+    public UserViewHolder(View itemView, Context context, InstagrammersListPresenter.ItemClickListener onClickListener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.context = context;
+        this.onClickListener = onClickListener;
         buildHoverView();
         picture.setColorFilter(Color.argb(150, 155, 155, 155), PorterDuff.Mode.SRC_ATOP);
     }
@@ -44,6 +49,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
         hover = LayoutInflater.from(context).inflate(R.layout.instagrammer_hover_item_list, null);
         username = (TextView) hover.findViewById(R.id.user_name);
         avatar =(CircleImageView) hover.findViewById(R.id.user_avatar);
+        avatar.setOnClickListener(this);
         blurLayout.setHoverView(hover);
         blurLayout.addChildAppearAnimator(hover, R.id.user_name, Techniques.FadeInUp);
         blurLayout.addChildDisappearAnimator(hover, R.id.user_name, Techniques.FadeOutDown);
@@ -53,9 +59,15 @@ public class UserViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void render(final InstagrammerModel instagrammerModel) {
+        this.instagrammerModel = instagrammerModel;
         username.setText(instagrammerModel.getFullName());
         username.setText(instagrammerModel.getUserName());
         Picasso.with(context).load(instagrammerModel.getProfilePicture()).into(picture);
         Picasso.with(context).load(instagrammerModel.getProfilePicture()).into(avatar);
+    }
+
+    @Override
+    public void onClick(View view) {
+        onClickListener.onItemClick(view, instagrammerModel);
     }
 }
