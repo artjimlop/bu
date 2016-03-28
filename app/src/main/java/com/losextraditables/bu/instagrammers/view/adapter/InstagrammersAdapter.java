@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.holder.UserViewHolder;
+import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 
 import java.util.List;
 
@@ -25,14 +25,13 @@ public class InstagrammersAdapter extends RecyclerView.Adapter<UserViewHolder> {
     public UserViewHolder onCreateViewHolder(ViewGroup parent,
                                                    int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_instagrammer_list_adapter, parent, false);
+                .inflate(R.layout.item_instagrammer_list, parent, false);
         return new UserViewHolder(v, context);
     }
 
     @Override
     public void onBindViewHolder(UserViewHolder holder, int position) {
         holder.render(instagrammers.get(position));
-
     }
 
     @Override
