@@ -1,9 +1,12 @@
 package com.losextraditables.bu.instagrammers.view.activity;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Explode;
 import android.view.View;
 
 import com.karumi.rosie.view.Presenter;
@@ -47,6 +50,7 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupWindowAnimations();
         adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
             @Override
             public void onItemClick(View view, InstagrammerModel instagrammerModel) {
@@ -90,6 +94,12 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     @Override
     public void showLoading() {
 
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void setupWindowAnimations() {
+        getWindow().setReenterTransition(new Explode());
+        getWindow().setExitTransition(new Explode().setDuration(500));
     }
 
 }

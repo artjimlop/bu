@@ -42,7 +42,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         this.context = context;
         this.onClickListener = onClickListener;
         buildHoverView();
-        picture.setColorFilter(Color.argb(150, 155, 155, 155), PorterDuff.Mode.SRC_ATOP);
+        picture.setColorFilter(Color.argb(150, 155, 155, 155), PorterDuff.Mode.DARKEN);
     }
 
     private void buildHoverView() {
