@@ -33,6 +33,7 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
 
     private InstagrammersAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
+    private View sharedImage;
 
     @Override
     protected int getLayoutId() {
@@ -49,6 +50,7 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
         adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
             @Override
             public void onItemClick(View view, InstagrammerModel instagrammerModel) {
+                sharedImage = view.findViewById(R.id.user_avatar);
                 presenter.goToInstagrammerDetail(instagrammerModel);
             }
         });
@@ -76,8 +78,8 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
     }
 
     @Override
-    public void goToInstagrammerDetail() {
-        startActivity(new Intent(this, InstagrammerDetailActivity.class));
+    public void goToInstagrammerDetail(InstagrammerModel instagrammerModel) {
+        InstagrammerDetailActivity.init(this, sharedImage, instagrammerModel);
     }
 
     @Override

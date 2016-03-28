@@ -47,13 +47,13 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
     }
 
     public void goToInstagrammerDetail(InstagrammerModel instagrammerModel){
-        getView().goToInstagrammerDetail();
+        getView().goToInstagrammerDetail(instagrammerModel);
     }
 
     public interface View extends BuPresenter.View {
         void showMockedInstagrammers(List<InstagrammerModel> instagrammerModels);
 
-        void goToInstagrammerDetail();
+        void goToInstagrammerDetail(InstagrammerModel instagrammerModel);
     }
 
     public interface ItemClickListener {
