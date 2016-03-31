@@ -28,7 +28,7 @@ public class InstagrammerDetailActivity extends AppCompatActivity {
 
     public static final String USERNAME = "username";
     public static final String PHOTO = "photo";
-    @Bind(R.id.user_avatar)
+    @Bind(R.id.hover_instagrammer_avatar)
     ImageView userPhoto;
     @Bind(R.id.toolbar) Toolbar toolbar;
 

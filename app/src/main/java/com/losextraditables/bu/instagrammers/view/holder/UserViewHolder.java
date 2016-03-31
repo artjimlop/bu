@@ -24,7 +24,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private final Context context;
-    @Bind(R.id.user_blur_image)
+    @Bind(R.id.instagrammer_blur_image)
     ImageView picture;
     @Bind(R.id.blur_layout)
     BlurLayout blurLayout;
@@ -47,14 +47,14 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     private void buildHoverView() {
         hover = LayoutInflater.from(context).inflate(R.layout.instagrammer_hover_item_list, null);
-        username = (TextView) hover.findViewById(R.id.user_name);
-        avatar =(CircleImageView) hover.findViewById(R.id.user_avatar);
+        username = (TextView) hover.findViewById(R.id.hover_instagrammer_name);
+        avatar =(CircleImageView) hover.findViewById(R.id.hover_instagrammer_avatar);
         avatar.setOnClickListener(this);
         blurLayout.setHoverView(hover);
-        blurLayout.addChildAppearAnimator(hover, R.id.user_name, Techniques.FadeInUp);
-        blurLayout.addChildDisappearAnimator(hover, R.id.user_name, Techniques.FadeOutDown);
-        blurLayout.addChildAppearAnimator(hover, R.id.user_avatar, Techniques.DropOut, 1200);
-        blurLayout.addChildDisappearAnimator(hover, R.id.user_avatar, Techniques.FadeOutUp);
+        blurLayout.addChildAppearAnimator(hover, R.id.hover_instagrammer_name, Techniques.FadeInUp);
+        blurLayout.addChildDisappearAnimator(hover, R.id.hover_instagrammer_name, Techniques.FadeOutDown);
+        blurLayout.addChildAppearAnimator(hover, R.id.hover_instagrammer_avatar, Techniques.DropOut, 1200);
+        blurLayout.addChildDisappearAnimator(hover, R.id.hover_instagrammer_avatar, Techniques.FadeOutUp);
         blurLayout.setBlurDuration(1000);
     }
 

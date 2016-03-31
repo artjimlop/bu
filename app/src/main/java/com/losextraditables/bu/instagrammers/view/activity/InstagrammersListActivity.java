@@ -54,7 +54,7 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
         adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
             @Override
             public void onItemClick(View view, InstagrammerModel instagrammerModel) {
-                sharedImage = view.findViewById(R.id.user_avatar);
+                sharedImage = view.findViewById(R.id.hover_instagrammer_avatar);
                 presenter.goToInstagrammerDetail(instagrammerModel);
             }
         });
