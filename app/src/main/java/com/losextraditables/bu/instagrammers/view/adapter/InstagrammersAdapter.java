@@ -39,7 +39,7 @@ public class InstagrammersAdapter extends RecyclerView.Adapter<UserViewHolder> {
 
     @Override
     public int getItemCount() {
-        return instagrammers.size();
+        return instagrammers!= null? instagrammers.size() : 0;
     }
 
     public void setUsers(List<InstagrammerModel> users) {

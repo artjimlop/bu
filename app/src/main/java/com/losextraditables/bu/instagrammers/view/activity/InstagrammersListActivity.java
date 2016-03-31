@@ -24,6 +24,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 public class InstagrammersListActivity extends BuActivity implements InstagrammersListPresenter.View {
 
@@ -102,4 +103,8 @@ public class InstagrammersListActivity extends BuActivity implements Instagramme
         getWindow().setExitTransition(new Explode().setDuration(500));
     }
 
+    @OnClick(R.id.fab) public void onFabClick() {
+        startActivity(new Intent(this, SearchInstagrammersActivity.class));
+        finish();
+    }
 }
