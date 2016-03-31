@@ -46,8 +46,18 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
                 .execute();
     }
 
+    public void goToInstagrammerDetail(InstagrammerModel instagrammerModel){
+        getView().goToInstagrammerDetail(instagrammerModel);
+    }
+
     public interface View extends BuPresenter.View {
         void showMockedInstagrammers(List<InstagrammerModel> instagrammerModels);
+
+        void goToInstagrammerDetail(InstagrammerModel instagrammerModel);
+    }
+
+    public interface ItemClickListener {
+        void onItemClick(android.view.View view, InstagrammerModel instagrammerModel);
     }
 
 }
