@@ -11,7 +11,7 @@
         android:layout_centerInParent="true"
         android:scaleType="centerCrop"
         android:transitionName="shared_image"
-        app:civ_border_color="#FFFFFF"
+        app:civ_border_color="@color/white"
         app:civ_border_width="1dp" />
 
     <TextView
@@ -21,5 +21,5 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="12dp"
         android:layout_marginLeft="12dp"
-        android:textColor="#ffffff" />
+        android:textColor="@color/white" />
 </RelativeLayout>
