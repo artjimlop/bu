@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -16,11 +17,14 @@ import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
 import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
-import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
+import com.losextraditables.bu.instagrammers.view.adapter.SearchedInstagrammersAdapter;
+import com.losextraditables.bu.instagrammers.view.model.SearchedInstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.SearchInstagrammersPresenter;
 import com.losextraditables.bu.login.activity.LoginActivity;
+import com.losextraditables.bu.utils.InstagramSession;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -40,7 +44,10 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
     @Inject @Presenter
     SearchInstagrammersPresenter presenter;
 
-    private InstagrammersAdapter adapter;
+    @Inject
+    InstagramSession session;
+
+    private SearchedInstagrammersAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
     private SearchView searchView;
 
@@ -69,7 +76,7 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
 
     private void setupViews() {
         if (adapter == null) {
-            adapter = new InstagrammersAdapter(this);
+            adapter = new SearchedInstagrammersAdapter(this);
             linearLayoutManager = new LinearLayoutManager(this);
         }
         resultsListView.setAdapter(adapter);
@@ -92,10 +99,11 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
     }
 
     private void createSearchView(MenuItem searchItem) {
+        final String accessToken = session.getAccessToken(this);
         searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override public boolean onQueryTextSubmit(String queryText) {
-                presenter.search(queryText);
+                presenter.search(queryText, accessToken);
                 return true;
             }
 
@@ -110,8 +118,9 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
 
 
     @Override
-    public void renderInstagrammers(List<InstagrammerModel> instagrammers) {
-
+    public void renderInstagrammers(List<SearchedInstagrammerModel> instagrammers) {
+        adapter.setUsers(instagrammers);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -126,12 +135,12 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
 
     @Override
     public void showContent() {
-
+        resultsListView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideContent() {
-
+        resultsListView.setVisibility(View.GONE);
     }
 
     @Override
