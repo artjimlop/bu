@@ -40,23 +40,7 @@ public class FollowedInstagrammersApiDatasource implements FollowedInstagrammers
 
     @Override
     public List<SearchedInstagrammer> searchIntagrammers(String query, String accessToken) {
-        RestAdapter adapter = new RestAdapter.Builder() //
-                .setEndpoint("https://api.instagram.com/v1") //
-                .setLog(new RestAdapter.Log() {
-                    @Override
-                    public void log(String message) {
-                        Log.d("Retrofit", message);
-                    }
-                }).setErrorHandler(new ErrorHandler() {
-                    @Override
-                    public Throwable handleError(RetrofitError cause) {
-                        Log.d("error", cause.getUrl());
-                        Log.d("error", cause.getMessage());
-                        return null;
-                    }
-                })
-                .build();
-        InstagramApiService service = adapter.create(InstagramApiService.class);
+        InstagramApiService service = createService();
         SearchedInstagrammerResponse searchedInstagrammerResponse = service.searchInstagrammers(query, accessToken);
         return searchedInstagrammerResponse.getData();
     }
@@ -74,5 +58,25 @@ public class FollowedInstagrammersApiDatasource implements FollowedInstagrammers
     @Override
     public Collection<List<Instagrammer>> getAll() throws Exception {
         return null;
+    }
+
+    private InstagramApiService createService() {
+        RestAdapter adapter = new RestAdapter.Builder() //
+                .setEndpoint("https://api.instagram.com/v1") //
+                .setLog(new RestAdapter.Log() {
+                    @Override
+                    public void log(String message) {
+                        Log.d("Retrofit", message);
+                    }
+                }).setErrorHandler(new ErrorHandler() {
+                    @Override
+                    public Throwable handleError(RetrofitError cause) {
+                        Log.d("error", cause.getUrl());
+                        Log.d("error", cause.getMessage());
+                        return null;
+                    }
+                })
+                .build();
+        return adapter.create(InstagramApiService.class);
     }
 }
