@@ -16,6 +16,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
+import android.widget.TextView;
+import com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.squareup.picasso.Picasso;
@@ -31,6 +33,10 @@ public class InstagrammerDetailActivity extends AppCompatActivity {
     @Bind(R.id.hover_instagrammer_avatar)
     ImageView userPhoto;
     @Bind(R.id.toolbar) Toolbar toolbar;
+    @Bind(R.id.instagrammer_full_name) TextView fullName;
+    @Bind(R.id.instagrammer_bio) TextView bio;
+    @Bind(R.id.instagrammer_web) TextView webSite;
+    @Bind(R.id.photo_grid_view) AsymmetricGridView gridView;
 
     private InstagrammerModel instagrammerModel;
 

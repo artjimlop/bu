@@ -82,6 +82,7 @@ dependencies {
     compile 'com.daimajia.androidviewhover:library:1.0.4@aar'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.felipecsl.asymmetricgridview:library:2.0.1'
     provided 'com.squareup.dagger:dagger-compiler:1.2.2'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
         exclude group: 'javax.inject', module: 'javax.inject'

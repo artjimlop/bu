@@ -34,6 +34,10 @@
           android:textSize="18sp"
           tools:text="www.hola.com" />
 
+      <com.felipecsl.asymmetricgridview.library.widget.AsymmetricGridView
+        android:id="@+id/photo_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
