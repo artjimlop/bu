@@ -2,20 +2,27 @@ package com.losextraditables.bu.instagrammers.domain.usecase;
 
 import com.karumi.rosie.domain.usecase.RosieUseCase;
 import com.karumi.rosie.domain.usecase.annotation.UseCase;
+import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
+import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
+import com.losextraditables.bu.instagrammers.repository.FollowedInstagrammersRepository;
 
 import java.util.Collections;
+import java.util.List;
 
 import javax.inject.Inject;
 
 public class SearchInstagrammers extends RosieUseCase {
 
+    private final FollowedInstagrammersRepository followedInstagrammersRepository;
+
     @Inject
-    public SearchInstagrammers() {
+    public SearchInstagrammers(FollowedInstagrammersRepository followedInstagrammersRepository) {
+        this.followedInstagrammersRepository = followedInstagrammersRepository;
     }
 
     @UseCase
-    public void getInstagrammers() throws Exception {
-        //TODO call remote
-        notifySuccess(Collections.emptyList());
+    public void getInstagrammers(String query, String accessToken) throws Exception {
+        List<SearchedInstagrammer> instagrammers = followedInstagrammersRepository.searchInstagrammers(query, accessToken);
+        notifySuccess(instagrammers);
     }
 }
