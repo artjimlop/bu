@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.losextraditables.bu">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -11,7 +12,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/BuTheme"
+        tools:replace="android:icon">
         <activity
             android:name=".instagrammers.view.activity.InstagrammersListActivity"
             android:label="@string/app_name"
@@ -22,8 +24,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.activity.LoginActivity">
-        </activity>
+        <activity android:name=".login.activity.LoginActivity"></activity>
+        <activity
+            android:name=".instagrammers.view.activity.InstagrammerDetailActivity"
+            android:label="@string/title_activity_instagrammer_detail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

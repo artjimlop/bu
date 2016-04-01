@@ -2,37 +2,72 @@ package com.losextraditables.bu.instagrammers.view.holder;
 
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidviewhover.BlurLayout;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
+import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserViewHolder extends RecyclerView.ViewHolder {
+public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
     private final Context context;
-    @Bind(R.id.instagrammer_picture)
+    @Bind(R.id.instagrammer_blur_image)
     ImageView picture;
-    @Bind(R.id.instagrammer_name)
-    TextView name;
-    @Bind(R.id.instagrammer_username)
-    TextView username;
+    @Bind(R.id.blur_layout)
+    BlurLayout blurLayout;
 
-    public UserViewHolder(View itemView, Context context) {
+    View hover;
+    TextView username;
+    ImageView avatar;
+    InstagrammersListPresenter.ItemClickListener onClickListener;
+
+    InstagrammerModel instagrammerModel;
+
+    public UserViewHolder(View itemView, Context context, InstagrammersListPresenter.ItemClickListener onClickListener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
         this.context = context;
+        this.onClickListener = onClickListener;
+        buildHoverView();
+        picture.setColorFilter(Color.argb(150, 155, 155, 155), PorterDuff.Mode.DARKEN);
+    }
+
+    private void buildHoverView() {
+        hover = LayoutInflater.from(context).inflate(R.layout.instagrammer_hover_item_list, null);
+        username = (TextView) hover.findViewById(R.id.hover_instagrammer_name);
+        avatar =(CircleImageView) hover.findViewById(R.id.hover_instagrammer_avatar);
+        avatar.setOnClickListener(this);
+        blurLayout.setHoverView(hover);
+        blurLayout.addChildAppearAnimator(hover, R.id.hover_instagrammer_name, Techniques.FadeInUp);
+        blurLayout.addChildDisappearAnimator(hover, R.id.hover_instagrammer_name, Techniques.FadeOutDown);
+        blurLayout.addChildAppearAnimator(hover, R.id.hover_instagrammer_avatar, Techniques.DropOut, 1200);
+        blurLayout.addChildDisappearAnimator(hover, R.id.hover_instagrammer_avatar, Techniques.FadeOutUp);
+        blurLayout.setBlurDuration(1000);
     }
 
     public void render(final InstagrammerModel instagrammerModel) {
-        name.setText(instagrammerModel.getFullName());
+        this.instagrammerModel = instagrammerModel;
+        username.setText(instagrammerModel.getFullName());
         username.setText(instagrammerModel.getUserName());
         Picasso.with(context).load(instagrammerModel.getProfilePicture()).into(picture);
+        Picasso.with(context).load(instagrammerModel.getProfilePicture()).into(avatar);
+    }
+
+    @Override
+    public void onClick(View view) {
+        onClickListener.onItemClick(view, instagrammerModel);
     }
 }
