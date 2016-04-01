@@ -1,17 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.losextraditables.bu.instagrammers.view.activity.InstagrammerDetailActivity"
-    tools:showIn="@layout/activity_instagrammer_detail">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  app:layout_behavior="@string/appbar_scrolling_view_behavior"
+  tools:context="com.losextraditables.bu.instagrammers.view.activity.InstagrammerDetailActivity"
+  tools:showIn="@layout/activity_instagrammer_detail">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+    <LinearLayout android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:padding="20dp">
+
+        <TextView android:id="@+id/instagrammer_full_name"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20sp"
+          android:textStyle="bold"
+          tools:text="full name" />
+
+        <TextView android:id="@+id/instagrammer_bio"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:paddingTop="10dp"
+          android:textSize="18sp"
+          tools:text="la vida es más bonita cuando se vive poco a poco" />
+
+        <TextView android:id="@+id/instagrammer_web"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:paddingTop="10dp"
+          android:textSize="18sp"
+          tools:text="www.hola.com" />
+
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
