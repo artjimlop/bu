@@ -53,6 +53,7 @@ public class SearchInstagrammersPresenter extends BuPresenter<SearchInstagrammer
             @Override
             public boolean onError(Error error) {
                 getView().showEmpty();
+                getView().showConnectionError();
                 return false;
             }
         }).execute();

@@ -2,6 +2,7 @@ package com.losextraditables.bu.instagrammers.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
@@ -170,6 +172,6 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
 
     @Override
     public void showConnectionError() {
-
+        Toast.makeText(this, R.string.connection_error, Toast.LENGTH_SHORT).show();
     }
 }
