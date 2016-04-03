@@ -1,13 +1,12 @@
 package com.losextraditables.bu.instagrammers.repository.datasource;
 
-import android.util.Log;
-
 import com.karumi.rosie.repository.PaginatedCollection;
 import com.karumi.rosie.repository.datasource.paginated.Page;
 import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
 import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammerResponse;
 import com.losextraditables.bu.instagrammers.repository.service.InstagramApiService;
+import com.losextraditables.bu.instagrammers.repository.service.InstagramServiceGenerator;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -15,18 +14,18 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit.ErrorHandler;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-
 public class InstagrammersApiDatasource implements InstagrammersDatasource {
 
+    private final InstagramServiceGenerator  serviceGenerator;
+
     @Inject
-    public InstagrammersApiDatasource() {
+    public InstagrammersApiDatasource(InstagramServiceGenerator serviceGenerator) {
+        this.serviceGenerator = serviceGenerator;
     }
 
     @Override
     public List<Instagrammer> getInstagrammers() {
+        //TODO: this method it's still a fake, it will be implemented when Firebase is added
         Instagrammer instagrammer = new Instagrammer();
         instagrammer.setBio("bio");
         instagrammer.setFullName("fullname");
@@ -40,8 +39,8 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
 
     @Override
     public List<SearchedInstagrammer> searchIntagrammers(String query, String accessToken) {
-        InstagramApiService service = createService();
-        SearchedInstagrammerResponse searchedInstagrammerResponse = service.searchInstagrammers(query, accessToken);
+        InstagramApiService instagramService = serviceGenerator.createInstagramService();
+        SearchedInstagrammerResponse searchedInstagrammerResponse = instagramService.searchInstagrammers(query, accessToken);
         return searchedInstagrammerResponse.getData();
     }
 
@@ -58,25 +57,5 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
     @Override
     public Collection<List<Instagrammer>> getAll() throws Exception {
         return null;
-    }
-
-    private InstagramApiService createService() {
-        RestAdapter adapter = new RestAdapter.Builder() //
-                .setEndpoint("https://api.instagram.com/v1") //
-                .setLog(new RestAdapter.Log() {
-                    @Override
-                    public void log(String message) {
-                        Log.d("Retrofit", message);
-                    }
-                }).setErrorHandler(new ErrorHandler() {
-                    @Override
-                    public Throwable handleError(RetrofitError cause) {
-                        Log.d("error", cause.getUrl());
-                        Log.d("error", cause.getMessage());
-                        return null;
-                    }
-                })
-                .build();
-        return adapter.create(InstagramApiService.class);
     }
 }
