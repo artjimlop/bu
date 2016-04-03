@@ -9,17 +9,17 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.verify;
 
-public class GetFollowedInstagrammersTest {
+public class GetFollowedInstagrammersUseCaseTest {
 
     @Mock
     FollowedInstagrammersRepository followedInstagrammersRepository;
 
-    private GetFollowedInstagrammers interactor;
+    private GetFollowedInstagrammersUseCase interactor;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        interactor = new GetFollowedInstagrammers(followedInstagrammersRepository);
+        interactor = new GetFollowedInstagrammersUseCase(followedInstagrammersRepository);
     }
 
     @Test

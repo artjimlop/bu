@@ -6,7 +6,7 @@ import com.karumi.rosie.domain.usecase.callback.OnSuccessCallback;
 import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
 import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
-import com.losextraditables.bu.instagrammers.domain.usecase.SearchInstagrammers;
+import com.losextraditables.bu.instagrammers.domain.usecase.SearchInstagrammersUseCase;
 import com.losextraditables.bu.instagrammers.view.model.SearchedInstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.model.mapper.SearchedInstagrammerModelMapper;
 
@@ -16,12 +16,12 @@ import javax.inject.Inject;
 
 public class SearchInstagrammersPresenter extends BuPresenter<SearchInstagrammersPresenter.View> {
 
-    private final SearchInstagrammers searchInstagrammers;
+    private final SearchInstagrammersUseCase searchInstagrammersUseCase;
     private final SearchedInstagrammerModelMapper searchedInstagrammerModelMapper;
 
-    @Inject public SearchInstagrammersPresenter(UseCaseHandler useCaseHandler, SearchInstagrammers searchInstagrammers, SearchedInstagrammerModelMapper searchedInstagrammerModelMapper) {
+    @Inject public SearchInstagrammersPresenter(UseCaseHandler useCaseHandler, SearchInstagrammersUseCase searchInstagrammersUseCase, SearchedInstagrammerModelMapper searchedInstagrammerModelMapper) {
         super(useCaseHandler);
-        this.searchInstagrammers = searchInstagrammers;
+        this.searchInstagrammersUseCase = searchInstagrammersUseCase;
         this.searchedInstagrammerModelMapper = searchedInstagrammerModelMapper;
     }
 
@@ -31,7 +31,7 @@ public class SearchInstagrammersPresenter extends BuPresenter<SearchInstagrammer
         getView().hideKeyboard();
         getView().showLoading();
         getView().setCurrentQuery(query);
-        createUseCaseCall(searchInstagrammers).args(query, accessToken).onSuccess(new OnSuccessCallback() {
+        createUseCaseCall(searchInstagrammersUseCase).args(query, accessToken).onSuccess(new OnSuccessCallback() {
             @Success
             public void onInstagrammersFound(List<SearchedInstagrammer> instagrammers) {
                 showInstagrammersInView(instagrammers);

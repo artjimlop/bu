@@ -11,12 +11,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class SearchInstagrammers extends RosieUseCase {
+public class SearchInstagrammersUseCase extends RosieUseCase {
 
     private final FollowedInstagrammersRepository followedInstagrammersRepository;
 
     @Inject
-    public SearchInstagrammers(FollowedInstagrammersRepository followedInstagrammersRepository) {
+    public SearchInstagrammersUseCase(FollowedInstagrammersRepository followedInstagrammersRepository) {
         this.followedInstagrammersRepository = followedInstagrammersRepository;
     }
 

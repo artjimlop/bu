@@ -9,12 +9,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class GetFollowedInstagrammers extends RosieUseCase {
+public class GetFollowedInstagrammersUseCase extends RosieUseCase {
 
     private final FollowedInstagrammersRepository followedInstagrammersRepository;
 
     @Inject
-    public GetFollowedInstagrammers(FollowedInstagrammersRepository followedInstagrammersRepository) {
+    public GetFollowedInstagrammersUseCase(FollowedInstagrammersRepository followedInstagrammersRepository) {
         this.followedInstagrammersRepository = followedInstagrammersRepository;
     }
 

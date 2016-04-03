@@ -2,7 +2,7 @@ package com.losextraditables.bu.instagrammers.view.presenter;
 
 import com.karumi.rosie.domain.usecase.UseCaseHandler;
 import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
-import com.losextraditables.bu.instagrammers.domain.usecase.SearchInstagrammers;
+import com.losextraditables.bu.instagrammers.domain.usecase.SearchInstagrammersUseCase;
 import com.losextraditables.bu.instagrammers.view.model.mapper.SearchedInstagrammerModelMapper;
 
 import org.junit.Before;
@@ -22,14 +22,15 @@ public class SearchInstagrammersPresenterTest {
     public static final String ACCESS_TOKEN = "access_token";
     SearchInstagrammersPresenter searchInstagrammersPresenter;
     @Mock UseCaseHandler useCaseHandler;
-    @Mock SearchInstagrammers searchInstagrammers;
+    @Mock
+    SearchInstagrammersUseCase searchInstagrammersUseCase;
     @Mock SearchedInstagrammerModelMapper searchedInstagrammerModelMapper;
     @Mock SearchInstagrammersPresenter.View view;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        searchInstagrammersPresenter = new SearchInstagrammersPresenter(useCaseHandler, searchInstagrammers, searchedInstagrammerModelMapper);
+        searchInstagrammersPresenter = new SearchInstagrammersPresenter(useCaseHandler, searchInstagrammersUseCase, searchedInstagrammerModelMapper);
         searchInstagrammersPresenter.setView(view);
     }
 
