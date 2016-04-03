@@ -6,7 +6,7 @@ import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
 
 import java.util.List;
 
-public interface FollowedInstagrammersDatasource extends PaginatedReadableDataSource<Integer, List<Instagrammer>> {
+public interface InstagrammersDatasource extends PaginatedReadableDataSource<Integer, List<Instagrammer>> {
     List<Instagrammer> getInstagrammers();
 
     List<SearchedInstagrammer> searchIntagrammers(String query, String accessToken);

@@ -2,19 +2,18 @@ package com.losextraditables.bu.instagrammers.repository;
 
 import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
-import com.losextraditables.bu.instagrammers.repository.datasource.FollowedInstagrammersApiDatasource;
-import com.losextraditables.bu.instagrammers.repository.datasource.FollowedInstagrammersDatasource;
+import com.losextraditables.bu.instagrammers.repository.datasource.InstagrammersApiDatasource;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-public class FollowedInstagrammersRepository{
+public class InstagrammersRepository {
 
-    private final FollowedInstagrammersApiDatasource apiDatasource;
+    private final InstagrammersApiDatasource apiDatasource;
 
     @Inject
-    public FollowedInstagrammersRepository(FollowedInstagrammersApiDatasource apiDatasource) {
+    public InstagrammersRepository(InstagrammersApiDatasource apiDatasource) {
         this.apiDatasource = apiDatasource;
     }
 

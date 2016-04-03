@@ -19,10 +19,10 @@ import retrofit.ErrorHandler;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 
-public class FollowedInstagrammersApiDatasource implements FollowedInstagrammersDatasource {
+public class InstagrammersApiDatasource implements InstagrammersDatasource {
 
     @Inject
-    public FollowedInstagrammersApiDatasource() {
+    public InstagrammersApiDatasource() {
     }
 
     @Override
