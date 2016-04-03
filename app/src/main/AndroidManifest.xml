@@ -24,13 +24,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".login.activity.LoginActivity"></activity>
+        <activity android:name=".login.activity.LoginActivity"/>
         <activity
             android:name=".instagrammers.view.activity.InstagrammerDetailActivity"
             android:label="@string/title_activity_instagrammer_detail"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity android:name=".instagrammers.view.activity.SearchInstagrammersActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="368f540dcf584f079a8ae95bac579a4909e93205" />
     </application>
 
 </manifest>
