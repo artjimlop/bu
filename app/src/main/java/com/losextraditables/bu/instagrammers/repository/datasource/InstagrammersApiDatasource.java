@@ -3,6 +3,10 @@ package com.losextraditables.bu.instagrammers.repository.datasource;
 import com.karumi.rosie.repository.PaginatedCollection;
 import com.karumi.rosie.repository.datasource.paginated.Page;
 import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
+import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
+import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammerResponse;
+import com.losextraditables.bu.instagrammers.repository.service.InstagramApiService;
+import com.losextraditables.bu.instagrammers.repository.service.InstagramServiceGenerator;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -10,14 +14,18 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-public class FollowedInstagrammersApiDatasource implements FollowedInstagrammersDatasource {
+public class InstagrammersApiDatasource implements InstagrammersDatasource {
+
+    private final InstagramServiceGenerator  serviceGenerator;
 
     @Inject
-    public FollowedInstagrammersApiDatasource() {
+    public InstagrammersApiDatasource(InstagramServiceGenerator serviceGenerator) {
+        this.serviceGenerator = serviceGenerator;
     }
 
     @Override
     public List<Instagrammer> getInstagrammers() {
+        //TODO: this method it's still a fake, it will be implemented when Firebase is added
         Instagrammer instagrammer = new Instagrammer();
         instagrammer.setBio("bio");
         instagrammer.setFullName("fullname");
@@ -27,6 +35,13 @@ public class FollowedInstagrammersApiDatasource implements FollowedInstagrammers
         instagrammer.setWebsite("website");
         instagrammer.setKey("key");
         return Arrays.asList(instagrammer);
+    }
+
+    @Override
+    public List<SearchedInstagrammer> searchIntagrammers(String query, String accessToken) {
+        InstagramApiService instagramService = serviceGenerator.createInstagramService();
+        SearchedInstagrammerResponse searchedInstagrammerResponse = instagramService.searchInstagrammers(query, accessToken);
+        return searchedInstagrammerResponse.getData();
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.losextraditables.bu.instagrammers.domain.usecase;
 
-import com.losextraditables.bu.instagrammers.repository.FollowedInstagrammersRepository;
+import com.losextraditables.bu.instagrammers.repository.InstagrammersRepository;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,23 +9,23 @@ import org.mockito.MockitoAnnotations;
 
 import static org.mockito.Mockito.verify;
 
-public class GetFollowedInstagrammersTest {
+public class GetFollowedInstagrammersUseCaseTest {
 
     @Mock
-    FollowedInstagrammersRepository followedInstagrammersRepository;
+    InstagrammersRepository instagrammersRepository;
 
-    private GetFollowedInstagrammers interactor;
+    private GetFollowedInstagrammersUseCase interactor;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        interactor = new GetFollowedInstagrammers(followedInstagrammersRepository);
+        interactor = new GetFollowedInstagrammersUseCase(instagrammersRepository);
     }
 
     @Test
     public void shouldGetInstagrammersFromRepositoryWhenGetInstagrammersCalled() throws Exception {
         interactor.getInstagrammersFromRepository();
 
-        verify(followedInstagrammersRepository).getInstagrammers();
+        verify(instagrammersRepository).getInstagrammers();
     }
 }

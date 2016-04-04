@@ -6,7 +6,7 @@ import com.karumi.rosie.domain.usecase.callback.OnSuccessCallback;
 import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
 import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
-import com.losextraditables.bu.instagrammers.domain.usecase.GetFollowedInstagrammers;
+import com.losextraditables.bu.instagrammers.domain.usecase.GetFollowedInstagrammersUseCase;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.model.mapper.InstagrammerModelMapper;
 
@@ -16,12 +16,12 @@ import javax.inject.Inject;
 
 public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPresenter.View> {
 
-    private final GetFollowedInstagrammers getFollowedInstagrammers;
+    private final GetFollowedInstagrammersUseCase getFollowedInstagrammersUseCase;
     private final InstagrammerModelMapper mapper;
 
-    @Inject public InstagrammersListPresenter(UseCaseHandler useCaseHandler, GetFollowedInstagrammers getFollowedInstagrammers, InstagrammerModelMapper mapper) {
+    @Inject public InstagrammersListPresenter(UseCaseHandler useCaseHandler, GetFollowedInstagrammersUseCase getFollowedInstagrammersUseCase, InstagrammerModelMapper mapper) {
         super(useCaseHandler);
-        this.getFollowedInstagrammers = getFollowedInstagrammers;
+        this.getFollowedInstagrammersUseCase = getFollowedInstagrammersUseCase;
         this.mapper = mapper;
     }
 
@@ -29,7 +29,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
     }
 
     public void showMockedInstagrammers() {
-        createUseCaseCall(getFollowedInstagrammers)
+        createUseCaseCall(getFollowedInstagrammersUseCase)
                 .onSuccess(new OnSuccessCallback() {
                     @Success
                     public void onInstagrammersLoaded(List<Instagrammer> instagrammers) {

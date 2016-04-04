@@ -76,12 +76,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:support-v13:23.2.0'
     compile 'com.android.support:design:23.2.0'
-    compile 'com.karumi.rosie:rosie:1.0.0'
     compile 'com.daimajia.easing:library:1.0.0@aar'
     compile 'com.daimajia.androidanimations:library:1.1.2@aar'
     compile 'com.daimajia.androidviewhover:library:1.0.4@aar'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'de.hdodenhof:circleimageview:2.0.0'
+    compile 'com.karumi.rosie:rosie:2.0.0'
     provided 'com.squareup.dagger:dagger-compiler:1.2.2'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
         exclude group: 'javax.inject', module: 'javax.inject'
@@ -97,4 +97,6 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:23.2.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     testCompile 'org.mockito:mockito-core:1.10.19'
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    compile 'com.squareup.okhttp:okhttp:2.2.0'
 }

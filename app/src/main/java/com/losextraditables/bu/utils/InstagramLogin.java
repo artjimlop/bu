@@ -61,7 +61,7 @@ public class InstagramLogin {
 				+ clientId
 				+ "&redirect_uri="
 				+ InstagramLogin.callbackUrl
-				+ "&response_type=code&display=touch&scope=likes+comments+relationships";
+				+ "&response_type=code&display=touch&scope=likes+comments+relationships+public_content";
 
 		InstagramDialog.OAuthDialogListener listener = new InstagramDialog.OAuthDialogListener() {
 			@Override
