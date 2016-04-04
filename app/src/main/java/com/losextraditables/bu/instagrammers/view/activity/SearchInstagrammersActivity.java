@@ -2,7 +2,6 @@ package com.losextraditables.bu.instagrammers.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,15 +17,13 @@ import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
-import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.adapter.SearchedInstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.SearchedInstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.SearchInstagrammersPresenter;
 import com.losextraditables.bu.login.activity.LoginActivity;
 import com.losextraditables.bu.utils.InstagramSession;
 
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -54,7 +51,7 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
     private SearchView searchView;
 
     protected List<Object> getActivityScopeModules() {
-        return Arrays.asList((Object) new InstagrammersListModule());
+        return Collections.singletonList((Object) new InstagrammersListModule());
     }
 
     @Override
@@ -86,9 +83,11 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
     }
 
     private void setupActionBar() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(false);
+        ActionBar actionBar = this.getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowHomeEnabled(true);
+        }
     }
 
     @Override public boolean onCreateOptionsMenu(Menu menu) {

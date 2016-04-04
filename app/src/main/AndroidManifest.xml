@@ -29,7 +29,8 @@
             android:name=".instagrammers.view.activity.InstagrammerDetailActivity"
             android:label="@string/title_activity_instagrammer_detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".instagrammers.view.activity.SearchInstagrammersActivity"></activity>
+        <activity android:name=".instagrammers.view.activity.SearchInstagrammersActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
