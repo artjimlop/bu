@@ -16,6 +16,7 @@ public class BuApplication extends RosieApplication {
     public void onCreate() {
         super.onCreate();
         Fabric.with(this, new Crashlytics());
+        Firebase.setAndroidContext(this);
     }
 
     @Override protected List<Object> getApplicationModules() {

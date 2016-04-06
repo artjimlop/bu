@@ -80,7 +80,9 @@ android {
 
     android {
         packagingOptions {
-            exclude 'LICENSE.txt'
+            exclude 'META-INF/LICENSE'
+            exclude 'META-INF/LICENSE-FIREBASE.txt'
+            exclude 'META-INF/NOTICE'
         }
     }
 }
@@ -117,4 +119,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
         transitive = true;
     }
+    compile 'com.firebase:firebase-client-android:2.5.2+'
 }
