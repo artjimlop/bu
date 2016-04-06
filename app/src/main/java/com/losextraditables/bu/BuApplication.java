@@ -1,6 +1,7 @@
 package com.losextraditables.bu;
 
 import com.crashlytics.android.Crashlytics;
+import com.firebase.client.Firebase;
 import com.karumi.rosie.application.RosieApplication;
 
 import java.util.Arrays;
