@@ -31,7 +31,7 @@
         </activity>
         <activity android:name=".instagrammers.view.activity.SearchInstagrammersActivity"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".login.activity.LoginActivity" />
+        <activity android:name=".login.view.activity.LoginActivity" />
         <activity
             android:name=".instagrammers.view.activity.InstagrammerDetailActivity"
             android:label="@string/title_activity_instagrammer_detail"
@@ -41,7 +41,7 @@
             android:value="368f540dcf584f079a8ae95bac579a4909e93205" />
 
         <activity
-            android:name=".login.activity.FirebaseLoginActivity"
+            android:name=".login.view.activity.FirebaseLoginActivity"
             android:label="@string/title_activity_firebase_login"></activity>
     </application>
 

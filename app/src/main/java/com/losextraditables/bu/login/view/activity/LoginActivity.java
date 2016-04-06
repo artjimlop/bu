@@ -1,4 +1,4 @@
-package com.losextraditables.bu.login.activity;
+package com.losextraditables.bu.login.view.activity;
 
 import android.content.Intent;
 import android.widget.Toast;

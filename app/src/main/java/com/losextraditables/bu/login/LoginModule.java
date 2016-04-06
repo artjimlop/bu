@@ -1,7 +1,7 @@
 package com.losextraditables.bu.login;
 
-import com.losextraditables.bu.login.activity.FirebaseLoginActivity;
-import com.losextraditables.bu.login.activity.LoginActivity;
+import com.losextraditables.bu.login.view.activity.FirebaseLoginActivity;
+import com.losextraditables.bu.login.view.activity.LoginActivity;
 
 import dagger.Module;
 

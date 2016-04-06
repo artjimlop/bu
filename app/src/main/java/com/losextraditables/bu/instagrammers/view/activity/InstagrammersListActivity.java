@@ -16,7 +16,7 @@ import com.losextraditables.bu.instagrammers.InstagrammersListModule;
 import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
-import com.losextraditables.bu.login.activity.LoginActivity;
+import com.losextraditables.bu.login.view.activity.LoginActivity;
 
 import java.util.Arrays;
 import java.util.List;
