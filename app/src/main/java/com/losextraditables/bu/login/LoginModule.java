@@ -1,6 +1,6 @@
 package com.losextraditables.bu.login;
 
-import com.losextraditables.bu.login.view.activity.FirebaseLoginActivity;
+import com.losextraditables.bu.login.view.activity.SignInActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 
 import dagger.Module;
@@ -9,6 +9,6 @@ import dagger.Module;
         complete = false,
         injects = {
                 LoginActivity.class,
-                FirebaseLoginActivity.class
+                SignInActivity.class
         })public class LoginModule {
 }

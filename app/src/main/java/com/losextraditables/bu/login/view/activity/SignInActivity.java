@@ -11,7 +11,7 @@ import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.LoginModule;
-import com.losextraditables.bu.login.view.presenter.FirebaseLoginPresenter;
+import com.losextraditables.bu.login.view.presenter.SignInPresenter;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,10 +21,10 @@ import javax.inject.Inject;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class FirebaseLoginActivity extends BuActivity implements FirebaseLoginPresenter.View{
+public class SignInActivity extends BuActivity implements SignInPresenter.View{
 
     @Inject @Presenter
-    FirebaseLoginPresenter presenter;
+    SignInPresenter presenter;
 
     @Bind(R.id.email)
     AutoCompleteTextView email;
@@ -37,7 +37,7 @@ public class FirebaseLoginActivity extends BuActivity implements FirebaseLoginPr
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_firebase_login;
+        return R.layout.activity_sign_in;
     }
 
     @Override

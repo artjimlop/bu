@@ -41,7 +41,7 @@
             android:value="368f540dcf584f079a8ae95bac579a4909e93205" />
 
         <activity
-            android:name=".login.view.activity.FirebaseLoginActivity"
+            android:name=".login.view.activity.SignInActivity"
             android:label="@string/title_activity_firebase_login"></activity>
     </application>
 

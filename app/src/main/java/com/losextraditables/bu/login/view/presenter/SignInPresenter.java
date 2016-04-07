@@ -5,21 +5,21 @@ import com.karumi.rosie.domain.usecase.annotation.Success;
 import com.karumi.rosie.domain.usecase.callback.OnSuccessCallback;
 import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
-import com.losextraditables.bu.login.domain.usecase.FirebaseCreateUserUseCase;
-import com.losextraditables.bu.login.domain.usecase.FirebaseLoginUseCase;
+import com.losextraditables.bu.login.domain.usecase.CreateUserUseCase;
+import com.losextraditables.bu.login.domain.usecase.LoginUseCase;
 
 import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Observer;
 
-public class FirebaseLoginPresenter extends BuPresenter<FirebaseLoginPresenter.View> {
+public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
 
-    private final FirebaseLoginUseCase loginUseCase;
-    private final FirebaseCreateUserUseCase createUserUseCase;
+    private final LoginUseCase loginUseCase;
+    private final CreateUserUseCase createUserUseCase;
 
     @Inject
-    public FirebaseLoginPresenter(UseCaseHandler useCaseHandler, FirebaseLoginUseCase loginUseCase, FirebaseCreateUserUseCase createUserUseCase) {
+    public SignInPresenter(UseCaseHandler useCaseHandler, LoginUseCase loginUseCase, CreateUserUseCase createUserUseCase) {
         super(useCaseHandler);
         this.loginUseCase = loginUseCase;
         this.createUserUseCase = createUserUseCase;

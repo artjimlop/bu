@@ -7,11 +7,11 @@ import javax.inject.Inject;
 
 import rx.Observable;
 
-public class FirebaseUserRepository {
+public class UserRepository {
 
     private final UserDatasource userDatasource;
 
-    @Inject public FirebaseUserRepository(UserDatasourceFactory factory) {
+    @Inject public UserRepository(UserDatasourceFactory factory) {
         userDatasource = factory.createDatasource();
     }
 

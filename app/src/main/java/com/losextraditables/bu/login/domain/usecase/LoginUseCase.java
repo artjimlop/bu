@@ -2,18 +2,18 @@ package com.losextraditables.bu.login.domain.usecase;
 
 import com.karumi.rosie.domain.usecase.RosieUseCase;
 import com.karumi.rosie.domain.usecase.annotation.UseCase;
-import com.losextraditables.bu.login.repository.FirebaseUserRepository;
+import com.losextraditables.bu.login.repository.UserRepository;
 
 import javax.inject.Inject;
 
 import rx.Observable;
 
-public class FirebaseLoginUseCase extends RosieUseCase {
+public class LoginUseCase extends RosieUseCase {
 
-    private final FirebaseUserRepository repository;
+    private final UserRepository repository;
 
     @Inject
-    public FirebaseLoginUseCase(FirebaseUserRepository repository) {
+    public LoginUseCase(UserRepository repository) {
         this.repository = repository;
     }
 
