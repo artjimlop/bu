@@ -120,4 +120,5 @@ dependencies {
         transitive = true;
     }
     compile 'com.firebase:firebase-client-android:2.5.2+'
+    compile 'io.reactivex:rxjava:1.0.16'
 }

@@ -6,22 +6,25 @@ import android.content.Intent;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.LoginModule;
+import com.losextraditables.bu.login.view.presenter.FirebaseLoginPresenter;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
-public class FirebaseLoginActivity extends BuActivity{
+public class FirebaseLoginActivity extends BuActivity implements FirebaseLoginPresenter.View{
+
+    @Inject @Presenter
+    FirebaseLoginPresenter presenter;
 
     @Bind(R.id.email)
     AutoCompleteTextView email;
@@ -43,49 +46,34 @@ public class FirebaseLoginActivity extends BuActivity{
     }
 
     @OnClick(R.id.email_login_button) public void onSignInClick() {
-        Firebase ref = new Firebase("https://buandroid.firebaseio.com");
-        ref.authWithPassword(email.getText().toString(), password.getText().toString(), new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                System.out.println("User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
-                goToInstagrammersList();
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                showRegistrationDialog();
-            }
-        });
+        presenter.signInClicked(email.getText().toString(), password.getText().toString());
     }
 
-    private void showRegistrationDialog() {
-        System.out.println("credentials");
-        System.out.println(email.getText().toString());
-        System.out.println(password.getText().toString());
+    @Override
+    public void showSignUp(final String username, final String password) {
         new AlertDialog.Builder(this).setMessage("we need to register").setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Firebase ref = new Firebase("https://buandroid.firebaseio.com");
-                ref.createUser(email.getText().toString(), password.getText().toString(), new Firebase.ValueResultHandler<Map<String, Object>>() {
-                    @Override
-                    public void onSuccess(Map<String, Object> result) {
-                        System.out.println("Successfully created user account with uid: " + result.get("uid"));
-                        goToInstagrammersList();
-                    }
-                    @Override
-                    public void onError(FirebaseError firebaseError) {
-                        // there was an error
-                        System.out.println(firebaseError.getMessage());
-                    }
-                });
+                presenter.signUp(username, password);
             }
         }).create().show();
     }
 
-    private void goToInstagrammersList() {
+    @Override
+    public void goToInstagrammersList() {
         Intent intent = new Intent(this, InstagrammersListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
+
+    @Override
+    public void showLoading() {
+
     }
 }
 
