@@ -112,4 +112,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="sign_up_confirmation_message">We can\'t find a user with your credentials. Do you want to create one?</string>
+    <string name="sign_up_confirmation_ok">OK</string>
+    <string name="sign_up_confirmation_no">NO</string>
+    <string name="sign_in_secure_text">We need an email and a password to secure your data</string>
 </resources>

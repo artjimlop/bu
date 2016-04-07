@@ -51,12 +51,12 @@ public class SignInActivity extends BuActivity implements SignInPresenter.View{
 
     @Override
     public void showSignUp(final String username, final String password) {
-        new AlertDialog.Builder(this).setMessage("we need to register").setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        new AlertDialog.Builder(this).setMessage(R.string.sign_up_confirmation_message).setPositiveButton(R.string.sign_up_confirmation_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 presenter.signUp(username, password);
             }
-        }).create().show();
+        }).setNegativeButton(R.string.sign_up_confirmation_no, null).create().show();
     }
 
     @Override
