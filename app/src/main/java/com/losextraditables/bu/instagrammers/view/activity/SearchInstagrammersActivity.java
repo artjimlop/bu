@@ -20,7 +20,7 @@ import com.losextraditables.bu.instagrammers.InstagrammersListModule;
 import com.losextraditables.bu.instagrammers.view.adapter.SearchedInstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.SearchedInstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.SearchInstagrammersPresenter;
-import com.losextraditables.bu.login.activity.LoginActivity;
+import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.utils.InstagramSession;
 
 import java.util.Collections;
