@@ -1,14 +1,10 @@
-package com.losextraditables.bu.login.activity;
+package com.losextraditables.bu.login.view.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuActivity;
-import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
-import com.losextraditables.bu.utils.InstagramSession;
 import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.utils.ApplicationData;
 import com.losextraditables.bu.utils.InstagramLogin;
@@ -18,18 +14,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 
 public class LoginActivity extends BuActivity {
 
-    @Bind(R.id.btnConnect)
-    Button login;
-
     @Inject
     InstagramLogin instagramLogin;
-    @Inject
-    InstagramSession instagramSession;
 
     @Override
     protected int getLayoutId() {
@@ -61,7 +51,7 @@ public class LoginActivity extends BuActivity {
 
             @Override
             public void onSuccess() {
-                goToInstagrammersList();
+                goToFirebaseLogin();
             }
 
             @Override
@@ -73,8 +63,8 @@ public class LoginActivity extends BuActivity {
         instagramLogin.authorize();
     }
 
-    private void goToInstagrammersList() {
-        Intent intent = new Intent(this, InstagrammersListActivity.class);
+    private void goToFirebaseLogin() {
+        Intent intent = new Intent(this, SignInActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
