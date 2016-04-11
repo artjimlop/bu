@@ -31,8 +31,9 @@ public class SearchViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void render(final SearchedInstagrammerModel model) {
+        String usernameString = "@"+model.getUserName();
         name.setText(model.getFullName());
-        username.setText(model.getUserName());
+        username.setText(usernameString);
         Picasso.with(context).load(model.getProfilePicture()).into(picture);
     }
 }
