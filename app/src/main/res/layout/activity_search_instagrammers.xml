@@ -3,22 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:background="@color/application_background"
+    android:fitsSystemWindows="true"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     tools:context=".instagrammers.view.activity.InstagrammersListActivity">
 
     <android.support.v7.widget.RecyclerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/find_instagrammers_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingBottom="@dimen/instagrammers_list_padding"
         android:paddingTop="@dimen/instagrammers_list_padding"
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:visibility="gone"
-        tools:visibility="invisible"/>
+        tools:visibility="invisible" />
 
 
     <ProgressBar
@@ -28,7 +28,7 @@
         android:layout_gravity="center"
         android:indeterminate="true"
         android:visibility="gone"
-        tools:visibility="invisible"/>
+        tools:visibility="invisible" />
 
     <TextView
         android:id="@+id/find_instagrammers_empty"
