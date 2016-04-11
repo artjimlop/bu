@@ -54,6 +54,7 @@ public class SearchInstagrammersPresenter extends BuPresenter<SearchInstagrammer
         List<SearchedInstagrammerModel> models = searchedInstagrammerModelMapper.map(instagrammers);
         getView().showContent();
         getView().renderInstagrammers(models);
+        getView().hideLoading();
     }
 
     public interface View extends BuPresenter.View {

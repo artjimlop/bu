@@ -3,6 +3,7 @@ package com.losextraditables.bu.instagrammers.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -47,7 +48,7 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
     InstagramSession session;
 
     private SearchedInstagrammersAdapter adapter;
-    private LinearLayoutManager linearLayoutManager;
+    private GridLayoutManager gridLayoutManager;
     private SearchView searchView;
 
     protected List<Object> getActivityScopeModules() {
@@ -69,17 +70,17 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
 
     @Override
     protected void redirectToLogin() {
-        startActivity(new Intent(this, LoginActivity.class));
-        finish();
+       /* startActivity(new Intent(this, LoginActivity.class));
+        finish();*/
     }
 
     private void setupViews() {
         if (adapter == null) {
             adapter = new SearchedInstagrammersAdapter(this);
-            linearLayoutManager = new LinearLayoutManager(this);
+            gridLayoutManager = new GridLayoutManager(this, 2);
         }
         resultsListView.setAdapter(adapter);
-        resultsListView.setLayoutManager(linearLayoutManager);
+        resultsListView.setLayoutManager(gridLayoutManager);
     }
 
     private void setupActionBar() {
@@ -131,7 +132,7 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
 
     @Override
     public void hideKeyboard() {
-
+        //TODO
     }
 
     @Override
@@ -146,27 +147,27 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
 
     @Override
     public void hideEmpty() {
-
+        emptyOrErrorView.setVisibility(View.GONE);
     }
 
     @Override
     public void showEmpty() {
-
+        emptyOrErrorView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showLoading() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showGenericError() {
-
+        //TODO
     }
 
     @Override

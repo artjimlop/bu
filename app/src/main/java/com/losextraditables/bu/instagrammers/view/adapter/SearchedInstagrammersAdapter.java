@@ -25,7 +25,7 @@ public class SearchedInstagrammersAdapter extends RecyclerView.Adapter<SearchVie
     public SearchViewHolder onCreateViewHolder(ViewGroup parent,
                                              int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_instagrammer_list_adapter, parent, false);
+                .inflate(R.layout.item_search_instagrammer, parent, false);
         return new SearchViewHolder(v, context);
     }
 

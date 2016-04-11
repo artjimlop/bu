@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:orientation="vertical"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:padding="5dp"
   tools:background="@color/application_background">
 
   <FrameLayout android:layout_width="wrap_content"
@@ -15,12 +16,13 @@
     android:layout_gravity="bottom"
     android:gravity="center_horizontal">
 
-    <TextView android:layout_width="wrap_content"
+    <TextView android:id="@+id/instagrammer_username"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:text="\@CaraDelevingne"
       android:padding="8dp"
       android:textColor="#000000"
-      android:textSize="10dp"
+      android:textSize="10sp"
       android:textStyle="bold"
       android:layout_gravity="bottom"
       />
@@ -30,7 +32,8 @@
       android:layout_height="80dp"
       android:background="@drawable/gradient"
       android:layout_gravity="top">
-      <TextView android:layout_width="wrap_content"
+      <TextView  android:id="@+id/instagrammer_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Cara Delevingne"
         android:padding="8dp"
@@ -39,17 +42,13 @@
         android:textStyle="bold"/>
     </LinearLayout>
 
-    <ImageView android:layout_width="80dp"
+    <ImageView android:id="@+id/instagrammer_picture"
+      android:layout_width="80dp"
       android:layout_gravity="center"
       android:layout_height="80dp"
-      android:src="@drawable/foto"
       android:scaleType="centerCrop"
       android:padding="2dp"
       android:cropToPadding="true"
-      android:background="#000000"/>
+      android:background="#000000" />
   </FrameLayout>
-
-
-
-
 </LinearLayout>
