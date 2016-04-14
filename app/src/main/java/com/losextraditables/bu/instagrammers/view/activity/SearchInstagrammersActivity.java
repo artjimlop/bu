@@ -70,8 +70,8 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity implements 
 
     @Override
     protected void redirectToLogin() {
-       /* startActivity(new Intent(this, LoginActivity.class));
-        finish();*/
+        startActivity(new Intent(this, LoginActivity.class));
+        finish();
     }
 
     private void setupViews() {
