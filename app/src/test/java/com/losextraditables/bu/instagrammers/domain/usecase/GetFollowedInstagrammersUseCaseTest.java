@@ -1,7 +1,6 @@
 package com.losextraditables.bu.instagrammers.domain.usecase;
 
 import com.losextraditables.bu.instagrammers.repository.InstagrammersRepository;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
