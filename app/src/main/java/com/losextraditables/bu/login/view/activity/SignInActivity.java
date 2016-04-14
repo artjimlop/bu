@@ -71,6 +71,7 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
         Intent intent = new Intent(this, InstagrammersListActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
+        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
     }
 
     @Override public void hideLoading() {
@@ -79,6 +80,12 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
 
     @Override public void showLoading() {
         /* no-op */
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     }
 }
 
