@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/application_background"
     android:fitsSystemWindows="true"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
     tools:context=".instagrammers.view.activity.InstagrammersListActivity">
 
     <android.support.v7.widget.RecyclerView
