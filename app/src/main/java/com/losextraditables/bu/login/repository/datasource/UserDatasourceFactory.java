@@ -4,11 +4,11 @@ import javax.inject.Inject;
 
 public class UserDatasourceFactory {
 
-    @Inject
-    public UserDatasourceFactory() {
-    }
+  @Inject
+  public UserDatasourceFactory() {
+  }
 
-    public UserDatasource createDatasource() {
-        return new FirebaseUserDataSource();
-    }
+  public UserDatasource createDatasource() {
+    return new FirebaseUserDataSource();
+  }
 }

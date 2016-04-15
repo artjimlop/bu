@@ -1,52 +1,51 @@
 buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
+  repositories {
+    maven { url 'https://maven.fabric.io/public' }
+  }
 
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-    }
+  dependencies {
+    classpath 'io.fabric.tools:gradle:1.+'
+  }
 }
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 
 repositories {
-    maven { url 'https://maven.fabric.io/public' }
+  maven { url 'https://maven.fabric.io/public' }
 }
 
-
 private Properties loadProperties() {
-    Properties props = new Properties()
-    props.load(new FileInputStream("./bu.properties"))
-    props
+  Properties props = new Properties()
+  props.load(new FileInputStream("./bu.properties"))
+  props
 }
 
 private checkProperties() {
-    new File("./bu.properties").exists()
+  new File("./bu.properties").exists()
 }
 
 def getClientId() {
-    if (checkProperties()) {
-        Properties props = loadProperties()
-        return props['CLIENT_ID']
-    }
-    "null"
+  if (checkProperties()) {
+    Properties props = loadProperties()
+    return props['CLIENT_ID']
+  }
+  "null"
 }
 
 def getClientSecret() {
-    if (checkProperties()) {
-        Properties props = loadProperties()
-        return props['CLIENT_SECRET']
-    }
-    "null"
+  if (checkProperties()) {
+    Properties props = loadProperties()
+    return props['CLIENT_SECRET']
+  }
+  "null"
 }
 
 def getRedirectUri() {
-    if (checkProperties()) {
-        Properties props = loadProperties()
-        return props['REDIRECT_URI']
-    }
-    "null"
+  if (checkProperties()) {
+    Properties props = loadProperties()
+    return props['REDIRECT_URI']
+  }
+  "null"
 }
 
 def versionMajor = 0
@@ -54,71 +53,75 @@ def versionMinor = 0
 def versionRevision = 2
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+  compileSdkVersion 23
+  buildToolsVersion "23.0.2"
 
-    defaultConfig {
-        applicationId "com.losextraditables.bu"
-        minSdkVersion 18
-        targetSdkVersion 23
-        versionCode versionMajor * 1000000 + versionMinor * 1000 + versionRevision
-        versionName versionMajor + "." + versionMinor + "." + versionRevision
-        buildConfigField "String", "CLIENT_ID", getClientId()
-        buildConfigField "String", "CLIENT_SECRET", getClientSecret()
-        buildConfigField "String", "REDIRECT_URI", getRedirectUri()
-        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        renderscriptTargetApi 19
-        renderscriptSupportModeEnabled true
-    }
+  defaultConfig {
+    applicationId "com.losextraditables.bu"
+    minSdkVersion 18
+    targetSdkVersion 23
+    versionCode versionMajor * 1000000 + versionMinor * 1000 + versionRevision
+    versionName versionMajor + "." + versionMinor + "." + versionRevision
+    buildConfigField "String", "CLIENT_ID", getClientId()
+    buildConfigField "String", "CLIENT_SECRET", getClientSecret()
+    buildConfigField "String", "REDIRECT_URI", getRedirectUri()
+    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+    renderscriptTargetApi 19
+    renderscriptSupportModeEnabled true
+  }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
+  }
 
-    android {
-        packagingOptions {
-            exclude 'META-INF/LICENSE'
-            exclude 'META-INF/LICENSE-FIREBASE.txt'
-            exclude 'META-INF/NOTICE'
-        }
+  lintOptions {
+    abortOnError false
+  }
+
+  android {
+    packagingOptions {
+      exclude 'META-INF/LICENSE'
+      exclude 'META-INF/LICENSE-FIREBASE.txt'
+      exclude 'META-INF/NOTICE'
     }
+  }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:23.2.0'
-    compile 'com.android.support:support-v13:23.2.0'
-    compile 'com.android.support:design:23.2.0'
-    compile 'com.daimajia.easing:library:1.0.0@aar'
-    compile 'com.daimajia.androidanimations:library:1.1.2@aar'
-    compile 'com.daimajia.androidviewhover:library:1.0.4@aar'
-    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'com.karumi.rosie:rosie:2.0.0'
-    provided 'com.squareup.dagger:dagger-compiler:1.2.2'
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
-        exclude group: 'javax.inject', module: 'javax.inject'
-        exclude group: 'com.squareup', module: 'javawriter'
-    }
-    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.1') {
-        exclude module: 'support-annotations'
-        exclude module: 'recyclerview-v7'
-        exclude module: 'support-v4'
-    }
-    androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.1')
-    testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.android.support:support-annotations:23.2.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    testCompile 'org.mockito:mockito-core:1.10.19'
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.okhttp:okhttp:2.2.0'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-        transitive = true;
-    }
-    compile 'com.firebase:firebase-client-android:2.5.2+'
-    compile 'io.reactivex:rxjava:1.0.16'
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+  testCompile 'junit:junit:4.12'
+  compile 'com.android.support:appcompat-v7:23.2.0'
+  compile 'com.android.support:support-v13:23.2.0'
+  compile 'com.android.support:design:23.2.0'
+  compile 'com.daimajia.easing:library:1.0.0@aar'
+  compile 'com.daimajia.androidanimations:library:1.1.2@aar'
+  compile 'com.daimajia.androidviewhover:library:1.0.4@aar'
+  compile 'com.nineoldandroids:library:2.4.0'
+  compile 'de.hdodenhof:circleimageview:2.0.0'
+  compile 'com.karumi.rosie:rosie:2.0.0'
+  provided 'com.squareup.dagger:dagger-compiler:1.2.2'
+  androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.1') {
+    exclude group: 'javax.inject', module: 'javax.inject'
+    exclude group: 'com.squareup', module: 'javawriter'
+  }
+  androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.1') {
+    exclude module: 'support-annotations'
+    exclude module: 'recyclerview-v7'
+    exclude module: 'support-v4'
+  }
+  androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.1')
+  testCompile 'junit:junit:4.12'
+  androidTestCompile 'com.android.support:support-annotations:23.2.0'
+  compile 'com.squareup.picasso:picasso:2.5.2'
+  testCompile 'org.mockito:mockito-core:1.10.19'
+  compile 'com.squareup.retrofit:retrofit:1.9.0'
+  compile 'com.squareup.okhttp:okhttp:2.2.0'
+  compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+    transitive = true;
+  }
+  compile 'com.firebase:firebase-client-android:2.5.2+'
+  compile 'io.reactivex:rxjava:1.0.16'
 }

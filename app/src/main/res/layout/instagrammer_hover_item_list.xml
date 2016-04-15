@@ -4,22 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/hover_instagrammer_avatar"
-        android:layout_width="55dip"
-        android:layout_height="55dp"
-        android:layout_centerInParent="true"
-        android:scaleType="centerCrop"
-        android:transitionName="shared_image"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="1dp" />
+  <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+      android:id="@+id/hover_instagrammer_avatar"
+      android:layout_width="55dip"
+      android:layout_height="55dp"
+      android:layout_centerInParent="true"
+      android:scaleType="centerCrop"
+      android:transitionName="shared_image"
+      app:civ_border_color="@color/white"
+      app:civ_border_width="1dp"/>
 
-    <TextView
-        android:id="@+id/hover_instagrammer_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="12dp"
-        android:layout_marginLeft="12dp"
-        android:textColor="@color/white" />
+  <TextView
+      android:id="@+id/hover_instagrammer_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:layout_marginBottom="12dp"
+      android:layout_marginLeft="12dp"
+      android:textColor="@color/white"/>
 </RelativeLayout>

@@ -2,70 +2,70 @@ package com.losextraditables.bu.instagrammers.domain.model;
 
 public class SearchedInstagrammer {
 
-    private String username;
-    private String bio;
-    private String website;
-    private String profile_picture;
-    private String full_name;
-    private String id;
+  private String username;
+  private String bio;
+  private String website;
+  private String profile_picture;
+  private String full_name;
+  private String id;
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-    public String getBio() {
-        return bio;
-    }
+  public String getBio() {
+    return bio;
+  }
 
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
+  public void setBio(String bio) {
+    this.bio = bio;
+  }
 
-    public String getWebsite() {
-        return website;
-    }
+  public String getWebsite() {
+    return website;
+  }
 
-    public void setWebsite(String website) {
-        this.website = website;
-    }
+  public void setWebsite(String website) {
+    this.website = website;
+  }
 
-    public String getProfile_picture() {
-        return profile_picture;
-    }
+  public String getProfilePicture() {
+    return profile_picture;
+  }
 
-    public void setProfile_picture(String profile_picture) {
-        this.profile_picture = profile_picture;
-    }
+  public void setProfilePicture(String profile_picture) {
+    this.profile_picture = profile_picture;
+  }
 
-    public String getFull_name() {
-        return full_name;
-    }
+  public String getFullname() {
+    return full_name;
+  }
 
-    public void setFull_name(String full_name) {
-        this.full_name = full_name;
-    }
+  public void setFullname(String full_name) {
+    this.full_name = full_name;
+  }
 
-    public String getId() {
-        return id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    @Override
-    public String toString() {
-        return "SearchedInstagrammer{" +
-                "username='" + username + '\'' +
-                ", bio='" + bio + '\'' +
-                ", website='" + website + '\'' +
-                ", profile_picture='" + profile_picture + '\'' +
-                ", full_name='" + full_name + '\'' +
-                ", id='" + id + '\'' +
-                '}';
-    }
+  @Override
+  public String toString() {
+    return "SearchedInstagrammer{" +
+        "username='" + username + '\'' +
+        ", bio='" + bio + '\'' +
+        ", website='" + website + '\'' +
+        ", profile_picture='" + profile_picture + '\'' +
+        ", full_name='" + full_name + '\'' +
+        ", id='" + id + '\'' +
+        '}';
+  }
 }
