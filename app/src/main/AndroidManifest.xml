@@ -5,6 +5,7 @@
 
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
   <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
   <!-- To auto-complete the email text field in the login form with the user's emails -->
   <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
@@ -29,20 +30,24 @@
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
-    <activity android:name=".instagrammers.view.activity.SearchInstagrammersActivity"
+    <activity
+        android:name=".instagrammers.view.activity.SearchInstagrammersActivity"
         android:theme="@style/AppTheme"/>
     <activity android:name=".login.view.activity.LoginActivity"/>
     <activity
         android:name=".instagrammers.view.activity.InstagrammerDetailActivity"
         android:label="@string/title_activity_instagrammer_detail"
         android:theme="@style/AppTheme.NoActionBar"/>
+
     <meta-data
         android:name="io.fabric.ApiKey"
         android:value="368f540dcf584f079a8ae95bac579a4909e93205"/>
 
     <activity
         android:name=".login.view.activity.SignInActivity"
-        android:label="@string/title_activity_firebase_login"></activity>
+        android:label="@string/title_activity_firebase_login"/>
+    <activity android:name=".pictures.view.PictureActivity"
+        android:theme="@style/AppTheme"/>
   </application>
 
 </manifest>

@@ -1,13 +1,19 @@
 package com.losextraditables.bu.instagrammers.view.activity;
 
 import android.annotation.TargetApi;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.transition.Explode;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
@@ -18,6 +24,9 @@ import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
+import com.losextraditables.bu.pictures.view.PictureActivity;
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnMenuTabClickListener;
 import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
@@ -35,6 +44,7 @@ public class InstagrammersListActivity extends BuActivity
   private InstagrammersAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
   private View sharedImage;
+  private BottomBar mBottomBar;
 
   @Override
   protected int getLayoutId() {
@@ -60,6 +70,20 @@ public class InstagrammersListActivity extends BuActivity
     linearLayoutManager = new LinearLayoutManager(this);
     instagrammersList.setLayoutManager(linearLayoutManager);
     presenter.showMockedInstagrammers();
+
+    mBottomBar = BottomBar.attach(this, savedInstanceState);
+    mBottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
+      @Override
+      public void onMenuTabSelected(@IdRes int menuItemId) {
+        if (menuItemId == R.id.bottom_save_picture) {
+          presenter.savePictureClicked();
+        }
+      }
+
+      @Override
+      public void onMenuTabReSelected(@IdRes int menuItemId) {
+      }
+    });
   }
 
   @Override
@@ -84,6 +108,32 @@ public class InstagrammersListActivity extends BuActivity
     InstagrammerDetailActivity.init(this, sharedImage, instagrammerModel);
   }
 
+  @Override public void showSavePictureDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    builder.setMessage("Insert picture's url here")
+        .setTitle("Save picture");
+
+    final EditText input = new EditText(this);
+
+    input.setInputType(InputType.TYPE_CLASS_TEXT);
+    builder.setView(input);
+
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        presenter.savePicture(input.getText().toString());
+      }
+    });
+
+    builder.create().show();
+  }
+
+  @Override public void showPicture(String pictureUrl) {
+    Toast.makeText(this, pictureUrl, Toast.LENGTH_LONG).show();
+    startActivity(PictureActivity.getIntentForActivity(this, pictureUrl));
+  }
+
   @Override
   public void hideLoading() {
 
@@ -102,6 +152,5 @@ public class InstagrammersListActivity extends BuActivity
 
   @OnClick(R.id.fab) public void onFabClick() {
     startActivity(new Intent(this, SearchInstagrammersActivity.class));
-    finish();
   }
 }
