@@ -18,7 +18,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.base.view.activity.BuActivity;
+import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
 import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
@@ -31,7 +31,7 @@ import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 
-public class InstagrammersListActivity extends BuActivity
+public class InstagrammersListActivity extends BuAppCompatActivity
     implements InstagrammersListPresenter.View {
 
   @Bind(R.id.instagrammers_list)
@@ -44,7 +44,7 @@ public class InstagrammersListActivity extends BuActivity
   private InstagrammersAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
   private View sharedImage;
-  private BottomBar mBottomBar;
+  private BottomBar bottomBar;
 
   @Override
   protected int getLayoutId() {
@@ -58,6 +58,7 @@ public class InstagrammersListActivity extends BuActivity
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_instagrammers);
     setupWindowAnimations();
     adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
       @Override
@@ -71,8 +72,10 @@ public class InstagrammersListActivity extends BuActivity
     instagrammersList.setLayoutManager(linearLayoutManager);
     presenter.showMockedInstagrammers();
 
-    mBottomBar = BottomBar.attach(this, savedInstanceState);
-    mBottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
+    bottomBar = BottomBar.attach(this, savedInstanceState);
+    bottomBar.noTopOffset();
+    bottomBar.noNavBarGoodness();
+    bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
@@ -82,8 +85,16 @@ public class InstagrammersListActivity extends BuActivity
 
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
+        if (menuItemId == R.id.bottom_save_picture) {
+          presenter.savePictureClicked();
+        }
       }
     });
+  }
+
+  @Override public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    bottomBar.onSaveInstanceState(outState);
   }
 
   @Override
