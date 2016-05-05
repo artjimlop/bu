@@ -17,7 +17,7 @@ public class LoginUseCase extends RosieUseCase {
 
   @UseCase
   public void login(String username, String password) throws Exception {
-    Observable<Void> login = repository.login(username, password);
+    Observable<String> login = repository.login(username, password);
     notifySuccess(login);
   }
 }

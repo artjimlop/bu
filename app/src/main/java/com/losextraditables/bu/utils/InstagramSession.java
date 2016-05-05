@@ -12,6 +12,7 @@ public class InstagramSession implements Session {
   private static final String API_ID = "id";
   private static final String API_NAME = "name";
   private static final String API_ACCESS_TOKEN = "access_token";
+  private static final String FIREBASE_UID = "uid";
 
   @Inject public InstagramSession() {
   }
@@ -63,5 +64,16 @@ public class InstagramSession implements Session {
   public Boolean hasSession(Context context) {
     SharedPreferences sharedPref = context.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
     return sharedPref.getString(API_ACCESS_TOKEN, null) != null;
+  }
+
+  public void setUid(Context context, String uid) {
+    SharedPreferences.Editor editor = initializeEditor(context);
+    editor.putString(FIREBASE_UID, uid);
+    editor.commit();
+  }
+
+  public String getUid(Context context) {
+    SharedPreferences sharedPref = context.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
+    return sharedPref.getString(FIREBASE_UID, null);
   }
 }

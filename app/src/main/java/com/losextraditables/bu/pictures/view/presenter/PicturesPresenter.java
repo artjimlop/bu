@@ -1,4 +1,4 @@
-package com.losextraditables.bu.instagrammers.view.presenter;
+package com.losextraditables.bu.pictures.view.presenter;
 
 import android.support.annotation.NonNull;
 import com.karumi.rosie.domain.usecase.UseCaseHandler;
@@ -6,60 +6,27 @@ import com.karumi.rosie.domain.usecase.annotation.Success;
 import com.karumi.rosie.domain.usecase.callback.OnSuccessCallback;
 import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
-import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
-import com.losextraditables.bu.instagrammers.domain.usecase.GetFollowedInstagrammersUseCase;
-import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
-import com.losextraditables.bu.instagrammers.view.model.mapper.InstagrammerModelMapper;
 import com.losextraditables.bu.pictures.domain.GetPictureUseCase;
 import com.losextraditables.bu.pictures.domain.SavePictureUseCase;
-import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPresenter.View> {
+public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
 
-  private final GetFollowedInstagrammersUseCase getFollowedInstagrammersUseCase;
   private final GetPictureUseCase getPictureUseCase;
   private final SavePictureUseCase savePictureUseCase;
-  private final InstagrammerModelMapper mapper;
 
-  @Inject public InstagrammersListPresenter(UseCaseHandler useCaseHandler,
-      GetFollowedInstagrammersUseCase getFollowedInstagrammersUseCase,
-      GetPictureUseCase getPictureUseCase, SavePictureUseCase savePictureUseCase,
-      InstagrammerModelMapper mapper) {
+  @Inject public PicturesPresenter(UseCaseHandler useCaseHandler,
+      GetPictureUseCase getPictureUseCase, SavePictureUseCase savePictureUseCase) {
     super(useCaseHandler);
-    this.getFollowedInstagrammersUseCase = getFollowedInstagrammersUseCase;
     this.getPictureUseCase = getPictureUseCase;
     this.savePictureUseCase = savePictureUseCase;
-    this.mapper = mapper;
   }
 
   public void initialize() {
-  }
-
-  public void showMockedInstagrammers() {
-    createUseCaseCall(getFollowedInstagrammersUseCase)
-        .onSuccess(new OnSuccessCallback() {
-          @Success
-          public void onInstagrammersLoaded(List<Instagrammer> instagrammers) {
-            List<InstagrammerModel> instagrammerModels = mapper.mapList(instagrammers);
-            getView().showMockedInstagrammers(instagrammerModels);
-          }
-        })
-        .onError(new OnErrorCallback() {
-          @Override public boolean onError(Error error) {
-            getView().hideLoading();
-            return false;
-          }
-        })
-        .execute();
-  }
-
-  public void goToInstagrammerDetail(InstagrammerModel instagrammerModel) {
-    getView().goToInstagrammerDetail(instagrammerModel);
   }
 
   public void savePictureClicked() {
@@ -122,16 +89,9 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
   }
 
   public interface View extends BuPresenter.View {
-    void showMockedInstagrammers(List<InstagrammerModel> instagrammerModels);
-
-    void goToInstagrammerDetail(InstagrammerModel instagrammerModel);
-
     void showSavePictureDialog();
 
     void showPicture(String pictureUrl);
   }
 
-  public interface ItemClickListener {
-    void onItemClick(android.view.View view, InstagrammerModel instagrammerModel);
-  }
 }

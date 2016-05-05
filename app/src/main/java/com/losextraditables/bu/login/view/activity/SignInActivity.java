@@ -16,6 +16,7 @@ import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.login.view.presenter.SignInPresenter;
+import com.losextraditables.bu.utils.InstagramSession;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -23,6 +24,7 @@ import javax.inject.Inject;
 public class SignInActivity extends BuAppCompatActivity implements SignInPresenter.View {
 
     @Inject @Presenter SignInPresenter presenter;
+    @Inject InstagramSession session;
 
     @Bind(R.id.email) AutoCompleteTextView email;
     @Bind(R.id.password) EditText password;
@@ -86,6 +88,10 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+    }
+
+    @Override public void saveUid(String uid) {
+      session.setUid(this, uid);
     }
 }
 

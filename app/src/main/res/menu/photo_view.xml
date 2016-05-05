@@ -1,0 +1,9 @@
+<menu xmlns:tools="http://schemas.android.com/tools"
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  tools:context="com.shootr.mobile.ui.activities.PhotoViewActivity">
+    <item
+      android:id="@+id/menu_download_photo"
+      android:title="@string/menu_save_photo"
+      app:showAsAction="never" />
+</menu>
