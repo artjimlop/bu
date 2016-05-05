@@ -17,7 +17,6 @@ import butterknife.Bind;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
-import com.losextraditables.bu.instagrammers.InstagrammersListModule;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;

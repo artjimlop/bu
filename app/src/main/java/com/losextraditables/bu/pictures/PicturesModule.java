@@ -1,7 +1,6 @@
 package com.losextraditables.bu.pictures;
 
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
-import com.losextraditables.bu.instagrammers.view.activity.SearchInstagrammersActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
 import com.losextraditables.bu.utils.WritePermissionManager;

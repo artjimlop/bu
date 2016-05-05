@@ -33,11 +33,13 @@ public class PictureScrapDataSource implements PictureDataSource {
   @Override public Observable<Void> savePicture(final String url, final String uid) {
     return Observable.create(new Observable.OnSubscribe<Void>() {
       @Override public void call(final Subscriber<? super Void> subscriber) {
-        final Firebase picturesReference = new Firebase("https://buandroid.firebaseio.com/users").child(uid).child("pictures");
+        final Firebase picturesReference =
+            new Firebase("https://buandroid.firebaseio.com/users").child(uid).child("pictures");
         picturesReference.addValueEventListener(new ValueEventListener() {
           @Override public void onDataChange(DataSnapshot dataSnapshot) {
             Log.d("FIREBASE", "listener");
-            GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {};
+            GenericTypeIndicator<List<String>> t = new GenericTypeIndicator<List<String>>() {
+            };
             List<String> pictures = dataSnapshot.getValue(t);
             if (!changeMade) {
               if (pictures != null) {

@@ -65,7 +65,6 @@ public class PictureActivity extends BuAppCompatActivity {
     return intent;
   }
 
-
   protected void initializeViews(Bundle savedInstanceState) {
     writePermissionManager.init(this);
     setupActionBar();
@@ -74,7 +73,6 @@ public class PictureActivity extends BuAppCompatActivity {
     imageUrl = getIntent().getStringExtra(EXTRA_IMAGE_URL);
     loadImages();
   }
-
 
   private void setupActionBar() {
     ActionBar actionBar = this.getSupportActionBar();
@@ -85,17 +83,14 @@ public class PictureActivity extends BuAppCompatActivity {
     }
   }
 
-
   private void loadImages() {
     Picasso.with(this).load(imageUrl).into(imageView);
   }
-
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.photo_view, menu);
     return true;
   }
-
 
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     int id = item.getItemId();
@@ -107,7 +102,6 @@ public class PictureActivity extends BuAppCompatActivity {
     return super.onOptionsItemSelected(item);
   }
 
-
   private void saveImage() {
     if (writePermissionManager.hasWritePermission()) {
       performImageDownload();
@@ -116,12 +110,10 @@ public class PictureActivity extends BuAppCompatActivity {
     }
   }
 
-
   private void performImageDownload() {
     Uri imageUri = Uri.parse(imageUrl);
     String fileName = imageUri.getLastPathSegment();
     String downloadSubpath = getString(R.string.downloaded_pictures_subfolder) + fileName;
-
 
     DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
     DownloadManager.Request request = new DownloadManager.Request(imageUri);
@@ -131,13 +123,10 @@ public class PictureActivity extends BuAppCompatActivity {
     // Equivalent to request.setDestinationInExternalPublicDir(), but makes sure the Shootr subfolder exists
     request.setDestinationUri(getDownloadDestination(downloadSubpath));
 
-
     request.setMimeType("image/jpeg"); //TODO servidor debe mandarlo correctamente
-
 
     downloadManager.enqueue(request);
   }
-
 
   @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
       @NonNull int[] grantResults) {
@@ -150,9 +139,9 @@ public class PictureActivity extends BuAppCompatActivity {
     }
   }
 
-
   @NonNull private Uri getDownloadDestination(String downloadSubpath) {
-    File picturesFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+    File picturesFolder =
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
     File destinationFile = new File(picturesFolder, downloadSubpath);
     destinationFile.mkdirs();
     return Uri.fromFile(destinationFile);
