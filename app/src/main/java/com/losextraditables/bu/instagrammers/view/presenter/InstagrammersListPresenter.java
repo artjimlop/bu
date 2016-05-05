@@ -1,5 +1,6 @@
 package com.losextraditables.bu.instagrammers.view.presenter;
 
+import android.support.annotation.NonNull;
 import com.karumi.rosie.domain.usecase.UseCaseHandler;
 import com.karumi.rosie.domain.usecase.annotation.Success;
 import com.karumi.rosie.domain.usecase.callback.OnSuccessCallback;
@@ -10,6 +11,7 @@ import com.losextraditables.bu.instagrammers.domain.usecase.GetFollowedInstagram
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.model.mapper.InstagrammerModelMapper;
 import com.losextraditables.bu.pictures.domain.GetPictureUseCase;
+import com.losextraditables.bu.pictures.domain.SavePictureUseCase;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -21,14 +23,17 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
 
   private final GetFollowedInstagrammersUseCase getFollowedInstagrammersUseCase;
   private final GetPictureUseCase getPictureUseCase;
+  private final SavePictureUseCase savePictureUseCase;
   private final InstagrammerModelMapper mapper;
 
   @Inject public InstagrammersListPresenter(UseCaseHandler useCaseHandler,
       GetFollowedInstagrammersUseCase getFollowedInstagrammersUseCase,
-      GetPictureUseCase getPictureUseCase, InstagrammerModelMapper mapper) {
+      GetPictureUseCase getPictureUseCase, SavePictureUseCase savePictureUseCase,
+      InstagrammerModelMapper mapper) {
     super(useCaseHandler);
     this.getFollowedInstagrammersUseCase = getFollowedInstagrammersUseCase;
     this.getPictureUseCase = getPictureUseCase;
+    this.savePictureUseCase = savePictureUseCase;
     this.mapper = mapper;
   }
 
@@ -61,8 +66,8 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
     getView().showSavePictureDialog();
   }
 
-  public void savePicture(String url) {
-    createUseCaseCall(getPictureUseCase).args(url).onSuccess(new OnSuccessCallback() {
+  public void savePicture(String url, @NonNull final String uid) {
+    createUseCaseCall(getPictureUseCase).args(url, uid).onSuccess(new OnSuccessCallback() {
       @Success
       public void onPictureSaved(Observable<String> pictureObservable) {
         pictureObservable
@@ -77,13 +82,40 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
           }
 
           @Override public void onNext(String pictureUrl) {
-            getView().showPicture(pictureUrl);
+            addToUsersPicture(pictureUrl, uid);
           }
         });
       }
     }).onError(new OnErrorCallback() {
       @Override public boolean onError(Error error) {
         getView().showConnectionError();
+        return false;
+      }
+    }).execute();
+  }
+
+  private void addToUsersPicture(final String url, String username) {
+    createUseCaseCall(savePictureUseCase).args(url, username).onSuccess(new OnSuccessCallback() {
+      @Success
+      public void onPictureSaved(Observable<Void> savePicutreObservable) {
+        savePicutreObservable.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<Void>() {
+              @Override public void onCompleted() {
+                getView().showPicture(url);
+              }
+
+              @Override public void onError(Throwable e) {
+
+              }
+
+              @Override public void onNext(Void aVoid) {
+
+              }
+            });
+      }
+    }).onError(new OnErrorCallback() {
+      @Override public boolean onError(Error error) {
         return false;
       }
     }).execute();

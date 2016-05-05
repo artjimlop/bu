@@ -1,6 +1,7 @@
 package com.losextraditables.bu.instagrammers.view.activity;
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -25,6 +26,7 @@ import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.PictureActivity;
+import com.losextraditables.bu.utils.InstagramSession;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import java.util.Arrays;
@@ -40,6 +42,8 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   @Inject
   @Presenter
   InstagrammersListPresenter presenter;
+
+  @Inject InstagramSession session;
 
   private InstagrammersAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
@@ -129,11 +133,11 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
     input.setInputType(InputType.TYPE_CLASS_TEXT);
     builder.setView(input);
-
+    final Context context = this;
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        presenter.savePicture(input.getText().toString());
+        presenter.savePicture(input.getText().toString(), session.getUid(context));
       }
     });
 

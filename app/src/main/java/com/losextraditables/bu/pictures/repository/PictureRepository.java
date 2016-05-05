@@ -15,4 +15,8 @@ public class PictureRepository {
   public Observable<String> getPicture(String url) {
     return pictureDataSource.getPictureFromScrap(url);
   }
+
+  public Observable<Void> savePicture(String url, String uid) {
+    return pictureDataSource.savePicture(url, uid);
+  }
 }

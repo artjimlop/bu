@@ -5,6 +5,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.karumi.rosie.repository.datasource.Identifiable;
+import com.losextraditables.bu.login.domain.model.User;
 import java.util.Collection;
 import java.util.Map;
 import javax.inject.Inject;
@@ -39,15 +40,24 @@ public class FirebaseUserDataSource implements UserDatasource {
     });
   }
 
+  private void createUserEntity(String username, String uid) {
+    Firebase userReference = new Firebase("https://buandroid.firebaseio.com/users").child(uid);
+    User user = new User();
+    user.setUsername(username);
+    userReference.setValue(user);
+  }
+
   @Override
-  public Observable<Void> login(final String username, final String password) {
-    return Observable.create(new Observable.OnSubscribe<Void>() {
+  public Observable<String> login(final String username, final String password) {
+    return Observable.create(new Observable.OnSubscribe<String>() {
       @Override
-      public void call(final Subscriber<? super Void> subscriber) {
+      public void call(final Subscriber<? super String> subscriber) {
         getFirebaseConnection().authWithPassword(username, password,
             new Firebase.AuthResultHandler() {
               @Override
               public void onAuthenticated(AuthData authData) {
+                createUserEntity(username, authData.getUid());
+                subscriber.onNext(authData.getUid());
                 subscriber.onCompleted();
               }
 

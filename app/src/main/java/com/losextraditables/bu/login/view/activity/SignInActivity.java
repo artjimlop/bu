@@ -13,6 +13,7 @@ import com.losextraditables.bu.base.view.activity.BuActivity;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.login.view.presenter.SignInPresenter;
+import com.losextraditables.bu.utils.InstagramSession;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ public class SignInActivity extends BuActivity implements SignInPresenter.View {
   AutoCompleteTextView email;
   @Bind(R.id.password)
   EditText password;
+  @Inject InstagramSession session;
 
   @Override protected List<Object> getActivityScopeModules() {
     return Collections.singletonList((Object) new LoginModule());
@@ -64,6 +66,10 @@ public class SignInActivity extends BuActivity implements SignInPresenter.View {
     Intent intent = new Intent(this, InstagrammersListActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
     startActivity(intent);
+  }
+
+  @Override public void saveUid(String uid) {
+    session.setUid(this, uid);
   }
 
   @Override

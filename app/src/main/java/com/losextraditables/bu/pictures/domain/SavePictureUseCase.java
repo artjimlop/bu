@@ -6,17 +6,17 @@ import com.losextraditables.bu.pictures.repository.PictureRepository;
 import javax.inject.Inject;
 import rx.Observable;
 
-public class GetPictureUseCase extends RosieUseCase {
+public class SavePictureUseCase extends RosieUseCase {
 
   private final PictureRepository pictureRepository;
 
-  @Inject public GetPictureUseCase(PictureRepository pictureRepository) {
+  @Inject public SavePictureUseCase(PictureRepository pictureRepository) {
     this.pictureRepository = pictureRepository;
   }
 
   @UseCase
-  public void obtainPicture(String url, String uid) {
-    Observable<String> pictureObservable = pictureRepository.getPicture(url);
+  public void savePicture(String url, String uid) {
+    Observable<Void> pictureObservable = pictureRepository.savePicture(url, uid);
     notifySuccess(pictureObservable);
   }
 }

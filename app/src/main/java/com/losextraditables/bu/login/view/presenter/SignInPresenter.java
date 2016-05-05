@@ -27,8 +27,8 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
   public void signInClicked(final String username, final String password) {
     createUseCaseCall(loginUseCase).args(username, password).onSuccess(new OnSuccessCallback() {
       @Success
-      public void onLogin(Observable<Void> loginObservable) {
-        loginObservable.subscribe(new Observer<Void>() {
+      public void onLogin(Observable<String> loginObservable) {
+        loginObservable.subscribe(new Observer<String>() {
           @Override
           public void onCompleted() {
             getView().goToInstagrammersList();
@@ -40,8 +40,8 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
           }
 
           @Override
-          public void onNext(Void aVoid) {
-
+          public void onNext(String uid) {
+            getView().saveUid(uid);
           }
         });
       }
@@ -92,5 +92,7 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
     void showSignUp(String username, String password);
 
     void goToInstagrammersList();
+
+    void saveUid(String uid);
   }
 }
