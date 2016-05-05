@@ -27,4 +27,8 @@ public class InstagrammersRepository {
   public Observable<Instagrammer> getInstagrammer(String url) {
     return apiDatasource.getInstagrammerFromScrap(url);
   }
+
+  public Observable<Void> saveInstagrammer(Instagrammer instagrammer, String uid) {
+    return apiDatasource.saveInstagrammer(instagrammer, uid);
+  }
 }

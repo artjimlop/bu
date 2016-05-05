@@ -144,6 +144,10 @@ public class PicturesActivity extends BuAppCompatActivity
     builder.create().show();
   }
 
+  @Override public void showSavedInstagrammer() {
+    Toast.makeText(this, "User saved", Toast.LENGTH_LONG).show();
+  }
+
   @Override
   public void hideLoading() {
 

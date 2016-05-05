@@ -9,6 +9,7 @@ import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
 import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.domain.usecase.GetInstagrammerUseCase;
+import com.losextraditables.bu.instagrammers.domain.usecase.SaveInstagrammerUseCase;
 import com.losextraditables.bu.pictures.domain.GetPictureUseCase;
 import com.losextraditables.bu.pictures.domain.SavePictureUseCase;
 import javax.inject.Inject;
@@ -22,14 +23,17 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
   private final GetPictureUseCase getPictureUseCase;
   private final SavePictureUseCase savePictureUseCase;
   private final GetInstagrammerUseCase getInstagrammerUseCase;
+  private final SaveInstagrammerUseCase saveInstagrammerUseCase;
 
   @Inject public PicturesPresenter(UseCaseHandler useCaseHandler,
       GetPictureUseCase getPictureUseCase, SavePictureUseCase savePictureUseCase,
-      GetInstagrammerUseCase getInstagrammerUseCase) {
+      GetInstagrammerUseCase getInstagrammerUseCase,
+      SaveInstagrammerUseCase saveInstagrammerUseCase) {
     super(useCaseHandler);
     this.getPictureUseCase = getPictureUseCase;
     this.savePictureUseCase = savePictureUseCase;
     this.getInstagrammerUseCase = getInstagrammerUseCase;
+    this.saveInstagrammerUseCase = saveInstagrammerUseCase;
   }
 
   public void initialize() {
@@ -114,8 +118,7 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
               }
 
               @Override public void onNext(Instagrammer instagrammer) {
-                //TODO addToUsersPicture(instagrammer, uid);
-                Log.d("INSTAGRAMMER: ", instagrammer.toString());
+                addToUsersInstagrammers(instagrammer, uid);
               }
             });
       }
@@ -127,12 +130,41 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     }).execute();
   }
 
+  private void addToUsersInstagrammers(Instagrammer instagrammer, String uid) {
+    createUseCaseCall(saveInstagrammerUseCase).args(instagrammer, uid).onSuccess(new OnSuccessCallback() {
+      @Success
+      public void onPictureSaved(Observable<Void> saveInstagrammerObservable) {
+        saveInstagrammerObservable.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<Void>() {
+              @Override public void onCompleted() {
+                getView().showSavedInstagrammer();
+              }
+
+              @Override public void onError(Throwable e) {
+
+              }
+
+              @Override public void onNext(Void aVoid) {
+
+              }
+            });
+      }
+    }).onError(new OnErrorCallback() {
+      @Override public boolean onError(Error error) {
+        return false;
+      }
+    }).execute();
+  }
+
   public interface View extends BuPresenter.View {
     void showSavePictureDialog();
 
     void showPicture(String pictureUrl);
 
     void showSaveInstagrammerDialog();
+
+    void showSavedInstagrammer();
   }
 
 }
