@@ -1,4 +1,4 @@
-package com.losextraditables.bu.instagrammers.view.activity;
+package com.losextraditables.bu.pictures.view.activity;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -8,24 +8,19 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.transition.Explode;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import butterknife.Bind;
-import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
-import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
-import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
-import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
-import com.losextraditables.bu.pictures.view.activity.PictureActivity;
+import com.losextraditables.bu.pictures.PicturesModule;
+import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
 import com.losextraditables.bu.utils.InstagramSession;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -33,48 +28,34 @@ import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 
-public class InstagrammersListActivity extends BuAppCompatActivity
-    implements InstagrammersListPresenter.View {
+public class PicturesActivity extends BuAppCompatActivity
+    implements PicturesPresenter.View {
 
-  @Bind(R.id.instagrammers_list)
-  RecyclerView instagrammersList;
+  @Bind(R.id.pictures_list)
+  RecyclerView picturesList;
 
   @Inject
   @Presenter
-  InstagrammersListPresenter presenter;
+  PicturesPresenter presenter;
 
   @Inject InstagramSession session;
 
-  private InstagrammersAdapter adapter;
-  private LinearLayoutManager linearLayoutManager;
-  private View sharedImage;
   private BottomBar bottomBar;
 
   @Override
   protected int getLayoutId() {
-    return R.layout.activity_instagrammers;
+    return R.layout.activity_pictures;
   }
 
   @Override protected List<Object> getActivityScopeModules() {
-    return Arrays.asList((Object) new InstagrammersListModule());
+    return Arrays.asList((Object) new PicturesModule());
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_instagrammers);
+    setContentView(R.layout.activity_pictures);
     setupWindowAnimations();
-    adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
-      @Override
-      public void onItemClick(View view, InstagrammerModel instagrammerModel) {
-        sharedImage = view.findViewById(R.id.hover_instagrammer_avatar);
-        presenter.goToInstagrammerDetail(instagrammerModel);
-      }
-    });
-    instagrammersList.setAdapter(adapter);
-    linearLayoutManager = new LinearLayoutManager(this);
-    instagrammersList.setLayoutManager(linearLayoutManager);
-    presenter.showMockedInstagrammers();
 
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
@@ -110,17 +91,6 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   @Override protected void onPreparePresenter() {
     super.onPreparePresenter();
     presenter.initialize();
-  }
-
-  @Override
-  public void showMockedInstagrammers(List<InstagrammerModel> instagrammerModels) {
-    adapter.setUsers(instagrammerModels);
-    adapter.notifyDataSetChanged();
-  }
-
-  @Override
-  public void goToInstagrammerDetail(InstagrammerModel instagrammerModel) {
-    InstagrammerDetailActivity.init(this, sharedImage, instagrammerModel);
   }
 
   @Override public void showSavePictureDialog() {
@@ -163,9 +133,5 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   private void setupWindowAnimations() {
     getWindow().setReenterTransition(new Explode());
     getWindow().setExitTransition(new Explode().setDuration(500));
-  }
-
-  @OnClick(R.id.fab) public void onFabClick() {
-    startActivity(new Intent(this, SearchInstagrammersActivity.class));
   }
 }

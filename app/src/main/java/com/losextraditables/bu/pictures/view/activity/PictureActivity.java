@@ -1,4 +1,4 @@
-package com.losextraditables.bu.pictures.view;
+package com.losextraditables.bu.pictures.view.activity;
 
 import android.animation.TimeInterpolator;
 import android.app.DownloadManager;
@@ -18,7 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
-import com.losextraditables.bu.pictures.PictureModule;
+import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.utils.WritePermissionManager;
 import com.squareup.picasso.Picasso;
 import java.io.File;
@@ -56,7 +56,7 @@ public class PictureActivity extends BuAppCompatActivity {
   }
 
   @Override protected List<Object> getActivityScopeModules() {
-    return Arrays.asList((Object) new PictureModule());
+    return Arrays.asList((Object) new PicturesModule());
   }
 
   public static Intent getIntentForActivity(Context context, String imageUrl) {

@@ -118,7 +118,9 @@
   <string name="sign_up_confirmation_ok">OK</string>
   <string name="sign_up_confirmation_no">NO</string>
   <string name="sign_in_secure_text">We need an email and a password to secure your data</string>
-  <string name="download_photo_permission_explaination">You must give us permission to save images.</string>
+  <string name="download_photo_permission_explaination">You must give us permission to save
+    images.
+  </string>
   <string name="ok">Ok</string>
   <string name="cancel">Cancel</string>
   <string name="downloaded_pictures_subfolder">bu/</string>
