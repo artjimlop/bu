@@ -2,6 +2,7 @@ package com.losextraditables.bu.instagrammers.repository.datasource;
 
 import com.karumi.rosie.repository.PaginatedCollection;
 import com.karumi.rosie.repository.datasource.paginated.Page;
+import com.losextraditables.bu.base.view.error.ConnectionError;
 import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
 import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammerResponse;
@@ -10,7 +11,13 @@ import com.losextraditables.bu.instagrammers.repository.service.InstagramService
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.inject.Inject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import rx.Observable;
 
 public class InstagrammersApiDatasource implements InstagrammersDatasource {
 
@@ -57,5 +64,38 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
   @Override
   public Collection<List<Instagrammer>> getAll() throws Exception {
     return null;
+  }
+
+  @Override public Observable<Instagrammer> getInstagrammerFromScrap(final String url) {
+    return Observable.just(getIntagrammerFromScrap(url));
+  }
+
+  private Instagrammer getIntagrammerFromScrap(String url) {
+    try {
+      Document doc = Jsoup.connect(url).get();
+      String username = "";
+      String photo = "";
+      Instagrammer instagrammer = new Instagrammer();
+      for (Element meta : doc.select("meta")) {
+        if (meta.attr("property").equals("al:android:url")) {
+          String content = String.valueOf(meta.attr("content"));
+          Pattern compile = Pattern.compile("https://www.instagram.com/_u/");
+          Matcher matcher = compile.matcher(content);
+          username = content.substring(0,matcher.end());
+        }
+        if (meta.attr("property").equals("og:image")) {
+          photo = String.valueOf(meta.attr("content"));
+        }
+
+        if (!username.isEmpty() && !photo.isEmpty()) {
+          instagrammer.setUserName(username);
+          instagrammer.setProfilePicture(photo);
+          break;
+        }
+      }
+      return instagrammer;
+    } catch (Exception e) {
+      throw new ConnectionError();
+    }
   }
 }

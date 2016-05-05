@@ -5,6 +5,7 @@ import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
 import com.losextraditables.bu.instagrammers.repository.datasource.InstagrammersApiDatasource;
 import java.util.List;
 import javax.inject.Inject;
+import rx.Observable;
 
 public class InstagrammersRepository {
 
@@ -21,5 +22,9 @@ public class InstagrammersRepository {
 
   public List<SearchedInstagrammer> searchInstagrammers(String query, String accessToken) {
     return apiDatasource.searchIntagrammers(query, accessToken);
+  }
+
+  public Observable<Instagrammer> getPicture(String url) {
+    return apiDatasource.getInstagrammerFromScrap(url);
   }
 }
