@@ -14,7 +14,6 @@ import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
 import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammerResponse;
 import com.losextraditables.bu.instagrammers.repository.service.InstagramApiService;
 import com.losextraditables.bu.instagrammers.repository.service.InstagramServiceGenerator;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -38,18 +37,27 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
   }
 
   @Override
-  public List<Instagrammer> getInstagrammers() {
-    //TODO: this method it's still a fake, it will be implemented when Firebase is added
-    Instagrammer instagrammer = new Instagrammer();
-    instagrammer.setBio("bio");
-    instagrammer.setFullName("fullname");
-    instagrammer.setUserName("username");
-    instagrammer.setProfilePicture(
-        "http://developer.android.com/assets/images/android_logo@2x.png");
-    instagrammer.setUserId("userId");
-    instagrammer.setWebsite("website");
-    instagrammer.setKey("key");
-    return Arrays.asList(instagrammer);
+  public Observable<List<Instagrammer>> getInstagrammers(final String uid) {
+    return Observable.create(new Observable.OnSubscribe<List<Instagrammer>>() {
+      @Override public void call(final Subscriber<? super List<Instagrammer>> subscriber) {
+        final Firebase instagrammersReference =
+            new Firebase("https://buandroid.firebaseio.com/users").child(uid).child("instagrammers");
+        instagrammersReference.addValueEventListener(new ValueEventListener() {
+          @Override public void onDataChange(DataSnapshot dataSnapshot) {
+            GenericTypeIndicator<List<Instagrammer>> t = new GenericTypeIndicator<List<Instagrammer>>() {
+            };
+            List<Instagrammer> instagrammers = dataSnapshot.getValue(t);
+            subscriber.onNext(instagrammers);
+          }
+
+          @Override public void onCancelled(FirebaseError firebaseError) {
+            //TODO LOG
+            Log.e("FIREBASE", firebaseError.getMessage());
+            subscriber.onError(new ConnectionError());
+          }
+        });
+      }
+    });
   }
 
   @Override

@@ -16,8 +16,8 @@ public class InstagrammersRepository {
     this.apiDatasource = apiDatasource;
   }
 
-  public List<Instagrammer> getInstagrammers() throws Exception {
-    return apiDatasource.getInstagrammers();
+  public Observable<List<Instagrammer>> getInstagrammers(String uid) throws Exception {
+    return apiDatasource.getInstagrammers(uid);
   }
 
   public List<SearchedInstagrammer> searchInstagrammers(String query, String accessToken) {

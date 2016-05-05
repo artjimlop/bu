@@ -26,6 +26,7 @@ import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
+import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
 import com.losextraditables.bu.utils.InstagramSession;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -74,7 +75,9 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     instagrammersList.setAdapter(adapter);
     linearLayoutManager = new LinearLayoutManager(this);
     instagrammersList.setLayoutManager(linearLayoutManager);
-    presenter.showMockedInstagrammers();
+    presenter.showInstagrammers(session.getUid(this));
+
+    final Context context = this;
 
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
@@ -84,6 +87,9 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
           presenter.savePictureClicked();
+        } else if (menuItemId == R.id.bottom_pictures) {
+          startActivity(new Intent(context, PicturesActivity.class));
+          finish();
         }
       }
 
@@ -91,9 +97,13 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
           presenter.savePictureClicked();
+        } else if (menuItemId == R.id.bottom_pictures) {
+          startActivity(new Intent(context, PicturesActivity.class));
+          finish();
         }
       }
     });
+    bottomBar.selectTabAtPosition(3, true);
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {

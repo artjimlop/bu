@@ -8,7 +8,7 @@ import rx.Observable;
 
 public interface InstagrammersDatasource
     extends PaginatedReadableDataSource<Integer, List<Instagrammer>> {
-  List<Instagrammer> getInstagrammers();
+  Observable<List<Instagrammer>> getInstagrammers(String uid);
 
   List<SearchedInstagrammer> searchIntagrammers(String query, String accessToken);
 

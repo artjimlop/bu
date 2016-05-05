@@ -6,6 +6,7 @@ import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.repository.InstagrammersRepository;
 import java.util.List;
 import javax.inject.Inject;
+import rx.Observable;
 
 public class GetFollowedInstagrammersUseCase extends RosieUseCase {
 
@@ -17,11 +18,11 @@ public class GetFollowedInstagrammersUseCase extends RosieUseCase {
   }
 
   @UseCase
-  public void getInstagrammers() throws Exception {
-    notifySuccess(getInstagrammersFromRepository());
+  public void getInstagrammers(String uid) throws Exception {
+    notifySuccess(getInstagrammersFromRepository(uid));
   }
 
-  protected List<Instagrammer> getInstagrammersFromRepository() throws Exception {
-    return instagrammersRepository.getInstagrammers();
+  protected Observable<List<Instagrammer>> getInstagrammersFromRepository(String uid) throws Exception {
+    return instagrammersRepository.getInstagrammers(uid);
   }
 }

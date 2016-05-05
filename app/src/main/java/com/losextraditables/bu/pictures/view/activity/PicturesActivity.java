@@ -17,6 +17,7 @@ import butterknife.Bind;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
+import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
@@ -55,7 +56,7 @@ public class PicturesActivity extends BuAppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_pictures);
     setupWindowAnimations();
-
+    final Context context = this;
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
@@ -64,18 +65,23 @@ public class PicturesActivity extends BuAppCompatActivity
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
           presenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_instagrammers) {
+        } else if (menuItemId == R.id.bottom_save_instagrammers) {
           presenter.saveInstagrammerClicked();
+        } else if (menuItemId == R.id.bottom_instagrammers) {
+          startActivity(new Intent(context, InstagrammersListActivity.class));
+          finish();
         }
-
       }
 
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
           presenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_instagrammers) {
+        } else if (menuItemId == R.id.bottom_save_instagrammers) {
           presenter.saveInstagrammerClicked();
+        } else if (menuItemId == R.id.bottom_instagrammers) {
+          startActivity(new Intent(context, InstagrammersListActivity.class));
+          finish();
         }
       }
     });
