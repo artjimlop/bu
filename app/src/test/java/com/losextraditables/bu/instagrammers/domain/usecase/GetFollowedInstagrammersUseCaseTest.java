@@ -6,10 +6,12 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.verify;
 
 public class GetFollowedInstagrammersUseCaseTest {
 
+    public static final String UID = "uid";
     @Mock
     InstagrammersRepository instagrammersRepository;
 
@@ -23,8 +25,8 @@ public class GetFollowedInstagrammersUseCaseTest {
 
     @Test
     public void shouldGetInstagrammersFromRepositoryWhenGetInstagrammersCalled() throws Exception {
-        interactor.getInstagrammersFromRepository();
+        interactor.getInstagrammersFromRepository(UID);
 
-        verify(instagrammersRepository).getInstagrammers();
+        verify(instagrammersRepository).getInstagrammers(anyString());
     }
 }
