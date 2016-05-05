@@ -1,7 +1,6 @@
 package com.losextraditables.bu.pictures.view.presenter;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 import com.karumi.rosie.domain.usecase.UseCaseHandler;
 import com.karumi.rosie.domain.usecase.annotation.Success;
 import com.karumi.rosie.domain.usecase.callback.OnSuccessCallback;
