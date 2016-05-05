@@ -17,7 +17,7 @@ public class GetInstagrammerUseCase extends RosieUseCase {
 
   @UseCase
   public void obtainPicture(String url, String uid) {
-    Observable<Instagrammer> instagrammerObservable = instagrammersRepository.getPicture(url);
+    Observable<Instagrammer> instagrammerObservable = instagrammersRepository.getInstagrammer(url);
     notifySuccess(instagrammerObservable);
   }
 }

@@ -1,11 +1,14 @@
 package com.losextraditables.bu.pictures.view.presenter;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import com.karumi.rosie.domain.usecase.UseCaseHandler;
 import com.karumi.rosie.domain.usecase.annotation.Success;
 import com.karumi.rosie.domain.usecase.callback.OnSuccessCallback;
 import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
+import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
+import com.losextraditables.bu.instagrammers.domain.usecase.GetInstagrammerUseCase;
 import com.losextraditables.bu.pictures.domain.GetPictureUseCase;
 import com.losextraditables.bu.pictures.domain.SavePictureUseCase;
 import javax.inject.Inject;
@@ -18,12 +21,15 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
 
   private final GetPictureUseCase getPictureUseCase;
   private final SavePictureUseCase savePictureUseCase;
+  private final GetInstagrammerUseCase getInstagrammerUseCase;
 
   @Inject public PicturesPresenter(UseCaseHandler useCaseHandler,
-      GetPictureUseCase getPictureUseCase, SavePictureUseCase savePictureUseCase) {
+      GetPictureUseCase getPictureUseCase, SavePictureUseCase savePictureUseCase,
+      GetInstagrammerUseCase getInstagrammerUseCase) {
     super(useCaseHandler);
     this.getPictureUseCase = getPictureUseCase;
     this.savePictureUseCase = savePictureUseCase;
+    this.getInstagrammerUseCase = getInstagrammerUseCase;
   }
 
   public void initialize() {
@@ -88,10 +94,45 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     }).execute();
   }
 
+  public void saveInstagrammerClicked() {
+    getView().showSaveInstagrammerDialog();
+  }
+
+  public void saveUser(String url, final String uid) {
+    createUseCaseCall(getInstagrammerUseCase).args(url, uid).onSuccess(new OnSuccessCallback() {
+      @Success
+      public void onPictureSaved(Observable<Instagrammer> instagrammerObservable) {
+        instagrammerObservable
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<Instagrammer>() {
+              @Override public void onCompleted() {
+              }
+
+              @Override public void onError(Throwable e) {
+                getView().showConnectionError();
+              }
+
+              @Override public void onNext(Instagrammer instagrammer) {
+                //TODO addToUsersPicture(instagrammer, uid);
+                Log.d("INSTAGRAMMER: ", instagrammer.toString());
+              }
+            });
+      }
+    }).onError(new OnErrorCallback() {
+      @Override public boolean onError(Error error) {
+        getView().showConnectionError();
+        return false;
+      }
+    }).execute();
+  }
+
   public interface View extends BuPresenter.View {
     void showSavePictureDialog();
 
     void showPicture(String pictureUrl);
+
+    void showSaveInstagrammerDialog();
   }
 
 }

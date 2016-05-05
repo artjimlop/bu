@@ -79,9 +79,11 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
       for (Element meta : doc.select("meta")) {
         if (meta.attr("property").equals("al:android:url")) {
           String content = String.valueOf(meta.attr("content"));
-          Pattern compile = Pattern.compile("https://www.instagram.com/_u/");
+          Pattern compile = Pattern.compile("https://www.instagram.com/");
           Matcher matcher = compile.matcher(content);
-          username = content.substring(0,matcher.end());
+          if (matcher.find()) {
+            username = content.substring(matcher.end() + 3, content.length() - 1);
+          }
         }
         if (meta.attr("property").equals("og:image")) {
           photo = String.valueOf(meta.attr("content"));
@@ -90,6 +92,7 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
         if (!username.isEmpty() && !photo.isEmpty()) {
           instagrammer.setUserName(username);
           instagrammer.setProfilePicture(photo);
+          instagrammer.setWebsite(url);
           break;
         }
       }

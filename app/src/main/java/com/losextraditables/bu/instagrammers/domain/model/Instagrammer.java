@@ -68,4 +68,11 @@ public class Instagrammer implements Identifiable<String> {
   public void setWebsite(String website) {
     this.website = website;
   }
+
+  @Override public String toString() {
+    return "Instagrammer{" +
+        "userName='" + userName + '\'' +
+        ", profilePicture='" + profilePicture + '\'' +
+        '}';
+  }
 }

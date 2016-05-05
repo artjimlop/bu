@@ -24,7 +24,7 @@ public class InstagrammersRepository {
     return apiDatasource.searchIntagrammers(query, accessToken);
   }
 
-  public Observable<Instagrammer> getPicture(String url) {
+  public Observable<Instagrammer> getInstagrammer(String url) {
     return apiDatasource.getInstagrammerFromScrap(url);
   }
 }
