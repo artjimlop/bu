@@ -40,13 +40,26 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
   public void initialize() {
   }
 
-  public void showMockedInstagrammers() {
-    createUseCaseCall(getFollowedInstagrammersUseCase)
+  public void showInstagrammers(String uid) {
+    createUseCaseCall(getFollowedInstagrammersUseCase).args(uid)
         .onSuccess(new OnSuccessCallback() {
           @Success
-          public void onInstagrammersLoaded(List<Instagrammer> instagrammers) {
-            List<InstagrammerModel> instagrammerModels = mapper.mapList(instagrammers);
-            getView().showMockedInstagrammers(instagrammerModels);
+          public void onInstagrammersLoaded(Observable<List<Instagrammer>> instagrammersObservable) {
+            instagrammersObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Instagrammer>>() {
+                  @Override public void onCompleted() {
+                  }
+
+                  @Override public void onError(Throwable e) {
+                    getView().showConnectionError();
+                  }
+
+                  @Override public void onNext(List<Instagrammer> instagrammers) {
+                    List<InstagrammerModel> instagrammerModels = mapper.mapList(instagrammers);
+                    getView().showMockedInstagrammers(instagrammerModels);
+                  }
+                });
           }
         })
         .onError(new OnErrorCallback() {
