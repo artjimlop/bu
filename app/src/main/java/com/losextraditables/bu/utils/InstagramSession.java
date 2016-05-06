@@ -63,7 +63,7 @@ public class InstagramSession implements Session {
 
   public Boolean hasSession(Context context) {
     SharedPreferences sharedPref = context.getSharedPreferences(SHARED, Context.MODE_PRIVATE);
-    return sharedPref.getString(API_ACCESS_TOKEN, null) != null;
+    return sharedPref.getString(FIREBASE_UID, null) != null;
   }
 
   public void setUid(Context context, String uid) {
