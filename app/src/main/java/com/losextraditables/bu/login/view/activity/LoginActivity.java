@@ -33,7 +33,10 @@ public class LoginActivity extends BuActivity {
     }
 
     @OnClick(R.id.btnConnect) public void onLoginPressed() {
-        connectOrDisconnectUser();
+        Intent intent = new Intent(this, SignInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
     }
 
     private void connectOrDisconnectUser() {
