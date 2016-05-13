@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -179,5 +180,10 @@ public class PicturesActivity extends BuAppCompatActivity
   private void setupWindowAnimations() {
     getWindow().setReenterTransition(new Explode());
     getWindow().setExitTransition(new Explode().setDuration(500));
+  }
+
+  @OnItemClick(R.id.pictures_list) public void onItemClick(int position) {
+    Intent intent = SavedPictureActivity.getIntentForActivity(this, adapter.getItem(position));
+    startActivity(intent);
   }
 }
