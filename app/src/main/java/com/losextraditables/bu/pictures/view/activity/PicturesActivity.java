@@ -8,22 +8,25 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.transition.Explode;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.Toast;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
+import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
 import com.losextraditables.bu.utils.InstagramSession;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
@@ -31,8 +34,7 @@ import javax.inject.Inject;
 public class PicturesActivity extends BuAppCompatActivity
     implements PicturesPresenter.View {
 
-  @Bind(R.id.pictures_list)
-  RecyclerView picturesList;
+  @Bind(R.id.pictures_list) GridView picturesList;
 
   @Inject
   @Presenter
@@ -41,6 +43,7 @@ public class PicturesActivity extends BuAppCompatActivity
   @Inject InstagramSession session;
 
   private BottomBar bottomBar;
+  private SavedPicturesAdapter adapter;
 
   @Override
   protected int getLayoutId() {
@@ -55,6 +58,7 @@ public class PicturesActivity extends BuAppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_pictures);
+    ButterKnife.bind(this);
     setupWindowAnimations();
     final Context context = this;
     bottomBar = BottomBar.attach(this, savedInstanceState);
@@ -85,6 +89,8 @@ public class PicturesActivity extends BuAppCompatActivity
         }
       }
     });
+
+    presenter.loadSavedPictures();
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {
@@ -152,6 +158,11 @@ public class PicturesActivity extends BuAppCompatActivity
 
   @Override public void showSavedInstagrammer() {
     Toast.makeText(this, "User saved", Toast.LENGTH_LONG).show();
+  }
+
+  @Override public void showSavedPictures(ArrayList<String> urls) {
+    adapter = new SavedPicturesAdapter(this, urls);
+    picturesList.setAdapter(adapter);
   }
 
   @Override

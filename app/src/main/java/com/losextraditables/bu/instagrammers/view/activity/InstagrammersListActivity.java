@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
@@ -64,6 +65,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_instagrammers);
+    ButterKnife.bind(this);
     setupWindowAnimations();
     adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
       @Override
@@ -85,12 +87,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
-          presenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_pictures) {
-          startActivity(new Intent(context, PicturesActivity.class));
-          finish();
-        }
+        /* no-op */
       }
 
       @Override
