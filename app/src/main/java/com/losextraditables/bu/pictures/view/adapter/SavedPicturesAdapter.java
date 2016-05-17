@@ -13,10 +13,12 @@ import java.util.ArrayList;
 public class SavedPicturesAdapter extends BaseAdapter {
     private Context context;
     private ArrayList<String> urls;
+    private ItemClickListener itemClickListener;
 
-    public SavedPicturesAdapter(Context context, ArrayList<String> urls) {
+    public SavedPicturesAdapter(Context context, ArrayList<String> urls, ItemClickListener itemClickListener) {
         this.context = context;
         this.urls = urls;
+        this.itemClickListener = itemClickListener;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class SavedPicturesAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
+    public View getView(final int position, View view, ViewGroup viewGroup) {
 
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context
@@ -44,10 +46,15 @@ public class SavedPicturesAdapter extends BaseAdapter {
         }
 
         ImageView picture = (ImageView) view.findViewById(R.id.picture);
+        picture.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View view) {
+                itemClickListener.onItemClick(view, position);
+            }
+        });
 
         final String item = getItem(position);
         Picasso.with(context).load(item).into(picture);
         return view;
     }
-
 }
+

@@ -10,18 +10,20 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.transition.Explode;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
+import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
 import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
 import com.losextraditables.bu.utils.InstagramSession;
@@ -36,6 +38,7 @@ public class PicturesActivity extends BuAppCompatActivity
     implements PicturesPresenter.View {
 
   @Bind(R.id.pictures_list) GridView picturesList;
+  @Bind(R.id.saved_pictures_progress) ProgressBar progressBar;
 
   @Inject
   @Presenter
@@ -162,18 +165,28 @@ public class PicturesActivity extends BuAppCompatActivity
   }
 
   @Override public void showSavedPictures(ArrayList<String> urls) {
-    adapter = new SavedPicturesAdapter(this, urls);
+    adapter = new SavedPicturesAdapter(this, urls, new ItemClickListener() {
+      @Override public void onItemClick(View view, int position) {
+        goToSavedPictureActivity(view, position);
+      }
+    });
     picturesList.setAdapter(adapter);
+  }
+
+  private void goToSavedPictureActivity(View view, int position) {
+    SavedPictureActivity.init(this, view, adapter.getItem(position));
   }
 
   @Override
   public void hideLoading() {
-
+    picturesList.setVisibility(View.VISIBLE);
+    progressBar.setVisibility(View.GONE);
   }
 
   @Override
   public void showLoading() {
-
+    picturesList.setVisibility(View.GONE);
+    progressBar.setVisibility(View.VISIBLE);
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -182,8 +195,4 @@ public class PicturesActivity extends BuAppCompatActivity
     getWindow().setExitTransition(new Explode().setDuration(500));
   }
 
-  @OnItemClick(R.id.pictures_list) public void onItemClick(int position) {
-    Intent intent = SavedPictureActivity.getIntentForActivity(this, adapter.getItem(position));
-    startActivity(intent);
-  }
 }

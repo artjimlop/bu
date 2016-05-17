@@ -1,18 +1,25 @@
 package com.losextraditables.bu.pictures.view.activity;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.losextraditables.bu.R;
+import com.losextraditables.bu.instagrammers.view.activity.InstagrammerDetailActivity;
+import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.squareup.picasso.Picasso;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -24,10 +31,15 @@ public class SavedPictureActivity extends AppCompatActivity {
   @Bind(R.id.toolbar) Toolbar toolbar;
   @Bind(R.id.saved_picture_container) RelativeLayout savedPictureContainer;
 
-  public static Intent getIntentForActivity(Context context, String imageUrl) {
-    Intent intent = new Intent(context, SavedPictureActivity.class);
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+  public static void init(Activity activity, View sharedView, String imageUrl) {
+    Intent intent = new Intent(activity, SavedPictureActivity.class);
     intent.putExtra(EXTRA_IMAGE_URL, imageUrl);
-    return intent;
+
+    ActivityOptions activityOptions =
+        ActivityOptions.makeSceneTransitionAnimation(activity, sharedView,
+            sharedView.getTransitionName());
+    activity.startActivity(intent, activityOptions.toBundle());
   }
 
   @Override protected void onCreate(Bundle savedInstanceState) {

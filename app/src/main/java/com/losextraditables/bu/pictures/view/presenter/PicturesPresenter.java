@@ -158,11 +158,13 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
   }
 
   public void loadSavedPictures() {
+    getView().showLoading();
     ArrayList<String> urls = new ArrayList<>();
     for(int i = 0; i<20; i++) {
       urls.add("http://media.vogue.com/r/w_660/2014/12/11/best-eyelashes-cara-delevingne.jpg");
     }
     getView().showSavedPictures(urls);
+    getView().hideLoading();
   }
 
   public interface View extends BuPresenter.View {

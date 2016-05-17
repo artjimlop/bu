@@ -7,8 +7,15 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="@color/application_background"
-    tools:showIn="@layout/activity_instagrammers"
     tools:context=".instagrammers.view.activity.InstagrammersListActivity">
+
+  <ProgressBar
+      android:id="@+id/saved_pictures_progress"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:indeterminate="false"
+      android:layout_centerVertical="true"
+      android:layout_centerHorizontal="true"/>
 
   <GridView
     android:id="@+id/pictures_list"
@@ -17,6 +24,5 @@
     android:columnWidth="120dp"
     android:horizontalSpacing="1dp"
     android:numColumns="auto_fit"
-    android:padding="1dp"
-    android:verticalSpacing="1dp" />
+    android:padding="1dp"/>
 </RelativeLayout>
