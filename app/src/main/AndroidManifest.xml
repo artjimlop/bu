@@ -44,8 +44,7 @@
     <activity
         android:name=".pictures.view.activity.PictureActivity"
         android:theme="@style/AppTheme"/>
-    <activity android:name=".pictures.view.activity.PicturesActivity"
-        android:label="@string/pictures_activity">
+    <activity android:name=".pictures.view.activity.PicturesActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
