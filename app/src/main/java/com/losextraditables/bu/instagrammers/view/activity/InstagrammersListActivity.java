@@ -70,7 +70,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
       @Override
       public void onItemClick(View view, InstagrammerModel instagrammerModel) {
-        sharedImage = view.findViewById(R.id.hover_instagrammer_avatar);
+        sharedImage = view.findViewById(R.id.instagrammer_avatar);
         presenter.goToInstagrammerDetail(instagrammerModel);
       }
     });
