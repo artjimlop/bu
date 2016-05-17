@@ -22,7 +22,7 @@
       tools:replace="android:icon">
     <activity
         android:name=".instagrammers.view.activity.InstagrammersListActivity"
-        android:label="@string/app_name"
+        android:label="@string/instagrammers_activity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
     <activity

@@ -10,6 +10,7 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.transition.Explode;
 import android.view.View;
@@ -40,6 +41,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
   @Bind(R.id.instagrammers_list)
   RecyclerView instagrammersList;
+  @Bind(R.id.toolbar) Toolbar toolbar;
 
   @Inject
   @Presenter
@@ -67,6 +69,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     setContentView(R.layout.activity_instagrammers);
     ButterKnife.bind(this);
     setupWindowAnimations();
+    setSupportActionBar(toolbar);
     adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
       @Override
       public void onItemClick(View view, InstagrammerModel instagrammerModel) {
