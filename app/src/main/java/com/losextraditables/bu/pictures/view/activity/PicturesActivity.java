@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.transition.Explode;
 import android.view.View;
@@ -39,6 +40,7 @@ public class PicturesActivity extends BuAppCompatActivity
 
   @Bind(R.id.pictures_list) GridView picturesList;
   @Bind(R.id.saved_pictures_progress) ProgressBar progressBar;
+  @Bind(R.id.toolbar) Toolbar toolbar;
 
   @Inject
   @Presenter
@@ -64,7 +66,14 @@ public class PicturesActivity extends BuAppCompatActivity
     setContentView(R.layout.activity_pictures);
     ButterKnife.bind(this);
     setupWindowAnimations();
+    setSupportActionBar(toolbar);
     final Context context = this;
+    setupBottomBar(savedInstanceState, context);
+
+    presenter.loadSavedPictures();
+  }
+
+  private void setupBottomBar(Bundle savedInstanceState, final Context context) {
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
@@ -93,8 +102,6 @@ public class PicturesActivity extends BuAppCompatActivity
         }
       }
     });
-
-    presenter.loadSavedPictures();
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {

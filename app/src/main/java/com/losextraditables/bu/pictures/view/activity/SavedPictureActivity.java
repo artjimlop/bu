@@ -3,7 +3,6 @@ package com.losextraditables.bu.pictures.view.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -18,8 +17,6 @@ import android.widget.RelativeLayout;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.instagrammers.view.activity.InstagrammerDetailActivity;
-import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.squareup.picasso.Picasso;
 import uk.co.senab.photoview.PhotoViewAttacher;
 

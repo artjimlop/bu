@@ -126,4 +126,5 @@
   <string name="downloaded_pictures_subfolder">bu/</string>
   <string name="menu_save_photo">Save picture</string>
   <string name="title_activity_saved_picture">Picture</string>
+  <string name="pictures_activity">Pictures</string>
 </resources>
