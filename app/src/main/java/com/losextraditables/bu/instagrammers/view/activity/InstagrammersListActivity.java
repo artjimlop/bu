@@ -15,10 +15,10 @@ import android.text.InputType;
 import android.transition.Explode;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -42,6 +42,8 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   @Bind(R.id.instagrammers_list)
   RecyclerView instagrammersList;
   @Bind(R.id.toolbar) Toolbar toolbar;
+
+  @Bind(R.id.instagrammers_progress) ProgressBar progressBar;
 
   @Inject
   @Presenter
@@ -161,12 +163,14 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
   @Override
   public void hideLoading() {
-
+    instagrammersList.setVisibility(View.VISIBLE);
+    progressBar.setVisibility(View.GONE);
   }
 
   @Override
   public void showLoading() {
-
+    instagrammersList.setVisibility(View.GONE);
+    progressBar.setVisibility(View.VISIBLE);
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -175,7 +179,4 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     getWindow().setExitTransition(new Explode().setDuration(500));
   }
 
-  @OnClick(R.id.fab) public void onFabClick() {
-    startActivity(new Intent(this, SearchInstagrammersActivity.class));
-  }
 }

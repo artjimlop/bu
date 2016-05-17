@@ -41,6 +41,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
   }
 
   public void showInstagrammers(String uid) {
+    getView().showLoading();
     createUseCaseCall(getFollowedInstagrammersUseCase).args(uid)
         .onSuccess(new OnSuccessCallback() {
           @Success
@@ -58,6 +59,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
                   @Override public void onNext(List<Instagrammer> instagrammers) {
                     List<InstagrammerModel> instagrammerModels = mapper.mapList(instagrammers);
                     getView().showMockedInstagrammers(instagrammerModels);
+                    getView().hideLoading();
                   }
                 });
           }
