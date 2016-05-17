@@ -11,6 +11,7 @@ import com.losextraditables.bu.instagrammers.domain.usecase.GetInstagrammerUseCa
 import com.losextraditables.bu.instagrammers.domain.usecase.SaveInstagrammerUseCase;
 import com.losextraditables.bu.pictures.domain.GetPictureUseCase;
 import com.losextraditables.bu.pictures.domain.SavePictureUseCase;
+import java.util.ArrayList;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Observer;
@@ -156,6 +157,16 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     }).execute();
   }
 
+  public void loadSavedPictures() {
+    getView().showLoading();
+    ArrayList<String> urls = new ArrayList<>();
+    for(int i = 0; i<20; i++) {
+      urls.add("http://media.vogue.com/r/w_660/2014/12/11/best-eyelashes-cara-delevingne.jpg");
+    }
+    getView().showSavedPictures(urls);
+    getView().hideLoading();
+  }
+
   public interface View extends BuPresenter.View {
     void showSavePictureDialog();
 
@@ -164,6 +175,8 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     void showSaveInstagrammerDialog();
 
     void showSavedInstagrammer();
+    
+    void showSavedPictures(ArrayList<String> urls);
   }
 
 }

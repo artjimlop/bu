@@ -22,7 +22,7 @@
       tools:replace="android:icon">
     <activity
         android:name=".instagrammers.view.activity.InstagrammersListActivity"
-        android:label="@string/app_name"
+        android:label="@string/instagrammers_activity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
     <activity
@@ -50,6 +50,11 @@
 
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+    </activity>
+    <activity
+        android:name=".pictures.view.activity.SavedPictureActivity"
+        android:label="@string/title_activity_saved_picture"
+        android:theme="@style/BuTheme">
     </activity>
   </application>
 

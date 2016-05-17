@@ -10,13 +10,15 @@ import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.transition.Explode;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import butterknife.Bind;
-import butterknife.OnClick;
+import butterknife.ButterKnife;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -39,6 +41,9 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
   @Bind(R.id.instagrammers_list)
   RecyclerView instagrammersList;
+  @Bind(R.id.toolbar) Toolbar toolbar;
+
+  @Bind(R.id.instagrammers_progress) ProgressBar progressBar;
 
   @Inject
   @Presenter
@@ -64,11 +69,13 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_instagrammers);
+    ButterKnife.bind(this);
     setupWindowAnimations();
+    setSupportActionBar(toolbar);
     adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
       @Override
       public void onItemClick(View view, InstagrammerModel instagrammerModel) {
-        sharedImage = view.findViewById(R.id.hover_instagrammer_avatar);
+        sharedImage = view.findViewById(R.id.instagrammer_avatar);
         presenter.goToInstagrammerDetail(instagrammerModel);
       }
     });
@@ -85,12 +92,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
-          presenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_pictures) {
-          startActivity(new Intent(context, PicturesActivity.class));
-          finish();
-        }
+        /* no-op */
       }
 
       @Override
@@ -161,12 +163,14 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
   @Override
   public void hideLoading() {
-
+    instagrammersList.setVisibility(View.VISIBLE);
+    progressBar.setVisibility(View.GONE);
   }
 
   @Override
   public void showLoading() {
-
+    instagrammersList.setVisibility(View.GONE);
+    progressBar.setVisibility(View.VISIBLE);
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -175,7 +179,4 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     getWindow().setExitTransition(new Explode().setDuration(500));
   }
 
-  @OnClick(R.id.fab) public void onFabClick() {
-    startActivity(new Intent(this, SearchInstagrammersActivity.class));
-  }
 }
