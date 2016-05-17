@@ -22,7 +22,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class SavedPictureActivity extends AppCompatActivity {
   public static final String EXTRA_IMAGE_URL = "url";
-  private static final int UI_ANIMATION_DURATION = 10000;
+  private static final int UI_ANIMATION_DURATION = 5000;
 
   @Bind(R.id.saved_picture) ImageView savedPictureView;
   @Bind(R.id.toolbar) Toolbar toolbar;
@@ -57,8 +57,8 @@ public class SavedPictureActivity extends AppCompatActivity {
   private void setupBackgroundAnimation() {
     Drawable backgrounds[] = new Drawable[2];
     Resources res = getResources();
-    backgrounds[0] = res.getDrawable(android.R.color.background_dark);
-    backgrounds[1] = res.getDrawable(R.color.colorPrimaryDark);
+    backgrounds[0] = res.getDrawable(R.color.colorPrimaryDark);
+    backgrounds[1] = res.getDrawable(R.color.application_background);
 
     TransitionDrawable transitionDrawable = new TransitionDrawable(backgrounds);
     savedPictureContainer.setBackground(transitionDrawable);
