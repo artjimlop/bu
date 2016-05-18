@@ -50,6 +50,8 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Instagrammer>>() {
                   @Override public void onCompleted() {
+                    getView().hideLoading();
+                    //TODO show no instagrammers text on view
                   }
 
                   @Override public void onError(Throwable e) {

@@ -86,6 +86,7 @@ public class PicturesActivity extends BuAppCompatActivity
           presenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_instagrammers) {
           startActivity(new Intent(context, InstagrammersListActivity.class));
+          overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
           finish();
         }
       }
@@ -202,4 +203,8 @@ public class PicturesActivity extends BuAppCompatActivity
     getWindow().setExitTransition(new Explode().setDuration(500));
   }
 
+  @Override protected void onResume() {
+    super.onResume();
+    presenter.loadSavedPictures(session.getUid(this));
+  }
 }
