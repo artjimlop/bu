@@ -84,23 +84,34 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     instagrammersList.setLayoutManager(linearLayoutManager);
     presenter.showInstagrammers(session.getUid(this));
 
-    final Context context = this;
+    setupBottomBar(savedInstanceState, this);
+  }
 
+  private void setupBottomBar(Bundle savedInstanceState, final Context context) {
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
-        /* no-op */
+        if (menuItemId == R.id.bottom_save_picture) {
+          presenter.savePictureClicked();
+        } else if (menuItemId == R.id.bottom_save_instagrammers) {
+          //presenter.saveInstagrammerClicked();
+        } else if (menuItemId == R.id.bottom_pictures) {
+
+        }
       }
 
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
           presenter.savePictureClicked();
+        } else if (menuItemId == R.id.bottom_save_instagrammers) {
+          //presenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
           startActivity(new Intent(context, PicturesActivity.class));
+          overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
           finish();
         }
       }
