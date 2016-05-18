@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <item
+      android:id="@+id/bottom_pictures"
+      android:icon="@drawable/ic_pictures"
+      android:title="Pictures" />
+  <item
+      android:id="@+id/bottom_save_picture"
+      android:icon="@drawable/ic_save_picture"
+      android:title="Save picture" />
+  <item
+      android:id="@+id/bottom_save_instagrammers"
+      android:icon="@drawable/ic_add_instagrammer"
+      android:title="Save User" />
+  <item
+      android:id="@+id/bottom_instagrammers"
+      android:icon="@drawable/ic_instagrammers"
+      android:title="Users" />
+</menu>

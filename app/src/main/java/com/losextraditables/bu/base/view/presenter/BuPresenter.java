@@ -7,26 +7,26 @@ import com.losextraditables.bu.base.view.error.ConnectionError;
 
 public class BuPresenter<T extends BuPresenter.View> extends RosiePresenterWithLoading<T> {
 
-    public BuPresenter(UseCaseHandler useCaseHandler) {
-        super(useCaseHandler);
-        registerOnErrorCallback(onErrorCallback);
+  public BuPresenter(UseCaseHandler useCaseHandler) {
+    super(useCaseHandler);
+    registerOnErrorCallback(onErrorCallback);
+  }
+
+  private final OnErrorCallback onErrorCallback = new OnErrorCallback() {
+    @Override
+    public boolean onError(Error error) {
+      if (error instanceof ConnectionError) {
+        getView().showConnectionError();
+      } else {
+        getView().showGenericError();
+      }
+      return true;
     }
+  };
 
-    private final OnErrorCallback onErrorCallback = new OnErrorCallback() {
-        @Override
-        public boolean onError(Error error) {
-            if (error instanceof ConnectionError) {
-                getView().showConnectionError();
-            } else {
-                getView().showGenericError();
-            }
-            return true;
-        }
-    };
+  public interface View extends RosiePresenterWithLoading.View {
+    void showGenericError();
 
-    public interface View extends RosiePresenterWithLoading.View {
-        void showGenericError();
-
-        void showConnectionError();
-    }
+    void showConnectionError();
+  }
 }
