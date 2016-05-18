@@ -1,6 +1,8 @@
 package com.losextraditables.bu.pictures.repository;
 
+import com.losextraditables.bu.pictures.domain.model.Picture;
 import com.losextraditables.bu.pictures.repository.datasource.PictureScrapDataSource;
+import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
 
@@ -12,11 +14,15 @@ public class PictureRepository {
     this.pictureDataSource = pictureDataSource;
   }
 
-  public Observable<String> getPicture(String url) {
+  public Observable<Picture> getPicture(String url) {
     return pictureDataSource.getPictureFromScrap(url);
   }
 
-  public Observable<Void> savePicture(String url, String uid) {
-    return pictureDataSource.savePicture(url, uid);
+  public Observable<Void> savePicture(Picture picture, String uid) {
+    return pictureDataSource.savePicture(picture, uid);
+  }
+
+  public Observable<List<Picture>> getPictures(String uid) {
+    return pictureDataSource.getPictures(uid);
   }
 }

@@ -44,6 +44,7 @@ public class FirebaseUserDataSource implements UserDatasource {
     Firebase userReference = new Firebase("https://buandroid.firebaseio.com/users").child(uid);
     User user = new User();
     user.setUsername(username);
+    user.setEmail(username);
     userReference.setValue(user);
   }
 

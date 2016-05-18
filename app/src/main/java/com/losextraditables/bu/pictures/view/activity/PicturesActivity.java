@@ -70,7 +70,7 @@ public class PicturesActivity extends BuAppCompatActivity
     final Context context = this;
     setupBottomBar(savedInstanceState, context);
 
-    presenter.loadSavedPictures();
+    presenter.loadSavedPictures(session.getUid(context));
   }
 
   private void setupBottomBar(Bundle savedInstanceState, final Context context) {
