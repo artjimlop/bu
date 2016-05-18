@@ -172,9 +172,12 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<Picture>>() {
                   @Override public void onCompleted() {
+                    getView().hideLoading();
+                    //TODO show no pictures text
                   }
 
                   @Override public void onError(Throwable e) {
+                    getView().hideLoading();
                     getView().showConnectionError();
                   }
 
@@ -183,9 +186,8 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
                     ArrayList<String> urls = new ArrayList<>(pictures.size());
                     for (Picture picture : pictures) {
                       urls.add(picture.getUrl());
+                      getView().showSavedPictures(urls);
                     }
-                    getView().showSavedPictures(urls);
-                    getView().hideLoading();
                   }
                 });
           }
