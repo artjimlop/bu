@@ -1,10 +1,14 @@
 package com.losextraditables.bu.pictures.repository.datasource;
 
+import com.losextraditables.bu.pictures.domain.model.Picture;
+import java.util.List;
 import rx.Observable;
 
 public interface PictureDataSource {
 
-  Observable<String> getPictureFromScrap(String url);
+  Observable<Picture> getPictureFromScrap(String url);
 
-  Observable<Void> savePicture(String url, String uid);
+  Observable<Void> savePicture(Picture url, String uid);
+
+  Observable<List<Picture>> getPictures(String uid);
 }

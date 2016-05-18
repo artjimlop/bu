@@ -10,8 +10,11 @@ import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.domain.usecase.GetInstagrammerUseCase;
 import com.losextraditables.bu.instagrammers.domain.usecase.SaveInstagrammerUseCase;
 import com.losextraditables.bu.pictures.domain.GetPictureUseCase;
+import com.losextraditables.bu.pictures.domain.GetPicturesUseCase;
 import com.losextraditables.bu.pictures.domain.SavePictureUseCase;
+import com.losextraditables.bu.pictures.domain.model.Picture;
 import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Observer;
@@ -24,16 +27,18 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
   private final SavePictureUseCase savePictureUseCase;
   private final GetInstagrammerUseCase getInstagrammerUseCase;
   private final SaveInstagrammerUseCase saveInstagrammerUseCase;
+  private final GetPicturesUseCase getPicturesUseCase;
 
   @Inject public PicturesPresenter(UseCaseHandler useCaseHandler,
       GetPictureUseCase getPictureUseCase, SavePictureUseCase savePictureUseCase,
       GetInstagrammerUseCase getInstagrammerUseCase,
-      SaveInstagrammerUseCase saveInstagrammerUseCase) {
+      SaveInstagrammerUseCase saveInstagrammerUseCase, GetPicturesUseCase getPicturesUseCase) {
     super(useCaseHandler);
     this.getPictureUseCase = getPictureUseCase;
     this.savePictureUseCase = savePictureUseCase;
     this.getInstagrammerUseCase = getInstagrammerUseCase;
     this.saveInstagrammerUseCase = saveInstagrammerUseCase;
+    this.getPicturesUseCase = getPicturesUseCase;
   }
 
   public void initialize() {
@@ -43,14 +48,14 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     getView().showSavePictureDialog();
   }
 
-  public void savePicture(String url, @NonNull final String uid) {
+  public void savePicture(final String url, @NonNull final String uid) {
     createUseCaseCall(getPictureUseCase).args(url, uid).onSuccess(new OnSuccessCallback() {
       @Success
-      public void onPictureSaved(Observable<String> pictureObservable) {
+      public void onPictureSaved(Observable<Picture> pictureObservable) {
         pictureObservable
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Observer<String>() {
+            .subscribe(new Observer<Picture>() {
           @Override public void onCompleted() {
           }
 
@@ -58,8 +63,8 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
             getView().showConnectionError();
           }
 
-          @Override public void onNext(String pictureUrl) {
-            addToUsersPicture(pictureUrl, uid);
+          @Override public void onNext(Picture picture) {
+            addToUsersPicture(picture, uid);
           }
         });
       }
@@ -71,15 +76,15 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     }).execute();
   }
 
-  private void addToUsersPicture(final String url, String username) {
-    createUseCaseCall(savePictureUseCase).args(url, username).onSuccess(new OnSuccessCallback() {
+  private void addToUsersPicture(final Picture picture, String uid) {
+    createUseCaseCall(savePictureUseCase).args(picture, uid).onSuccess(new OnSuccessCallback() {
       @Success
       public void onPictureSaved(Observable<Void> savePicutreObservable) {
         savePicutreObservable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Observer<Void>() {
               @Override public void onCompleted() {
-                getView().showPicture(url);
+                getView().showPicture(picture.getUrl());
               }
 
               @Override public void onError(Throwable e) {
@@ -157,14 +162,41 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     }).execute();
   }
 
-  public void loadSavedPictures() {
+  public void loadSavedPictures(String uid) {
     getView().showLoading();
-    ArrayList<String> urls = new ArrayList<>();
-    for(int i = 0; i<20; i++) {
-      urls.add("http://media.vogue.com/r/w_660/2014/12/11/best-eyelashes-cara-delevingne.jpg");
-    }
-    getView().showSavedPictures(urls);
-    getView().hideLoading();
+    createUseCaseCall(getPicturesUseCase).args(uid)
+        .onSuccess(new OnSuccessCallback() {
+          @Success
+          public void onInstagrammersLoaded(Observable<List<Picture>> observable) {
+            observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Picture>>() {
+                  @Override public void onCompleted() {
+                  }
+
+                  @Override public void onError(Throwable e) {
+                    getView().showConnectionError();
+                  }
+
+                  @Override public void onNext(List<Picture> pictures) {
+                    //TODO MODEL List<InstagrammerModel> instagrammerModels = mapper.mapList(instagrammers);
+                    ArrayList<String> urls = new ArrayList<>(pictures.size());
+                    for (Picture picture : pictures) {
+                      urls.add(picture.getUrl());
+                    }
+                    getView().showSavedPictures(urls);
+                    getView().hideLoading();
+                  }
+                });
+          }
+        })
+        .onError(new OnErrorCallback() {
+          @Override public boolean onError(Error error) {
+            getView().hideLoading();
+            return false;
+          }
+        })
+        .execute();
   }
 
   public interface View extends BuPresenter.View {
