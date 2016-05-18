@@ -4,7 +4,8 @@
     android:layout_height="100dp">
   <FrameLayout
       android:layout_width="match_parent"
-      android:layout_height="match_parent" >
+      android:layout_height="match_parent"
+      android:id="@+id/instagrammer_container">
     <ImageView
         android:id="@+id/instagrammer_blur_image"
         android:layout_height="match_parent"
