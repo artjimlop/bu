@@ -86,7 +86,7 @@ public class PicturesActivity extends BuAppCompatActivity
           presenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_instagrammers) {
           startActivity(new Intent(context, InstagrammersListActivity.class));
-          overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+          overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
           finish();
         }
       }
