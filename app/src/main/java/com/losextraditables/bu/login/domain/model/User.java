@@ -6,6 +6,7 @@ import java.util.List;
 public class User {
 
   private String username;
+  private String email;
   private List<String> pictures;
   private List<Instagrammer> instagrammers;
 
@@ -32,5 +33,13 @@ public class User {
   public void setInstagrammers(
       List<Instagrammer> instagrammers) {
     this.instagrammers = instagrammers;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
   }
 }
