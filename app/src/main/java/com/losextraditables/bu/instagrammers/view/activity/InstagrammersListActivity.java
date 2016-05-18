@@ -56,6 +56,8 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   private View sharedImage;
   private BottomBar bottomBar;
 
+  private boolean justInitialized = true;
+
   @Override
   protected int getLayoutId() {
     return R.layout.activity_instagrammers;
@@ -99,7 +101,11 @@ public class InstagrammersListActivity extends BuAppCompatActivity
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           //presenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
-
+          if (!justInitialized) {
+            startActivity(new Intent(context, PicturesActivity.class));
+            overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+            finish();
+          }
         }
       }
 
@@ -109,14 +115,11 @@ public class InstagrammersListActivity extends BuAppCompatActivity
           presenter.savePictureClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           //presenter.saveInstagrammerClicked();
-        } else if (menuItemId == R.id.bottom_pictures) {
-          startActivity(new Intent(context, PicturesActivity.class));
-          overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
-          finish();
         }
       }
     });
     bottomBar.selectTabAtPosition(3, true);
+    justInitialized = false;
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {
