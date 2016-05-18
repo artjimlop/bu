@@ -13,9 +13,9 @@ import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
-import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.login.view.presenter.SignInPresenter;
+import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
 import com.losextraditables.bu.utils.InstagramSession;
 import java.util.Collections;
 import java.util.List;
@@ -70,7 +70,7 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
     }
 
     @Override public void goToInstagrammersList() {
-        Intent intent = new Intent(this, InstagrammersListActivity.class);
+        Intent intent = new Intent(this, PicturesActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
