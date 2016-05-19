@@ -4,30 +4,31 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
+import android.util.Pair;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
+import com.losextraditables.bu.utils.BlurTransform;
 import com.squareup.picasso.Picasso;
 
 public class InstagrammerDetailActivity extends AppCompatActivity {
 
   public static final String USERNAME = "username";
   public static final String PHOTO = "photo";
-  @Bind(R.id.hover_instagrammer_avatar)
+  @Bind(R.id.instagrammer_avatar)
   ImageView userPhoto;
+  @Bind(R.id.instagrammer_blur_avatar) ImageView blurImage;
   @Bind(R.id.toolbar) Toolbar toolbar;
+  @Bind(R.id.toolbar_layout) CollapsingToolbarLayout toolbarLayout;
+  @Bind(R.id.instagrammer_container) View container;
 
   private InstagrammerModel instagrammerModel;
 
@@ -36,10 +37,10 @@ public class InstagrammerDetailActivity extends AppCompatActivity {
     Intent intent = new Intent(activity, InstagrammerDetailActivity.class);
     intent.putExtra(USERNAME, instagrammerModel.getUserName());
     intent.putExtra(PHOTO, instagrammerModel.getProfilePicture());
+    Pair<View, String> imagePair = new Pair<>(sharedView, sharedView.getTransitionName());
 
     ActivityOptions activityOptions =
-        ActivityOptions.makeSceneTransitionAnimation(activity, sharedView,
-            sharedView.getTransitionName());
+        ActivityOptions.makeSceneTransitionAnimation(activity,imagePair);
     activity.startActivity(intent, activityOptions.toBundle());
   }
 
@@ -49,29 +50,18 @@ public class InstagrammerDetailActivity extends AppCompatActivity {
     setContentView(R.layout.activity_instagrammer_detail);
     ButterKnife.bind(this);
     setupToolbar();
-    setupViews();
   }
 
   private void setupToolbar() {
-    String username = getIntent().getStringExtra(USERNAME);
     String photo = getIntent().getStringExtra(PHOTO);
-
-    toolbar.setTitle(username);
+    setupToolbarTitle();
     setSupportActionBar(toolbar);
-
     Picasso.with(this).load(photo).into(userPhoto);
-    userPhoto.setColorFilter(Color.argb(150, 155, 155, 155), PorterDuff.Mode.DARKEN);
+    Picasso.with(this).load(photo).transform(new BlurTransform(this)).into(blurImage);
   }
 
-  private void setupViews() {
-    Window window = getWindow();
-    Transition transition = null;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      transition = TransitionInflater.from(this)
-          .inflateTransition(R.transition.detail_enter_transition);
-    }
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      window.setEnterTransition(transition);
-    }
+  private void setupToolbarTitle() {
+    String username = getIntent().getStringExtra(USERNAME);
+    toolbar.setTitle(username);
   }
 }

@@ -18,7 +18,7 @@
         android:layout_height="55dp"
         android:scaleType="centerCrop"
         android:layout_gravity="center"
-        android:transitionName="shared_image"
+        android:transitionName="transition_reveal1"
         app:civ_border_color="@color/white"
         app:civ_border_width="1dp" />
 

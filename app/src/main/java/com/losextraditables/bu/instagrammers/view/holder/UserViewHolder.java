@@ -37,7 +37,6 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
   public void render(final InstagrammerModel instagrammerModel) {
     this.instagrammerModel = instagrammerModel;
-    avatar.setOnClickListener(this);
     container.setOnClickListener(this);
     username.setText(instagrammerModel.getFullName());
     username.setText(instagrammerModel.getUserName());

@@ -12,7 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.transition.Explode;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -40,6 +41,7 @@ import javax.inject.Inject;
 public class InstagrammersListActivity extends BuAppCompatActivity
     implements BottomBarPresenter.View, InstagrammersListPresenter.View {
 
+  private static final int ANIMATION_DURATION = 500;
   @Bind(R.id.instagrammers_list)
   RecyclerView instagrammersList;
   @Bind(R.id.toolbar) Toolbar toolbar;
@@ -219,8 +221,11 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   private void setupWindowAnimations() {
-    getWindow().setReenterTransition(new Explode());
-    getWindow().setExitTransition(new Explode().setDuration(500));
+      Slide slideTransition = new Slide();
+      slideTransition.setSlideEdge(Gravity.START);
+      slideTransition.setDuration(ANIMATION_DURATION);
+      getWindow().setReenterTransition(slideTransition);
+      getWindow().setExitTransition(slideTransition);
   }
 
 }
