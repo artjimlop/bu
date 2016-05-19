@@ -186,8 +186,9 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
                     ArrayList<String> urls = new ArrayList<>(pictures.size());
                     for (Picture picture : pictures) {
                       urls.add(picture.getUrl());
-                      getView().showSavedPictures(urls);
                     }
+                    getView().hideLoading();
+                    getView().showSavedPictures(urls);
                   }
                 });
           }

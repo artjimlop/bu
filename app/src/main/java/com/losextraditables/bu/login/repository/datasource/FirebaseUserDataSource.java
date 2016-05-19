@@ -1,9 +1,13 @@
 package com.losextraditables.bu.login.repository.datasource;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.GenericTypeIndicator;
+import com.firebase.client.ValueEventListener;
 import com.karumi.rosie.repository.datasource.Identifiable;
 import com.losextraditables.bu.login.domain.model.User;
 import java.util.Collection;
@@ -40,12 +44,25 @@ public class FirebaseUserDataSource implements UserDatasource {
     });
   }
 
-  private void createUserEntity(String username, String uid) {
-    Firebase userReference = new Firebase("https://buandroid.firebaseio.com/users").child(uid);
-    User user = new User();
-    user.setUsername(username);
-    user.setEmail(username);
-    userReference.setValue(user);
+  private void createUserEntity(final String username, String uid) {
+    final Firebase userReference = new Firebase("https://buandroid.firebaseio.com/users").child(uid);
+    userReference.addValueEventListener(new ValueEventListener() {
+      @Override public void onDataChange(DataSnapshot dataSnapshot) {
+        GenericTypeIndicator<User> user = new GenericTypeIndicator<User>() {
+        };
+        if (dataSnapshot.getValue() == null) {
+          User newUser = new User();
+          newUser.setUsername(username);
+          newUser.setEmail(username);
+          userReference.setValue(newUser);
+        }
+      }
+
+      @Override public void onCancelled(FirebaseError firebaseError) {
+        //TODO LOG
+        Log.e("FIREBASE", firebaseError.getMessage());
+      }
+    });
   }
 
   @Override
