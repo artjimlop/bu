@@ -20,6 +20,7 @@ import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.utils.WritePermissionManager;
+import com.mopub.mobileads.MoPubView;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.Arrays;
@@ -38,6 +39,7 @@ public class PictureActivity extends BuAppCompatActivity {
 
   private String imageUrl;
   private PhotoViewAttacher attacher;
+  @Bind(R.id.mopub_ad) MoPubView moPubView;
   @Inject WritePermissionManager writePermissionManager;
 
   @Override protected int getLayoutId() {
@@ -72,6 +74,9 @@ public class PictureActivity extends BuAppCompatActivity {
     attacher.setZoomable(true);
     imageUrl = getIntent().getStringExtra(EXTRA_IMAGE_URL);
     loadImages();
+    // TODO: Replace this test id with your personal ad unit id
+    moPubView.setAdUnitId("07c97f5fdd84408e8f05871b0d5874ea");
+    moPubView.loadAd();
   }
 
   private void setupActionBar() {
@@ -145,5 +150,10 @@ public class PictureActivity extends BuAppCompatActivity {
     File destinationFile = new File(picturesFolder, downloadSubpath);
     destinationFile.mkdirs();
     return Uri.fromFile(destinationFile);
+  }
+
+  @Override protected void onDestroy() {
+    super.onDestroy();
+    moPubView.destroy();
   }
 }
