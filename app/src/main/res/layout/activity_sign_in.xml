@@ -27,6 +27,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/sign_in_secure_text"
+      android:layout_marginBottom="8dp"
       android:textColor="@color/white"
       />
 
@@ -98,7 +99,8 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="16dp"
-          android:background="@color/colorPrimary"
+          android:background="?selectableItemBackground"
+          android:clickable="true"
           android:text="@string/action_sign_in"
           android:textColor="@color/white"
           android:textStyle="bold"

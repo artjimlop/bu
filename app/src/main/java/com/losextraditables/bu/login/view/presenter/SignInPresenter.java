@@ -25,6 +25,7 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
   }
 
   public void signInClicked(final String username, final String password) {
+    getView().hideSignInButton();
     createUseCaseCall(loginUseCase).args(username, password).onSuccess(new OnSuccessCallback() {
       @Success
       public void onLogin(Observable<String> loginObservable) {
@@ -37,6 +38,7 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
           @Override
           public void onError(Throwable e) {
             getView().showSignUp(username, password);
+            getView().showSignInButton();
           }
 
           @Override
@@ -49,6 +51,7 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
       @Override
       public boolean onError(Error error) {
         getView().showConnectionError();
+        getView().showSignInButton();
         return false;
       }
     }).execute();
@@ -68,6 +71,7 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
               @Override
               public void onError(Throwable e) {
                 getView().showGenericError();
+                getView().showSignInButton();
               }
 
               @Override
@@ -81,6 +85,7 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
           @Override
           public boolean onError(Error error) {
             getView().showConnectionError();
+            getView().showSignInButton();
             return false;
           }
         })
@@ -94,5 +99,9 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
     void goToInstagrammersList();
 
     void saveUid(String uid);
+
+    void hideSignInButton();
+
+    void showSignInButton();
   }
 }

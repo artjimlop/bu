@@ -5,8 +5,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -28,6 +30,7 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
 
     @Bind(R.id.email) AutoCompleteTextView email;
     @Bind(R.id.password) EditText password;
+    @Bind(R.id.email_login_button) Button signInButton;
 
     @Override protected List<Object> getActivityScopeModules() {
         return Collections.singletonList((Object) new LoginModule());
@@ -92,6 +95,14 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
 
     @Override public void saveUid(String uid) {
       session.setUid(this, uid);
+    }
+
+    @Override public void hideSignInButton() {
+        signInButton.setVisibility(View.GONE);
+    }
+
+    @Override public void showSignInButton() {
+        signInButton.setVisibility(View.VISIBLE);
     }
 }
 

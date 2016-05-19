@@ -1,12 +1,11 @@
 package com.losextraditables.bu.login.repository.datasource;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
+import com.crashlytics.android.Crashlytics;
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 import com.karumi.rosie.repository.datasource.Identifiable;
 import com.losextraditables.bu.login.domain.model.User;
@@ -48,8 +47,6 @@ public class FirebaseUserDataSource implements UserDatasource {
     final Firebase userReference = new Firebase("https://buandroid.firebaseio.com/users").child(uid);
     userReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
-        GenericTypeIndicator<User> user = new GenericTypeIndicator<User>() {
-        };
         if (dataSnapshot.getValue() == null) {
           User newUser = new User();
           newUser.setUsername(username);
@@ -59,8 +56,7 @@ public class FirebaseUserDataSource implements UserDatasource {
       }
 
       @Override public void onCancelled(FirebaseError firebaseError) {
-        //TODO LOG
-        Log.e("FIREBASE", firebaseError.getMessage());
+        Crashlytics.log(firebaseError.getMessage());
       }
     });
   }
@@ -70,22 +66,27 @@ public class FirebaseUserDataSource implements UserDatasource {
     return Observable.create(new Observable.OnSubscribe<String>() {
       @Override
       public void call(final Subscriber<? super String> subscriber) {
-        getFirebaseConnection().authWithPassword(username, password,
-            new Firebase.AuthResultHandler() {
-              @Override
-              public void onAuthenticated(AuthData authData) {
-                createUserEntity(username, authData.getUid());
-                subscriber.onNext(authData.getUid());
-                subscriber.onCompleted();
-              }
-
-              @Override
-              public void onAuthenticationError(FirebaseError firebaseError) {
-                subscriber.onError(new RuntimeException(firebaseError.getMessage()));
-              }
-            });
+        authernticateUser(subscriber, username, password);
       }
     });
+  }
+
+  private void authernticateUser(final Subscriber<? super String> subscriber, final String username,
+      String password) {
+    getFirebaseConnection().authWithPassword(username, password,
+        new Firebase.AuthResultHandler() {
+          @Override
+          public void onAuthenticated(AuthData authData) {
+            createUserEntity(username, authData.getUid());
+            subscriber.onNext(authData.getUid());
+            subscriber.onCompleted();
+          }
+
+          @Override
+          public void onAuthenticationError(FirebaseError firebaseError) {
+            subscriber.onError(new RuntimeException(firebaseError.getMessage()));
+          }
+        });
   }
 
   @NonNull
