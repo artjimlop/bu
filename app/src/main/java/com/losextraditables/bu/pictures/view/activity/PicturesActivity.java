@@ -193,7 +193,7 @@ public class PicturesActivity extends BuAppCompatActivity
   }
 
   private void goToSavedPictureActivity(View view, int position) {
-    SavedPictureActivity.init(this, view, adapter.getItem(position));
+    PictureActivity.init(this, view, adapter.getItem(position));
   }
 
   @Override
