@@ -1,5 +1,6 @@
 package com.losextraditables.bu.login.view.presenter;
 
+import com.example.UserValidator;
 import com.karumi.rosie.domain.usecase.UseCaseHandler;
 import com.karumi.rosie.domain.usecase.annotation.Success;
 import com.karumi.rosie.domain.usecase.callback.OnSuccessCallback;
@@ -26,6 +27,18 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
 
   public void signInClicked(final String username, final String password) {
     getView().hideSignInButton();
+    UserValidator validator = UserValidator.builder().build();
+    try {
+      if (validator.validateEmail(username) && validator.validatePassword(username, password)) {
+        loginUser(username, password);
+      }
+    } catch (RuntimeException error) {
+      getView().showGenericError();
+      getView().showSignInButton();
+    }
+  }
+
+  private void loginUser(final String username, final String password) {
     createUseCaseCall(loginUseCase).args(username, password).onSuccess(new OnSuccessCallback() {
       @Success
       public void onLogin(Observable<String> loginObservable) {
