@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
+import com.losextraditables.bu.bottombar.view.BottomBarPresenter;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
@@ -36,7 +37,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class PicturesActivity extends BuAppCompatActivity
-    implements PicturesPresenter.View {
+    implements BottomBarPresenter.View, PicturesPresenter.View {
 
   @Bind(R.id.pictures_list) GridView picturesList;
   @Bind(R.id.saved_pictures_progress) ProgressBar progressBar;
@@ -44,7 +45,11 @@ public class PicturesActivity extends BuAppCompatActivity
 
   @Inject
   @Presenter
-  PicturesPresenter presenter;
+  PicturesPresenter picturesPresenter;
+
+  @Inject
+  @Presenter
+  BottomBarPresenter bottomBarPresenter;
 
   @Inject InstagramSession session;
 
@@ -70,7 +75,7 @@ public class PicturesActivity extends BuAppCompatActivity
     final Context context = this;
     setupBottomBar(savedInstanceState, context);
 
-    presenter.loadSavedPictures(session.getUid(context));
+    picturesPresenter.loadSavedPictures(session.getUid(context));
   }
 
   private void setupBottomBar(Bundle savedInstanceState, final Context context) {
@@ -81,9 +86,9 @@ public class PicturesActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
-          presenter.savePictureClicked();
+          bottomBarPresenter.savePictureClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          presenter.saveInstagrammerClicked();
+          bottomBarPresenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_instagrammers) {
           startActivity(new Intent(context, InstagrammersListActivity.class));
           overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
@@ -94,9 +99,9 @@ public class PicturesActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
-          presenter.savePictureClicked();
+          bottomBarPresenter.savePictureClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          presenter.saveInstagrammerClicked();
+          bottomBarPresenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_instagrammers) {
           startActivity(new Intent(context, InstagrammersListActivity.class));
           finish();
@@ -118,7 +123,8 @@ public class PicturesActivity extends BuAppCompatActivity
 
   @Override protected void onPreparePresenter() {
     super.onPreparePresenter();
-    presenter.initialize();
+    picturesPresenter.initialize();
+    bottomBarPresenter.initialize();
   }
 
   @Override public void showSavePictureDialog() {
@@ -135,7 +141,7 @@ public class PicturesActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        presenter.savePicture(input.getText().toString(), session.getUid(context));
+        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid(context));
       }
     });
 
@@ -161,7 +167,7 @@ public class PicturesActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        presenter.saveUser(input.getText().toString(), session.getUid(context));
+        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid(context));
       }
     });
 
@@ -205,6 +211,6 @@ public class PicturesActivity extends BuAppCompatActivity
 
   @Override protected void onResume() {
     super.onResume();
-    presenter.loadSavedPictures(session.getUid(this));
+    picturesPresenter.loadSavedPictures(session.getUid(this));
   }
 }

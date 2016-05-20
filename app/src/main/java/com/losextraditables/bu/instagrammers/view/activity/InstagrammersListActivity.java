@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
+import com.losextraditables.bu.bottombar.view.BottomBarPresenter;
 import com.losextraditables.bu.instagrammers.InstagrammersListModule;
 import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
@@ -37,7 +38,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 public class InstagrammersListActivity extends BuAppCompatActivity
-    implements InstagrammersListPresenter.View {
+    implements BottomBarPresenter.View, InstagrammersListPresenter.View {
 
   @Bind(R.id.instagrammers_list)
   RecyclerView instagrammersList;
@@ -47,7 +48,11 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
   @Inject
   @Presenter
-  InstagrammersListPresenter presenter;
+  InstagrammersListPresenter instagrammersListPresenter;
+
+  @Inject
+  @Presenter
+  BottomBarPresenter bottomBarPresenter;
 
   @Inject InstagramSession session;
 
@@ -78,13 +83,13 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       @Override
       public void onItemClick(View view, InstagrammerModel instagrammerModel) {
         sharedImage = view.findViewById(R.id.instagrammer_avatar);
-        presenter.goToInstagrammerDetail(instagrammerModel);
+        instagrammersListPresenter.goToInstagrammerDetail(instagrammerModel);
       }
     });
     instagrammersList.setAdapter(adapter);
     linearLayoutManager = new LinearLayoutManager(this);
     instagrammersList.setLayoutManager(linearLayoutManager);
-    presenter.showInstagrammers(session.getUid(this));
+    instagrammersListPresenter.showInstagrammers(session.getUid(this));
 
     setupBottomBar(savedInstanceState, this);
   }
@@ -97,9 +102,9 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
-          presenter.savePictureClicked();
+          bottomBarPresenter.savePictureClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          //presenter.saveInstagrammerClicked();
+          bottomBarPresenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
           if (!justInitialized) {
             startActivity(new Intent(context, PicturesActivity.class));
@@ -112,9 +117,9 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_save_picture) {
-          presenter.savePictureClicked();
+          bottomBarPresenter.savePictureClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          //presenter.saveInstagrammerClicked();
+          bottomBarPresenter.saveInstagrammerClicked();
         }
       }
     });
@@ -135,7 +140,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
   @Override protected void onPreparePresenter() {
     super.onPreparePresenter();
-    presenter.initialize();
+    instagrammersListPresenter.initialize();
   }
 
   @Override
@@ -163,7 +168,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        presenter.savePicture(input.getText().toString(), session.getUid(context));
+        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid(context));
       }
     });
 
@@ -173,6 +178,31 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   @Override public void showPicture(String pictureUrl) {
     Toast.makeText(this, pictureUrl, Toast.LENGTH_LONG).show();
     startActivity(PictureActivity.getIntentForActivity(this, pictureUrl));
+  }
+
+  @Override public void showSaveInstagrammerDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    builder.setMessage("Insert user's url here")
+        .setTitle("Save user");
+
+    final EditText input = new EditText(this);
+
+    input.setInputType(InputType.TYPE_CLASS_TEXT);
+    builder.setView(input);
+    final Context context = this;
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid(context));
+      }
+    });
+
+    builder.create().show();
+  }
+
+  @Override public void showSavedInstagrammer() {
+    Toast.makeText(this, "User saved", Toast.LENGTH_LONG).show();
   }
 
   @Override
