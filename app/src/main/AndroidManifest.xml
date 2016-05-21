@@ -1,29 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.losextraditables.bu">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
-    <application
-        android:name=".BuApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity
-            android:name=".instagrammers.view.activity.InstagrammersListActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+  <!-- To auto-complete the email text field in the login form with the user's emails -->
+  <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
+  <uses-permission android:name="android.permission.READ_PROFILE"/>
+  <uses-permission android:name="android.permission.READ_CONTACTS"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".login.activity.LoginActivity">
-        </activity>
-    </application>
+  <application
+      android:name=".BuApplication"
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:supportsRtl="true"
+      android:theme="@style/BuTheme"
+      tools:replace="android:icon">
+    <activity
+        android:name=".instagrammers.view.activity.InstagrammersListActivity"
+        android:label="@string/instagrammers_activity"
+        android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+    <activity
+        android:name=".instagrammers.view.activity.SearchInstagrammersActivity"
+        android:theme="@style/AppTheme"/>
+    <activity android:name=".login.view.activity.LoginActivity"/>
+    <activity
+        android:name=".instagrammers.view.activity.InstagrammerDetailActivity"
+        android:label="@string/title_activity_instagrammer_detail"
+        android:theme="@style/AppTheme.NoActionBar"/>
+
+    <meta-data
+        android:name="io.fabric.ApiKey"
+        android:value="368f540dcf584f079a8ae95bac579a4909e93205"/>
+
+    <activity
+        android:name=".login.view.activity.SignInActivity"
+        android:label="@string/title_activity_firebase_login"/>
+    <activity
+        android:name=".pictures.view.activity.PictureActivity"
+        android:theme="@style/AppTheme"/>
+    <activity android:name=".pictures.view.activity.PicturesActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
+    <activity
+        android:name=".pictures.view.activity.SavedPictureActivity"
+        android:label="@string/title_activity_saved_picture"
+        android:theme="@style/BuTheme">
+    </activity>
+    <activity
+        android:name="com.mopub.mobileads.MoPubActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize" />
+    <activity
+        android:name="com.mopub.mobileads.MraidActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize" />
+    <activity
+        android:name="com.mopub.common.MoPubBrowser"
+        android:configChanges="keyboardHidden|orientation|screenSize" />
+    <activity
+        android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
+        android:configChanges="keyboardHidden|orientation|screenSize" />
+  </application>
 
 </manifest>
