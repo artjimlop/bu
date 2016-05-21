@@ -13,6 +13,7 @@
     >
 
   <android.support.v7.widget.CardView
+      android:id="@+id/stalin_info_card"
       android:layout_width="match_parent"
       android:layout_height="500dp"
       android:layout_margin="8dp"
@@ -35,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="you should go to Instagram"
+        android:text="Instagram don't let us show you this :(\nClick to go to the profile"
         android:layout_gravity="bottom"
         android:textColor="@color/application_background"
         />

@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.utils.BlurTransform;
@@ -30,10 +32,11 @@ public class InstagrammerDetailActivity extends AppCompatActivity
 
   public static final String USERNAME = "username";
   public static final String PHOTO = "photo";
+  public static final String URL = "url";
 
-  private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR  = 0.9f;
-  private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS     = 0.3f;
-  private static final int ALPHA_ANIMATIONS_DURATION              = 200;
+  private static final float PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR = 0.9f;
+  private static final float PERCENTAGE_TO_HIDE_TITLE_DETAILS = 0.3f;
+  private static final int ALPHA_ANIMATIONS_DURATION = 200;
 
   @Bind(R.id.instagrammer_avatar) CircleImageView userPhoto;
   @Bind(R.id.instagrammer_blur_avatar) ImageView blurImage;
@@ -44,7 +47,7 @@ public class InstagrammerDetailActivity extends AppCompatActivity
   @Bind(R.id.toolbar_username) TextView toolbarUsername;
   @Bind(R.id.title_container) LinearLayout titleContainer;
 
-  private boolean mIsTheTitleVisible          = false;
+  private boolean mIsTheTitleVisible = false;
   private boolean mIsTheTitleContainerVisible = true;
   private InstagrammerModel instagrammerModel;
 
@@ -53,10 +56,11 @@ public class InstagrammerDetailActivity extends AppCompatActivity
     Intent intent = new Intent(activity, InstagrammerDetailActivity.class);
     intent.putExtra(USERNAME, instagrammerModel.getUserName());
     intent.putExtra(PHOTO, instagrammerModel.getProfilePicture());
+    intent.putExtra(URL, instagrammerModel.getWebsite());
     Pair<View, String> imagePair = new Pair<>(sharedView, sharedView.getTransitionName());
 
     ActivityOptions activityOptions =
-        ActivityOptions.makeSceneTransitionAnimation(activity,imagePair);
+        ActivityOptions.makeSceneTransitionAnimation(activity, imagePair);
     activity.startActivity(intent, activityOptions.toBundle());
   }
 
@@ -98,7 +102,6 @@ public class InstagrammerDetailActivity extends AppCompatActivity
     }
   }
 
-
   @Override
   public void onOffsetChanged(AppBarLayout appBarLayout, int offset) {
     int maxScroll = appBarLayout.getTotalScrollRange();
@@ -111,11 +114,10 @@ public class InstagrammerDetailActivity extends AppCompatActivity
   private void handleToolbarTitleVisibility(float percentage) {
     if (percentage >= PERCENTAGE_TO_SHOW_TITLE_AT_TOOLBAR) {
 
-      if(!mIsTheTitleVisible) {
+      if (!mIsTheTitleVisible) {
         startAlphaAnimation(toolbarUsername, ALPHA_ANIMATIONS_DURATION, View.VISIBLE);
         mIsTheTitleVisible = true;
       }
-
     } else {
 
       if (mIsTheTitleVisible) {
@@ -127,11 +129,10 @@ public class InstagrammerDetailActivity extends AppCompatActivity
 
   private void handleAlphaOnTitle(float percentage) {
     if (percentage >= PERCENTAGE_TO_HIDE_TITLE_DETAILS) {
-      if(mIsTheTitleContainerVisible) {
+      if (mIsTheTitleContainerVisible) {
         startAlphaAnimation(titleContainer, ALPHA_ANIMATIONS_DURATION, View.INVISIBLE);
         mIsTheTitleContainerVisible = false;
       }
-
     } else {
 
       if (!mIsTheTitleContainerVisible) {
@@ -141,7 +142,7 @@ public class InstagrammerDetailActivity extends AppCompatActivity
     }
   }
 
-  private static void startAlphaAnimation (View v, long duration, int visibility) {
+  private static void startAlphaAnimation(View v, long duration, int visibility) {
     AlphaAnimation alphaAnimation = (visibility == View.VISIBLE)
         ? new AlphaAnimation(0f, 1f)
         : new AlphaAnimation(1f, 0f);
@@ -149,5 +150,13 @@ public class InstagrammerDetailActivity extends AppCompatActivity
     alphaAnimation.setDuration(duration);
     alphaAnimation.setFillAfter(true);
     v.startAnimation(alphaAnimation);
+  }
+
+  @OnClick(R.id.stalin_info_card)
+  public void onInstagramInfoCardClicked() {
+    String url = getIntent().getStringExtra(URL);
+    Intent i = new Intent(Intent.ACTION_VIEW);
+    i.setData(Uri.parse(url));
+    startActivity(i);
   }
 }

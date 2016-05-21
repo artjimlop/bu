@@ -92,8 +92,8 @@ public class PictureActivity extends BuAppCompatActivity {
   private void setupActionBar() {
     ActionBar actionBar = this.getSupportActionBar();
     if (actionBar != null) {
-      actionBar.setDisplayHomeAsUpEnabled(true);
-      actionBar.setDisplayShowHomeEnabled(true);
+      actionBar.setDisplayHomeAsUpEnabled(false);
+      actionBar.setDisplayShowHomeEnabled(false);
       actionBar.setDisplayShowTitleEnabled(false);
     }
   }
