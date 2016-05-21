@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.karumi.rosie.view.Presenter;
@@ -179,7 +178,6 @@ public class PicturesActivity extends BuAppCompatActivity
   }
 
   @Override public void showSavedInstagrammer() {
-    Toast.makeText(this, "User saved", Toast.LENGTH_LONG).show();
   }
 
   @Override public void showSavedPictures(ArrayList<String> urls) {

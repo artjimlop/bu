@@ -17,7 +17,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.karumi.rosie.view.Presenter;
@@ -178,7 +177,6 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   }
 
   @Override public void showPicture(String pictureUrl) {
-    Toast.makeText(this, pictureUrl, Toast.LENGTH_LONG).show();
     startActivity(PictureActivity.getIntentForActivity(this, pictureUrl));
   }
 
@@ -204,7 +202,6 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   }
 
   @Override public void showSavedInstagrammer() {
-    Toast.makeText(this, "User saved", Toast.LENGTH_LONG).show();
   }
 
   @Override
