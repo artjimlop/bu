@@ -185,8 +185,8 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   @Override public void showSaveInstagrammerDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-    builder.setMessage("Insert user's url here")
-        .setTitle("Save user");
+    builder.setMessage("Insert instagrammers's url here")
+        .setTitle("Save");
 
     final EditText input = new EditText(this);
 

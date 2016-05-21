@@ -12,9 +12,9 @@
   <item
       android:id="@+id/bottom_save_instagrammers"
       android:icon="@drawable/ic_add_instagrammer"
-      android:title="Save User" />
+      android:title="Save instagrammer" />
   <item
       android:id="@+id/bottom_instagrammers"
       android:icon="@drawable/ic_instagrammers"
-      android:title="Users" />
+      android:title="Instagrammers" />
 </menu>
