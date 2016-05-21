@@ -71,11 +71,16 @@ public class PicturesActivity extends BuAppCompatActivity
     setContentView(R.layout.activity_pictures);
     ButterKnife.bind(this);
     setupWindowAnimations();
-    setSupportActionBar(toolbar);
+    setupToolbar();
     final Context context = this;
     setupBottomBar(savedInstanceState, context);
 
     picturesPresenter.loadSavedPictures(session.getUid(context));
+  }
+
+  private void setupToolbar() {
+    toolbar.setTitle(this.getResources().getString(R.string.pictures_activity));
+    setSupportActionBar(toolbar);
   }
 
   private void setupBottomBar(Bundle savedInstanceState, final Context context) {
@@ -188,7 +193,7 @@ public class PicturesActivity extends BuAppCompatActivity
   }
 
   private void goToSavedPictureActivity(View view, int position) {
-    SavedPictureActivity.init(this, view, adapter.getItem(position));
+    PictureActivity.init(this, view, adapter.getItem(position));
   }
 
   @Override

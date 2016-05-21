@@ -1,18 +1,21 @@
 package com.losextraditables.bu.pictures.view.activity;
 
-import android.animation.TimeInterpolator;
+import android.annotation.TargetApi;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.DecelerateInterpolator;
+import android.view.View;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,15 +35,22 @@ public class PictureActivity extends BuAppCompatActivity {
 
   @Bind(R.id.picture) ImageView imageView;
 
-  private static final String EXTRA_IMAGE_PREVIEW_URL = "preview";
   private static final String EXTRA_IMAGE_URL = "image";
-  public static final int UI_ANIMATION_DURATION = 300;
-  public static final TimeInterpolator UI_ANIMATION_INTERPOLATOR = new DecelerateInterpolator();
-
   private String imageUrl;
   private PhotoViewAttacher attacher;
   @Bind(R.id.mopub_ad) MoPubView moPubView;
   @Inject WritePermissionManager writePermissionManager;
+
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+  public static void init(Activity activity, View sharedView, String imageUrl) {
+    Intent intent = new Intent(activity, PictureActivity.class);
+    intent.putExtra(EXTRA_IMAGE_URL, imageUrl);
+
+    ActivityOptions activityOptions =
+        ActivityOptions.makeSceneTransitionAnimation(activity, sharedView,
+            sharedView.getTransitionName());
+    activity.startActivity(intent, activityOptions.toBundle());
+  }
 
   @Override protected int getLayoutId() {
     return R.layout.activity_picture;
@@ -82,8 +92,8 @@ public class PictureActivity extends BuAppCompatActivity {
   private void setupActionBar() {
     ActionBar actionBar = this.getSupportActionBar();
     if (actionBar != null) {
-      actionBar.setDisplayHomeAsUpEnabled(true);
-      actionBar.setDisplayShowHomeEnabled(true);
+      actionBar.setDisplayHomeAsUpEnabled(false);
+      actionBar.setDisplayShowHomeEnabled(false);
       actionBar.setDisplayShowTitleEnabled(false);
     }
   }

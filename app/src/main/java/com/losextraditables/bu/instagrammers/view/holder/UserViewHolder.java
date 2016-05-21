@@ -3,6 +3,7 @@ package com.losextraditables.bu.instagrammers.view.holder;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.Bind;
@@ -21,6 +22,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
   ImageView picture;
   @Bind(R.id.instagrammer_avatar) CircleImageView avatar;
   @Bind(R.id.instagrammer_name) TextView username;
+  @Bind(R.id.instagrammer_container) FrameLayout container;
 
   private InstagrammersListPresenter.ItemClickListener onClickListener;
   private InstagrammerModel instagrammerModel;
@@ -35,7 +37,7 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
   public void render(final InstagrammerModel instagrammerModel) {
     this.instagrammerModel = instagrammerModel;
-    avatar.setOnClickListener(this);
+    container.setOnClickListener(this);
     username.setText(instagrammerModel.getFullName());
     username.setText(instagrammerModel.getUserName());
     Picasso.with(context).load(instagrammerModel.getProfilePicture()).
