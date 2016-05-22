@@ -1,10 +1,8 @@
 package com.losextraditables.bu.instagrammers.view.activity;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
@@ -78,7 +76,6 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_instagrammers);
     ButterKnife.bind(this);
-    setupWindowAnimations();
     setSupportActionBar(toolbar);
     adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
       @Override
@@ -214,15 +211,6 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   public void showLoading() {
     instagrammersList.setVisibility(View.GONE);
     progressBar.setVisibility(View.VISIBLE);
-  }
-
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  private void setupWindowAnimations() {
-      Slide slideTransition = new Slide();
-      slideTransition.setSlideEdge(Gravity.START);
-      slideTransition.setDuration(ANIMATION_DURATION);
-      getWindow().setReenterTransition(slideTransition);
-      getWindow().setExitTransition(slideTransition);
   }
 
 }
