@@ -1,6 +1,7 @@
 package com.losextraditables.bu.instagrammers.repository.datasource;
 
 import android.util.Log;
+import com.crashlytics.android.Crashlytics;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -51,8 +52,7 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
           }
 
           @Override public void onCancelled(FirebaseError firebaseError) {
-            //TODO LOG
-            Log.e("FIREBASE", firebaseError.getMessage());
+            Crashlytics.log(firebaseError.getMessage());
             subscriber.onError(new ConnectionError());
           }
         });
@@ -143,8 +143,7 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
           }
 
           @Override public void onCancelled(FirebaseError firebaseError) {
-            //TODO LOG
-            Log.e("FIREBASE", firebaseError.getMessage());
+            Crashlytics.log(firebaseError.getMessage());
             subscriber.onError(new ConnectionError());
           }
         });

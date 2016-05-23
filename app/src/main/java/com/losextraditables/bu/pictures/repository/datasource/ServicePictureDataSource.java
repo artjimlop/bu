@@ -1,6 +1,6 @@
 package com.losextraditables.bu.pictures.repository.datasource;
 
-import android.util.Log;
+import com.crashlytics.android.Crashlytics;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -60,8 +60,7 @@ public class ServicePictureDataSource implements PictureDataSource {
       }
 
       @Override public void onCancelled(FirebaseError firebaseError) {
-        //TODO LOG
-        Log.e("FIREBASE", firebaseError.getMessage());
+        Crashlytics.log(firebaseError.getMessage());
         subscriber.onError(new ConnectionError());
       }
     });
@@ -90,6 +89,7 @@ public class ServicePictureDataSource implements PictureDataSource {
       }
 
       @Override public void onCancelled(FirebaseError firebaseError) {
+        Crashlytics.log(firebaseError.getMessage());
         subscriber.onError(new ConnectionError());
       }
     });

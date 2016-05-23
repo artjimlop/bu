@@ -9,6 +9,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.karumi.rosie.repository.datasource.Identifiable;
 import com.losextraditables.bu.login.domain.model.User;
+import io.fabric.sdk.android.services.common.Crash;
 import java.util.Collection;
 import java.util.Map;
 import javax.inject.Inject;
@@ -36,6 +37,7 @@ public class FirebaseUserDataSource implements UserDatasource {
 
               @Override
               public void onError(FirebaseError firebaseError) {
+                Crashlytics.log(firebaseError.getMessage());
                 subscriber.onError(new RuntimeException(firebaseError.getMessage()));
               }
             });
@@ -84,6 +86,7 @@ public class FirebaseUserDataSource implements UserDatasource {
 
           @Override
           public void onAuthenticationError(FirebaseError firebaseError) {
+            Crashlytics.log(firebaseError.getMessage());
             subscriber.onError(new RuntimeException(firebaseError.getMessage()));
           }
         });
