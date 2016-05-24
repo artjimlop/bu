@@ -21,5 +21,4 @@ before_script:
 
 
 script:
-  - ./gradlew checkstyle build
-  - ./gradlew test
+  - ./gradlew checkstyle test
