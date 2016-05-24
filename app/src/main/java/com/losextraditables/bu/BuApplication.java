@@ -1,11 +1,9 @@
 package com.losextraditables.bu;
 
 import com.crashlytics.android.Crashlytics;
-import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.karumi.rosie.application.RosieApplication;
-import com.losextraditables.bu.utils.InstagramSession;
+import com.losextraditables.bu.utils.AuthenticationHandler;
 import dagger.ObjectGraph;
 import io.fabric.sdk.android.Fabric;
 import java.util.Arrays;
@@ -14,7 +12,7 @@ import javax.inject.Inject;
 
 public class BuApplication extends RosieApplication {
 
-  @Inject InstagramSession session;
+  @Inject AuthenticationHandler authenticationHandler;
 
   private ObjectGraph fakeObjectGraph;
 
@@ -23,28 +21,7 @@ public class BuApplication extends RosieApplication {
     super.onCreate();
     Fabric.with(this, new Crashlytics());
     Firebase.setAndroidContext(this);
-
-    final Firebase ref = new Firebase("https://buandroid.firebaseio.com");
-
-    ref.addAuthStateListener(new Firebase.AuthStateListener() {
-      @Override
-      public void onAuthStateChanged(AuthData authData) {
-        if (authData == null) {
-          Firebase.AuthResultHandler authResultHandler = new Firebase.AuthResultHandler() {
-            @Override
-            public void onAuthenticated(AuthData authData) {
-              // Authenticated successfully with payload authData
-            }
-
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-              Crashlytics.log(firebaseError.getMessage());
-            }
-          };
-          ref.authWithCustomToken(session.getUid(getApplicationContext()), authResultHandler);
-        }
-      }
-    });
+    authenticationHandler.authenticationRefresh(getApplicationContext());
   }
 
   @Override protected List<Object> getApplicationModules() {
