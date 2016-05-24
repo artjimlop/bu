@@ -2,6 +2,7 @@ package com.losextraditables.bu.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -19,19 +20,21 @@ public class BlurTransform implements Transformation {
 
   @Override public Bitmap transform(Bitmap bitmap) {
     Bitmap blurredBitmap = Bitmap.createBitmap(bitmap);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+      Allocation input =
+          Allocation.createFromBitmap(rs, bitmap, Allocation.MipmapControl.MIPMAP_FULL,
+              Allocation.USAGE_SHARED);
+      Allocation output = Allocation.createTyped(rs, input.getType());
 
-    Allocation input = Allocation.createFromBitmap(rs, bitmap, Allocation.MipmapControl.MIPMAP_FULL,
-        Allocation.USAGE_SHARED);
-    Allocation output = Allocation.createTyped(rs, input.getType());
+      ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
 
-    ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
-    script.setInput(input);
+      script.setInput(input);
 
-    script.setRadius(10);
+      script.setRadius(10);
 
-    script.forEach(output);
-    output.copyTo(blurredBitmap);
-
+      script.forEach(output);
+      output.copyTo(blurredBitmap);
+    }
     return blurredBitmap;
   }
 
