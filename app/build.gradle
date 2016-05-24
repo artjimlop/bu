@@ -131,4 +131,5 @@ dependencies {
         transitive = true;
     }
   compile 'com.artjimlop:AllStarr:0.0.1'
+  compile 'com.artjimlop:altex-image-downloader:0.0.4'
 }

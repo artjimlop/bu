@@ -141,7 +141,6 @@ public class PicturesActivity extends BuAppCompatActivity
 
     input.setInputType(InputType.TYPE_CLASS_TEXT);
     builder.setView(input);
-    final Context context = this;
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {

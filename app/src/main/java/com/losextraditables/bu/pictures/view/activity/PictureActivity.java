@@ -3,7 +3,6 @@ package com.losextraditables.bu.pictures.view.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.artjimlop.altex.AltexImageDownloader;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
@@ -129,18 +129,7 @@ public class PictureActivity extends BuAppCompatActivity {
     Uri imageUri = Uri.parse(imageUrl);
     String fileName = imageUri.getLastPathSegment();
     String downloadSubpath = getString(R.string.downloaded_pictures_subfolder) + fileName;
-
-    DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-    DownloadManager.Request request = new DownloadManager.Request(imageUri);
-    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-    request.setDescription(imageUrl);
-    request.allowScanningByMediaScanner();
-    // Equivalent to request.setDestinationInExternalPublicDir(), but makes sure the Shootr subfolder exists
-    request.setDestinationUri(getDownloadDestination(downloadSubpath));
-
-    request.setMimeType("image/jpeg"); //TODO servidor debe mandarlo correctamente
-
-    downloadManager.enqueue(request);
+    AltexImageDownloader.writeToDisk(this, imageUrl, downloadSubpath);
   }
 
   @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
