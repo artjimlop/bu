@@ -22,7 +22,7 @@ import com.losextraditables.bu.instagrammers.view.adapter.SearchedInstagrammersA
 import com.losextraditables.bu.instagrammers.view.model.SearchedInstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.SearchInstagrammersPresenter;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
-import com.losextraditables.bu.utils.InstagramSession;
+import com.losextraditables.bu.utils.SessionManager;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -40,8 +40,7 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity
   @Inject @Presenter
   SearchInstagrammersPresenter presenter;
 
-  @Inject
-  InstagramSession session;
+  @Inject SessionManager session;
 
   private SearchedInstagrammersAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
@@ -99,7 +98,7 @@ public class SearchInstagrammersActivity extends BuAppCompatActivity
   }
 
   private void createSearchView(MenuItem searchItem) {
-    final String accessToken = session.getAccessToken(this);
+    final String accessToken = session.getAccessToken();
     searchView = (SearchView) searchItem.getActionView();
     searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
       @Override public boolean onQueryTextSubmit(String queryText) {

@@ -1,6 +1,6 @@
 package com.losextraditables.bu.pictures.repository.datasource;
 
-import android.util.Log;
+import com.crashlytics.android.Crashlytics;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -8,6 +8,7 @@ import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 import com.losextraditables.bu.base.view.error.ConnectionError;
 import com.losextraditables.bu.pictures.domain.model.Picture;
+import com.losextraditables.bu.utils.FirebaseService;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -19,11 +20,11 @@ import rx.Subscriber;
 
 public class ServicePictureDataSource implements PictureDataSource {
 
-  public static final String FIREBASE_URL = "https://buandroid.firebaseio.com";
-
   private Boolean changeMade = false;
+  private final FirebaseService firebaseService;
 
-  @Inject public ServicePictureDataSource() {
+  @Inject public ServicePictureDataSource(FirebaseService firebaseService) {
+    this.firebaseService = firebaseService;
   }
 
   @Override public Observable<Picture> getPictureFromScrap(final String url) {
@@ -49,8 +50,7 @@ public class ServicePictureDataSource implements PictureDataSource {
 
   private void getPicturesFromFirebase(final Subscriber<? super List<Picture>> subscriber,
       String uid) {
-    final Firebase instagrammersReference =
-        new Firebase("https://buandroid.firebaseio.com/users").child(uid).child("pictures");
+    final Firebase instagrammersReference = firebaseService.getPicturesReference(uid);
     instagrammersReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
         GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
@@ -60,8 +60,7 @@ public class ServicePictureDataSource implements PictureDataSource {
       }
 
       @Override public void onCancelled(FirebaseError firebaseError) {
-        //TODO LOG
-        Log.e("FIREBASE", firebaseError.getMessage());
+        Crashlytics.log(firebaseError.getMessage());
         subscriber.onError(new ConnectionError());
       }
     });
@@ -69,8 +68,7 @@ public class ServicePictureDataSource implements PictureDataSource {
 
   private void savePictureInFirebase(final Subscriber<? super Void> subscriber, String uid,
       final Picture picture) {
-    final Firebase picturesReference =
-        new Firebase("https://buandroid.firebaseio.com/users").child(uid).child("pictures");
+    final Firebase picturesReference = firebaseService.getPicturesReference(uid);
     picturesReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
         GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
@@ -90,6 +88,7 @@ public class ServicePictureDataSource implements PictureDataSource {
       }
 
       @Override public void onCancelled(FirebaseError firebaseError) {
+        Crashlytics.log(firebaseError.getMessage());
         subscriber.onError(new ConnectionError());
       }
     });

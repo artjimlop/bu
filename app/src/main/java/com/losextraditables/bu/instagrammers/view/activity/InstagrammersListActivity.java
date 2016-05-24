@@ -26,7 +26,7 @@ import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPre
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
-import com.losextraditables.bu.utils.InstagramSession;
+import com.losextraditables.bu.utils.SessionManager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import java.util.Arrays;
@@ -51,7 +51,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   @Presenter
   BottomBarPresenter bottomBarPresenter;
 
-  @Inject InstagramSession session;
+  @Inject SessionManager session;
 
   private InstagrammersAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
@@ -85,7 +85,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     instagrammersList.setAdapter(adapter);
     linearLayoutManager = new LinearLayoutManager(this);
     instagrammersList.setLayoutManager(linearLayoutManager);
-    instagrammersListPresenter.showInstagrammers(session.getUid(this));
+    instagrammersListPresenter.showInstagrammers(session.getUid());
 
     setupBottomBar(savedInstanceState, this);
   }
@@ -164,7 +164,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid(context));
+        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
       }
     });
 
@@ -189,7 +189,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid(context));
+        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid());
       }
     });
 

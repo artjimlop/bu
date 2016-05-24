@@ -1,6 +1,6 @@
 package com.losextraditables.bu.instagrammers.repository.datasource;
 
-import android.util.Log;
+import com.crashlytics.android.Crashlytics;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -14,6 +14,7 @@ import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammer;
 import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammerResponse;
 import com.losextraditables.bu.instagrammers.repository.service.InstagramApiService;
 import com.losextraditables.bu.instagrammers.repository.service.InstagramServiceGenerator;
+import com.losextraditables.bu.utils.FirebaseService;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -29,19 +30,21 @@ import rx.Subscriber;
 public class InstagrammersApiDatasource implements InstagrammersDatasource {
 
   private final InstagramServiceGenerator serviceGenerator;
+  private final FirebaseService firebaseService;
   private boolean changeMade = false;
 
   @Inject
-  public InstagrammersApiDatasource(InstagramServiceGenerator serviceGenerator) {
+  public InstagrammersApiDatasource(InstagramServiceGenerator serviceGenerator,
+      FirebaseService firebaseService) {
     this.serviceGenerator = serviceGenerator;
+    this.firebaseService = firebaseService;
   }
 
   @Override
   public Observable<List<Instagrammer>> getInstagrammers(final String uid) {
     return Observable.create(new Observable.OnSubscribe<List<Instagrammer>>() {
       @Override public void call(final Subscriber<? super List<Instagrammer>> subscriber) {
-        final Firebase instagrammersReference =
-            new Firebase("https://buandroid.firebaseio.com/users").child(uid).child("instagrammers");
+        final Firebase instagrammersReference = firebaseService.instagrammersReference(uid);
         instagrammersReference.addValueEventListener(new ValueEventListener() {
           @Override public void onDataChange(DataSnapshot dataSnapshot) {
             GenericTypeIndicator<List<Instagrammer>> t = new GenericTypeIndicator<List<Instagrammer>>() {
@@ -51,8 +54,7 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
           }
 
           @Override public void onCancelled(FirebaseError firebaseError) {
-            //TODO LOG
-            Log.e("FIREBASE", firebaseError.getMessage());
+            Crashlytics.log(firebaseError.getMessage());
             subscriber.onError(new ConnectionError());
           }
         });
@@ -122,8 +124,7 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
   public Observable<Void> saveInstagrammer(final Instagrammer instagrammer, final String uid) {
     return Observable.create(new Observable.OnSubscribe<Void>() {
       @Override public void call(final Subscriber<? super Void> subscriber) {
-        final Firebase instagrammersReference =
-            new Firebase("https://buandroid.firebaseio.com/users").child(uid).child("instagrammers");
+        final Firebase instagrammersReference = firebaseService.instagrammersReference(uid);
         instagrammersReference.addValueEventListener(new ValueEventListener() {
           @Override public void onDataChange(DataSnapshot dataSnapshot) {
             GenericTypeIndicator<List<Instagrammer>> t = new GenericTypeIndicator<List<Instagrammer>>() {
@@ -143,8 +144,7 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
           }
 
           @Override public void onCancelled(FirebaseError firebaseError) {
-            //TODO LOG
-            Log.e("FIREBASE", firebaseError.getMessage());
+            Crashlytics.log(firebaseError.getMessage());
             subscriber.onError(new ConnectionError());
           }
         });

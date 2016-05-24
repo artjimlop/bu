@@ -27,7 +27,7 @@ import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
 import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
-import com.losextraditables.bu.utils.InstagramSession;
+import com.losextraditables.bu.utils.SessionManager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class PicturesActivity extends BuAppCompatActivity
   @Presenter
   BottomBarPresenter bottomBarPresenter;
 
-  @Inject InstagramSession session;
+  @Inject SessionManager session;
 
   private BottomBar bottomBar;
   private SavedPicturesAdapter adapter;
@@ -74,7 +74,7 @@ public class PicturesActivity extends BuAppCompatActivity
     final Context context = this;
     setupBottomBar(savedInstanceState, context);
 
-    picturesPresenter.loadSavedPictures(session.getUid(context));
+    picturesPresenter.loadSavedPictures(session.getUid());
   }
 
   private void setupToolbar() {
@@ -141,11 +141,10 @@ public class PicturesActivity extends BuAppCompatActivity
 
     input.setInputType(InputType.TYPE_CLASS_TEXT);
     builder.setView(input);
-    final Context context = this;
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid(context));
+        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
       }
     });
 
@@ -170,7 +169,7 @@ public class PicturesActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid(context));
+        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid());
       }
     });
 
@@ -213,6 +212,6 @@ public class PicturesActivity extends BuAppCompatActivity
 
   @Override protected void onResume() {
     super.onResume();
-    picturesPresenter.loadSavedPictures(session.getUid(this));
+    picturesPresenter.loadSavedPictures(session.getUid());
   }
 }

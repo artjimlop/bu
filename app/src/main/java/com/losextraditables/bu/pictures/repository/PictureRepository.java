@@ -1,16 +1,16 @@
 package com.losextraditables.bu.pictures.repository;
 
 import com.losextraditables.bu.pictures.domain.model.Picture;
-import com.losextraditables.bu.pictures.repository.datasource.ServicePictureDataSource;
+import com.losextraditables.bu.pictures.repository.datasource.PictureDataSource;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
 
 public class PictureRepository {
 
-  private final ServicePictureDataSource pictureDataSource;
+  private final PictureDataSource pictureDataSource;
 
-  @Inject public PictureRepository(ServicePictureDataSource pictureDataSource) {
+  @Inject public PictureRepository(PictureDataSource pictureDataSource) {
     this.pictureDataSource = pictureDataSource;
   }
 
