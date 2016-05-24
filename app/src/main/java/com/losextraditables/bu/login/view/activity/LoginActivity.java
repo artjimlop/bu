@@ -3,12 +3,12 @@ package com.losextraditables.bu.login.view.activity;
 import android.content.Intent;
 import butterknife.OnClick;
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.base.view.activity.BuActivity;
+import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.login.LoginModule;
 import java.util.Arrays;
 import java.util.List;
 
-public class LoginActivity extends BuActivity {
+public class LoginActivity extends BuAppCompatActivity {
 
     @Override protected int getLayoutId() {
         return R.layout.activity_login;

@@ -41,15 +41,20 @@ public class PictureActivity extends BuAppCompatActivity {
   @Bind(R.id.mopub_ad) MoPubView moPubView;
   @Inject WritePermissionManager writePermissionManager;
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   public static void init(Activity activity, View sharedView, String imageUrl) {
     Intent intent = new Intent(activity, PictureActivity.class);
     intent.putExtra(EXTRA_IMAGE_URL, imageUrl);
+    handleActivityVersion(activity, sharedView, intent);
+  }
 
-    ActivityOptions activityOptions =
-        ActivityOptions.makeSceneTransitionAnimation(activity, sharedView,
-            sharedView.getTransitionName());
-    activity.startActivity(intent, activityOptions.toBundle());
+  private static void handleActivityVersion(Activity activity, View sharedView, Intent intent) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      ActivityOptions activityOptions =
+          ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, sharedView.getTransitionName());
+      activity.startActivity(intent, activityOptions.toBundle());
+    } else {
+      activity.startActivity(intent);
+    }
   }
 
   @Override protected int getLayoutId() {

@@ -206,8 +206,10 @@ public class PicturesActivity extends BuAppCompatActivity
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   private void setupWindowAnimations() {
-    getWindow().setReenterTransition(new Explode());
-    getWindow().setExitTransition(new Explode().setDuration(500));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      getWindow().setReenterTransition(new Explode());
+      getWindow().setExitTransition(new Explode().setDuration(500));
+    }
   }
 
   @Override protected void onResume() {

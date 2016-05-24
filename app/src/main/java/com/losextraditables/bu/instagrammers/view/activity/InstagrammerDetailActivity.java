@@ -51,17 +51,24 @@ public class InstagrammerDetailActivity extends AppCompatActivity
   private boolean mIsTheTitleContainerVisible = true;
   private InstagrammerModel instagrammerModel;
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   public static void init(Activity activity, View sharedView, InstagrammerModel instagrammerModel) {
     Intent intent = new Intent(activity, InstagrammerDetailActivity.class);
     intent.putExtra(USERNAME, instagrammerModel.getUserName());
     intent.putExtra(PHOTO, instagrammerModel.getProfilePicture());
     intent.putExtra(URL, instagrammerModel.getWebsite());
-    Pair<View, String> imagePair = new Pair<>(sharedView, sharedView.getTransitionName());
 
-    ActivityOptions activityOptions =
-        ActivityOptions.makeSceneTransitionAnimation(activity, imagePair);
-    activity.startActivity(intent, activityOptions.toBundle());
+    handleActivityVersion(activity, sharedView, intent);
+  }
+
+  private static void handleActivityVersion(Activity activity, View sharedView, Intent intent) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      Pair<View, String> imagePair = new Pair<>(sharedView, sharedView.getTransitionName());
+      ActivityOptions activityOptions =
+          ActivityOptions.makeSceneTransitionAnimation(activity, imagePair);
+      activity.startActivity(intent, activityOptions.toBundle());
+    } else {
+      activity.startActivity(intent);
+    }
   }
 
   @Override
