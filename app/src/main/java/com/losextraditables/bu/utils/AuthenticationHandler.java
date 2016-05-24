@@ -9,7 +9,7 @@ import javax.inject.Inject;
 
 public class AuthenticationHandler {
 
-  @Inject InstagramSession session;
+  @Inject SessionManager session;
 
   @Inject public AuthenticationHandler() {
   }
@@ -32,7 +32,7 @@ public class AuthenticationHandler {
               Crashlytics.log(firebaseError.getMessage());
             }
           };
-          String uid = session.getUid(context);
+          String uid = session.getUid();
           if (uid != null) {
             ref.authWithCustomToken(uid, authResultHandler);
           }

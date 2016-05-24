@@ -25,7 +25,7 @@ public class BuApplication extends RosieApplication {
   }
 
   @Override protected List<Object> getApplicationModules() {
-    return Arrays.asList((Object) new ApplicationModule());
+    return Arrays.asList((Object) new ApplicationModule(this));
   }
 
   public void replaceGraph(ObjectGraph objectGraph) {

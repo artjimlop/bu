@@ -1,6 +1,5 @@
 package com.losextraditables.bu.instagrammers.repository.datasource;
 
-import android.util.Log;
 import com.crashlytics.android.Crashlytics;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;

@@ -6,15 +6,14 @@ import android.view.View;
 import com.karumi.rosie.view.RosieAppCompatActivity;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.BaseModule;
-import com.losextraditables.bu.utils.InstagramSession;
+import com.losextraditables.bu.utils.SessionManager;
 import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 
 public abstract class BuAppCompatActivity extends RosieAppCompatActivity {
 
-  @Inject
-  InstagramSession instagramSession;
+  @Inject SessionManager sessionManager;
 
   @Override protected abstract int getLayoutId();
 
@@ -29,13 +28,13 @@ public abstract class BuAppCompatActivity extends RosieAppCompatActivity {
   }
 
   @Override protected List<Object> getActivityScopeModules() {
-    return Arrays.asList((Object) new BaseModule());
+    return Arrays.asList((Object) new BaseModule(this));
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    if (!instagramSession.hasSession(this)) {
+    if (!sessionManager.hasSession()) {
       redirectToLogin();
     }
   }

@@ -9,6 +9,6 @@ public class UserDatasourceFactory {
   }
 
   public UserDatasource createDatasource() {
-    return new FirebaseUserDataSource();
+    return new ServiceUserDataSource();
   }
 }

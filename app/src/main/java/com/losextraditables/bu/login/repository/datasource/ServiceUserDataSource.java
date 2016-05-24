@@ -9,18 +9,17 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.karumi.rosie.repository.datasource.Identifiable;
 import com.losextraditables.bu.login.domain.model.User;
-import io.fabric.sdk.android.services.common.Crash;
 import java.util.Collection;
 import java.util.Map;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscriber;
 
-public class FirebaseUserDataSource implements UserDatasource {
+public class ServiceUserDataSource implements UserDatasource {
 
   public static final String FIREBASE_URL = "https://buandroid.firebaseio.com";
 
-  @Inject public FirebaseUserDataSource() {
+  @Inject public ServiceUserDataSource() {
   }
 
   @Override
