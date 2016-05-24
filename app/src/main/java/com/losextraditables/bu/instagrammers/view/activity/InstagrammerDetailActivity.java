@@ -1,6 +1,5 @@
 package com.losextraditables.bu.instagrammers.view.activity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
