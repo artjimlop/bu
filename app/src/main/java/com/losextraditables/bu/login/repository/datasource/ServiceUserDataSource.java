@@ -1,6 +1,5 @@
 package com.losextraditables.bu.login.repository.datasource;
 
-import android.support.annotation.NonNull;
 import com.crashlytics.android.Crashlytics;
 import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
@@ -9,6 +8,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 import com.karumi.rosie.repository.datasource.Identifiable;
 import com.losextraditables.bu.login.domain.model.User;
+import com.losextraditables.bu.utils.FirebaseService;
 import java.util.Collection;
 import java.util.Map;
 import javax.inject.Inject;
@@ -17,9 +17,10 @@ import rx.Subscriber;
 
 public class ServiceUserDataSource implements UserDatasource {
 
-  public static final String FIREBASE_URL = "https://buandroid.firebaseio.com";
+  private final FirebaseService firebaseService;
 
-  @Inject public ServiceUserDataSource() {
+  @Inject public ServiceUserDataSource(FirebaseService firebaseService) {
+    this.firebaseService = firebaseService;
   }
 
   @Override
@@ -27,7 +28,7 @@ public class ServiceUserDataSource implements UserDatasource {
     return Observable.create(new Observable.OnSubscribe<Void>() {
       @Override
       public void call(final Subscriber<? super Void> subscriber) {
-        getFirebaseConnection().createUser(username, password,
+        firebaseService.getFirebaseConnection().createUser(username, password,
             new Firebase.ValueResultHandler<Map<String, Object>>() {
               @Override
               public void onSuccess(Map<String, Object> result) {
@@ -45,7 +46,7 @@ public class ServiceUserDataSource implements UserDatasource {
   }
 
   private void createUserEntity(final String username, String uid) {
-    final Firebase userReference = new Firebase("https://buandroid.firebaseio.com/users").child(uid);
+    final Firebase userReference = firebaseService.createUserReference(uid);
     userReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
         if (dataSnapshot.getValue() == null) {
@@ -74,7 +75,7 @@ public class ServiceUserDataSource implements UserDatasource {
 
   private void authernticateUser(final Subscriber<? super String> subscriber, final String username,
       String password) {
-    getFirebaseConnection().authWithPassword(username, password,
+    firebaseService.getFirebaseConnection().authWithPassword(username, password,
         new Firebase.AuthResultHandler() {
           @Override
           public void onAuthenticated(AuthData authData) {
@@ -89,11 +90,6 @@ public class ServiceUserDataSource implements UserDatasource {
             subscriber.onError(new RuntimeException(firebaseError.getMessage()));
           }
         });
-  }
-
-  @NonNull
-  private Firebase getFirebaseConnection() {
-    return new Firebase(FIREBASE_URL);
   }
 
   @Override
