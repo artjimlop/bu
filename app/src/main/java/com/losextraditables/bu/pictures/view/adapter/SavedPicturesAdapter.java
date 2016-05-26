@@ -7,28 +7,29 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.losextraditables.bu.R;
+import com.losextraditables.bu.pictures.model.PictureModel;
 import com.squareup.picasso.Picasso;
-import java.util.ArrayList;
+import java.util.List;
 
 public class SavedPicturesAdapter extends BaseAdapter {
     private Context context;
-    private ArrayList<String> urls;
+    private List<PictureModel> pictureModels;
     private ItemClickListener itemClickListener;
 
-    public SavedPicturesAdapter(Context context, ArrayList<String> urls, ItemClickListener itemClickListener) {
+    public SavedPicturesAdapter(Context context, List<PictureModel> pictureModels, ItemClickListener itemClickListener) {
         this.context = context;
-        this.urls = urls;
+        this.pictureModels = pictureModels;
         this.itemClickListener = itemClickListener;
     }
 
     @Override
     public int getCount() {
-        return urls.size();
+        return pictureModels.size();
     }
 
     @Override
-    public String getItem(int position) {
-        return urls.get(position);
+    public PictureModel getItem(int position) {
+        return pictureModels.get(position);
     }
 
     @Override
@@ -38,7 +39,6 @@ public class SavedPicturesAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
-
         if (view == null) {
             LayoutInflater inflater = (LayoutInflater) context
               .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -52,8 +52,8 @@ public class SavedPicturesAdapter extends BaseAdapter {
             }
         });
 
-        final String item = getItem(position);
-        Picasso.with(context).load(item).into(picture);
+        final PictureModel item = getItem(position);
+        Picasso.with(context).load(item.getUrl()).into(picture);
         return view;
     }
 }

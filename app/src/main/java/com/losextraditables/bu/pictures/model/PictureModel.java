@@ -1,12 +1,11 @@
-package com.losextraditables.bu.pictures.domain.model;
+package com.losextraditables.bu.pictures.model;
 
 import lombok.Data;
 
 @Data
-public class Picture {
+public class PictureModel {
 
   private String originalUrl;
   private String url;
   private String username;
-
 }

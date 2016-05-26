@@ -140,7 +140,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   }
 
   @Override
-  public void showMockedInstagrammers(List<InstagrammerModel> instagrammerModels) {
+  public void showInstagrammers(List<InstagrammerModel> instagrammerModels) {
     adapter.setUsers(instagrammerModels);
     adapter.notifyDataSetChanged();
   }

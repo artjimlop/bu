@@ -49,7 +49,6 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
                 .subscribe(new Observer<List<Instagrammer>>() {
                   @Override public void onCompleted() {
                     getView().hideLoading();
-                    //TODO show no instagrammers text on view
                   }
 
                   @Override public void onError(Throwable e) {
@@ -59,8 +58,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
 
                   @Override public void onNext(List<Instagrammer> instagrammers) {
                     List<InstagrammerModel> instagrammerModels = mapper.mapList(instagrammers);
-                    getView().showMockedInstagrammers(instagrammerModels);
-                    getView().hideLoading();
+                    showInstagrammersInView(instagrammerModels);
                   }
                 });
           }
@@ -74,6 +72,11 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
         .execute();
   }
 
+  private void showInstagrammersInView(List<InstagrammerModel> instagrammerModels) {
+    getView().showInstagrammers(instagrammerModels);
+    getView().hideLoading();
+  }
+
   public void refreshAuth() {
     String email = sessionManager.getEmail();
     String password = sessionManager.getPassword();
@@ -83,11 +86,9 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Observer<String>() {
               @Override public void onCompleted() {
-
               }
 
               @Override public void onError(Throwable e) {
-
               }
 
               @Override public void onNext(String uid) {
@@ -108,7 +109,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
   }
 
   public interface View extends BuPresenter.View {
-    void showMockedInstagrammers(List<InstagrammerModel> instagrammerModels);
+    void showInstagrammers(List<InstagrammerModel> instagrammerModels);
 
     void goToInstagrammerDetail(InstagrammerModel instagrammerModel);
 

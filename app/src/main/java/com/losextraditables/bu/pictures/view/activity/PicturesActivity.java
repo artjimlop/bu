@@ -24,13 +24,13 @@ import com.losextraditables.bu.bottombar.view.BottomBarPresenter;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
+import com.losextraditables.bu.pictures.model.PictureModel;
 import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
 import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
 import com.losextraditables.bu.utils.SessionManager;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
@@ -179,8 +179,8 @@ public class PicturesActivity extends BuAppCompatActivity
   @Override public void showSavedInstagrammer() {
   }
 
-  @Override public void showSavedPictures(ArrayList<String> urls) {
-    adapter = new SavedPicturesAdapter(this, urls, new ItemClickListener() {
+  @Override public void showSavedPictures(List<PictureModel> pictures) {
+    adapter = new SavedPicturesAdapter(this, pictures, new ItemClickListener() {
       @Override public void onItemClick(View view, int position) {
         goToSavedPictureActivity(view, position);
       }
@@ -189,7 +189,7 @@ public class PicturesActivity extends BuAppCompatActivity
   }
 
   private void goToSavedPictureActivity(View view, int position) {
-    PictureActivity.init(this, view, adapter.getItem(position));
+    PictureActivity.init(this, view, adapter.getItem(position).getUrl());
   }
 
   @Override

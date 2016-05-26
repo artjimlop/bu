@@ -50,7 +50,7 @@ def getRedirectUri() {
 
 def versionMajor = 0
 def versionMinor = 1
-def versionRevision = 2
+def versionRevision = 6
 
 android {
   compileSdkVersion 23
@@ -132,4 +132,5 @@ dependencies {
     }
   compile 'com.artjimlop:AllStarr:0.0.1'
   compile 'com.artjimlop:altex-image-downloader:0.0.4'
+  provided "org.projectlombok:lombok:1.12.6"
 }
