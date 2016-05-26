@@ -16,12 +16,11 @@ public class AuthenticationHandler {
 
   public void authenticationRefresh(final Context context) {
     final Firebase ref = new Firebase("https://buandroid.firebaseio.com");
-
     ref.addAuthStateListener(new Firebase.AuthStateListener() {
       @Override
       public void onAuthStateChanged(AuthData authData) {
         if (authData == null) {
-          Firebase.AuthResultHandler authResultHandler = new Firebase.AuthResultHandler() {
+          final Firebase.AuthResultHandler authResultHandler = new Firebase.AuthResultHandler() {
             @Override
             public void onAuthenticated(AuthData authData) {
               // Authenticated successfully with payload authData

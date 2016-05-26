@@ -19,4 +19,8 @@ public class UserRepository {
   public Observable<String> login(String username, String password) {
     return userDatasource.login(username, password);
   }
+
+  public void logout() {
+    userDatasource.logout();
+  }
 }

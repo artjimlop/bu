@@ -8,6 +8,7 @@ import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
 import com.losextraditables.bu.login.domain.usecase.CreateUserUseCase;
 import com.losextraditables.bu.login.domain.usecase.LoginUseCase;
+import com.losextraditables.bu.utils.SessionManager;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Observer;
@@ -16,13 +17,15 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
 
   private final LoginUseCase loginUseCase;
   private final CreateUserUseCase createUserUseCase;
+  private final SessionManager sessionManager;
 
   @Inject
   public SignInPresenter(UseCaseHandler useCaseHandler, LoginUseCase loginUseCase,
-      CreateUserUseCase createUserUseCase) {
+      CreateUserUseCase createUserUseCase, SessionManager sessionManager) {
     super(useCaseHandler);
     this.loginUseCase = loginUseCase;
     this.createUserUseCase = createUserUseCase;
+    this.sessionManager = sessionManager;
   }
 
   public void signInClicked(final String username, final String password) {
@@ -30,6 +33,8 @@ public class SignInPresenter extends BuPresenter<SignInPresenter.View> {
     UserValidator validator = UserValidator.builder().build();
     try {
       if (validator.validateEmail(username) && validator.validatePassword(username, password)) {
+        sessionManager.setEmail(username);
+        sessionManager.setPassword(password);
         loginUser(username, password);
       }
     } catch (RuntimeException error) {

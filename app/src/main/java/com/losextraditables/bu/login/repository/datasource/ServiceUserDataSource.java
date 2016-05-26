@@ -73,6 +73,10 @@ public class ServiceUserDataSource implements UserDatasource {
     });
   }
 
+  @Override public void logout() {
+    firebaseService.getFirebaseConnection().unauth();
+  }
+
   private void authernticateUser(final Subscriber<? super String> subscriber, final String username,
       String password) {
     firebaseService.getFirebaseConnection().authWithPassword(username, password,

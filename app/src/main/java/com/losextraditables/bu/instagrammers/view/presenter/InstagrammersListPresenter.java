@@ -9,6 +9,8 @@ import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.domain.usecase.GetFollowedInstagrammersUseCase;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.model.mapper.InstagrammerModelMapper;
+import com.losextraditables.bu.login.domain.usecase.RefreshAuthUseCase;
+import com.losextraditables.bu.utils.SessionManager;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -19,13 +21,17 @@ import rx.schedulers.Schedulers;
 public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPresenter.View> {
 
   private final GetFollowedInstagrammersUseCase getFollowedInstagrammersUseCase;
+  private final RefreshAuthUseCase refreshAuthUseCase;
+  private final SessionManager sessionManager;
   private final InstagrammerModelMapper mapper;
 
   @Inject public InstagrammersListPresenter(UseCaseHandler useCaseHandler,
       GetFollowedInstagrammersUseCase getFollowedInstagrammersUseCase,
-      InstagrammerModelMapper mapper) {
+      RefreshAuthUseCase refreshAuthUseCase, SessionManager sessionManager, InstagrammerModelMapper mapper) {
     super(useCaseHandler);
     this.getFollowedInstagrammersUseCase = getFollowedInstagrammersUseCase;
+    this.refreshAuthUseCase = refreshAuthUseCase;
+    this.sessionManager = sessionManager;
     this.mapper = mapper;
   }
 
@@ -47,6 +53,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
                   }
 
                   @Override public void onError(Throwable e) {
+                    refreshAuth();
                     getView().showConnectionError();
                   }
 
@@ -65,6 +72,35 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
           }
         })
         .execute();
+  }
+
+  public void refreshAuth() {
+    String email = sessionManager.getEmail();
+    String password = sessionManager.getPassword();
+    createUseCaseCall(refreshAuthUseCase).args(email, password).onSuccess(new OnSuccessCallback() {
+      @Success public void onAuthRefreshed(Observable<String> observable) {
+        observable.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<String>() {
+              @Override public void onCompleted() {
+
+              }
+
+              @Override public void onError(Throwable e) {
+
+              }
+
+              @Override public void onNext(String uid) {
+                sessionManager.setUid(uid);
+              }
+            });
+      }
+    }).onError(new OnErrorCallback() {
+      @Override public boolean onError(Error error) {
+        getView().hideLoading();
+        return false;
+      }
+    }).execute();
   }
 
   public void goToInstagrammerDetail(InstagrammerModel instagrammerModel) {
