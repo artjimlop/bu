@@ -8,4 +8,12 @@ public interface SessionManager {
   void setUid(String uid);
 
   String getAccessToken();
+
+  void setEmail(String username);
+
+  void setPassword(String password);
+
+  String getEmail();
+
+  String getPassword();
 }
