@@ -8,8 +8,9 @@ import com.losextraditables.bu.base.view.presenter.BuPresenter;
 import com.losextraditables.bu.login.domain.usecase.RefreshAuthUseCase;
 import com.losextraditables.bu.pictures.domain.GetPicturesUseCase;
 import com.losextraditables.bu.pictures.domain.model.Picture;
+import com.losextraditables.bu.pictures.domain.model.mapper.PictureModelMapper;
+import com.losextraditables.bu.pictures.model.PictureModel;
 import com.losextraditables.bu.utils.SessionManager;
-import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -22,14 +23,17 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
   private final GetPicturesUseCase getPicturesUseCase;
   private final RefreshAuthUseCase refreshAuthUseCase;
   private final SessionManager sessionManager;
+  private final PictureModelMapper pictureModelMapper;
 
   @Inject
   public PicturesPresenter(UseCaseHandler useCaseHandler, GetPicturesUseCase getPicturesUseCase,
-      RefreshAuthUseCase refreshAuthUseCase, SessionManager sessionManager) {
+      RefreshAuthUseCase refreshAuthUseCase, SessionManager sessionManager,
+      PictureModelMapper pictureModelMapper) {
     super(useCaseHandler);
     this.getPicturesUseCase = getPicturesUseCase;
     this.refreshAuthUseCase = refreshAuthUseCase;
     this.sessionManager = sessionManager;
+    this.pictureModelMapper = pictureModelMapper;
   }
 
   public void initialize() {
@@ -44,7 +48,6 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
             .subscribe(new Observer<List<Picture>>() {
               @Override public void onCompleted() {
                 getView().hideLoading();
-                //TODO show no pictures text
               }
 
               @Override public void onError(Throwable e) {
@@ -54,13 +57,9 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
               }
 
               @Override public void onNext(List<Picture> pictures) {
-                //TODO MODEL List<InstagrammerModel> instagrammerModels = mapper.mapList(instagrammers);
-                ArrayList<String> urls = new ArrayList<>(pictures.size());
-                for (Picture picture : pictures) {
-                  urls.add(picture.getUrl());
-                }
+                List<PictureModel> pictureModels = pictureModelMapper.listMap(pictures);
                 getView().hideLoading();
-                getView().showSavedPictures(urls);
+                getView().showSavedPictures(pictureModels);
               }
             });
       }
@@ -81,11 +80,9 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Observer<String>() {
               @Override public void onCompleted() {
-
               }
 
               @Override public void onError(Throwable e) {
-
               }
 
               @Override public void onNext(String uid) {
@@ -103,6 +100,6 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
 
   public interface View extends BuPresenter.View {
 
-    void showSavedPictures(ArrayList<String> urls);
+    void showSavedPictures(List<PictureModel> pictures);
   }
 }
