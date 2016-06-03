@@ -26,4 +26,7 @@ public class FirebaseHandler implements FirebaseService{
     return new Firebase(FIREBASE_URL+"/users").child(uid).child("instagrammers");
   }
 
+  @Override public Firebase getVideosReference(String uid) {
+    return new Firebase(FIREBASE_URL+"/users").child(uid).child("videos");
+  }
 }
