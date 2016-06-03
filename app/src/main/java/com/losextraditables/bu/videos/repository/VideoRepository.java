@@ -1,6 +1,6 @@
 package com.losextraditables.bu.videos.repository;
 
-import com.losextraditables.bu.videos.Video;
+import com.losextraditables.bu.videos.domain.model.Video;
 import com.losextraditables.bu.videos.repository.datasource.VideoDataSource;
 import java.util.List;
 import javax.inject.Inject;

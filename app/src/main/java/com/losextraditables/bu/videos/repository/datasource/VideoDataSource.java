@@ -1,6 +1,6 @@
 package com.losextraditables.bu.videos.repository.datasource;
 
-import com.losextraditables.bu.videos.Video;
+import com.losextraditables.bu.videos.domain.model.Video;
 import java.util.List;
 import rx.Observable;
 

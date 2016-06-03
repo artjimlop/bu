@@ -8,7 +8,7 @@ import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 import com.losextraditables.bu.base.view.error.ConnectionError;
 import com.losextraditables.bu.utils.FirebaseService;
-import com.losextraditables.bu.videos.Video;
+import com.losextraditables.bu.videos.domain.model.Video;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;

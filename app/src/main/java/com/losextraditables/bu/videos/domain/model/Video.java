@@ -1,4 +1,4 @@
-package com.losextraditables.bu.videos;
+package com.losextraditables.bu.videos.domain.model;
 
 import lombok.Data;
 
