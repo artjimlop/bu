@@ -10,4 +10,6 @@ public interface FirebaseService {
   Firebase getPicturesReference(String uid);
 
   Firebase instagrammersReference(String uid);
+
+  Firebase getVideosReference(String uid);
 }
