@@ -11,6 +11,7 @@ import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.model.mapper.InstagrammerModelMapper;
 import com.losextraditables.bu.login.domain.usecase.RefreshAuthUseCase;
 import com.losextraditables.bu.utils.SessionManager;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -58,6 +59,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
 
                   @Override public void onNext(List<Instagrammer> instagrammers) {
                     List<InstagrammerModel> instagrammerModels = mapper.mapList(instagrammers);
+                    Collections.sort(instagrammerModels, InstagrammerModel.InstagrammerComparator);
                     showInstagrammersInView(instagrammerModels);
                   }
                 });

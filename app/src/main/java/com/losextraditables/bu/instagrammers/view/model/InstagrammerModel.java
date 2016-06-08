@@ -1,5 +1,7 @@
 package com.losextraditables.bu.instagrammers.view.model;
 
+import java.util.Comparator;
+
 public class InstagrammerModel {
 
   private String userId;
@@ -56,4 +58,13 @@ public class InstagrammerModel {
   public void setWebsite(String website) {
     this.website = website;
   }
+
+  public static Comparator<InstagrammerModel> InstagrammerComparator
+      = new Comparator<InstagrammerModel>() {
+
+    public int compare(InstagrammerModel instagrammerModel, InstagrammerModel anotherInstagrammer) {
+      return instagrammerModel.getUserName().compareTo(anotherInstagrammer.getUserName());
+    }
+
+  };
 }
