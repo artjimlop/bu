@@ -17,7 +17,7 @@ public class PictureModelMapper extends Mapper<Picture, PictureModel> {
     pictureModel.setUsername(value.getUsername());
     pictureModel.setOriginalUrl(value.getOriginalUrl());
     pictureModel.setUrl(value.getUrl());
-    return null;
+    return pictureModel;
   }
 
   @Override public Picture reverseMap(PictureModel value) {
