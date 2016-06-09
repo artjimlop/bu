@@ -50,7 +50,9 @@ public class SavedPicturesAdapter extends BaseAdapter {
     });
 
     final PictureModel item = getItem(position);
-    Picasso.with(context).load(item.getUrl()).into(picture);
+    if(item != null) {
+      Picasso.with(context).load(item.getUrl()).into(picture);
+    }
     return view;
   }
 }

@@ -7,6 +7,8 @@ import com.losextraditables.bu.instagrammers.InstagrammersListModule;
 import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.utils.AuthenticationHandler;
+import com.losextraditables.bu.videos.VideosModule;
+
 import dagger.ObjectGraph;
 import io.fabric.sdk.android.Fabric;
 import java.util.Arrays;
@@ -28,7 +30,7 @@ public class BuApplication extends RosieApplication {
 
   @Override protected List<Object> getApplicationModules() {
     return Arrays.asList(new ApplicationModule(this), new InstagrammersListModule(),
-        new LoginModule(), new PicturesModule());
+        new LoginModule(), new PicturesModule(), new VideosModule());
   }
 
   public void replaceGraph(ObjectGraph objectGraph) {
