@@ -103,15 +103,12 @@ public class ServiceVideoDataSource implements VideoDataSource {
       for (Element meta : doc.select("meta")) {
         if (meta.attr("property").equals("og:image")) {
           image = String.valueOf(meta.attr("content"));
-          break;
         }
         if (meta.attr("property").equals("og:title")) {
           title = String.valueOf(meta.attr("content"));
-          break;
         }
         if (meta.attr("property").equals("og:video")) {
           videoUrl = String.valueOf(meta.attr("content"));
-          break;
         }
       }
       Video video = new Video();
