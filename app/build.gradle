@@ -132,5 +132,6 @@ dependencies {
     }
   compile 'com.artjimlop:AllStarr:0.0.1'
   compile 'com.artjimlop:altex-image-downloader:0.0.4'
+  compile 'fm.jiecao:jiecaovideoplayer:3.6'
   provided "org.projectlombok:lombok:1.12.6"
 }

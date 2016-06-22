@@ -16,14 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-      <ImageView
-          android:id="@+id/video_picture"
+      <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+          android:id="@+id/video"
           android:layout_width="match_parent"
           android:layout_height="200dp"
-          android:layout_marginBottom="50dp"
-          android:scaleType="centerCrop"
-          tools:src="@drawable/bu_ic_launcher"
-          />
+          android:layout_marginBottom="50dp"/>
+
       <TextView
           android:id="@+id/video_title"
           android:layout_width="match_parent"

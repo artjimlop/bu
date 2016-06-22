@@ -28,6 +28,7 @@ import com.losextraditables.bu.videos.view.model.VideoModel;
 import com.losextraditables.bu.videos.view.presenter.VideoListPresenter;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -189,5 +190,10 @@ public class VideoActivity extends BuAppCompatActivity
 
   @Override public void showLoading() {
     //TODO
+  }
+
+  @Override protected void onPause() {
+    super.onPause();
+    JCVideoPlayer.releaseAllVideos();
   }
 }

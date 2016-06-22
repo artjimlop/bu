@@ -76,7 +76,7 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
     for(int i= 0; i<10; i++) {
       VideoModel videoModel = new VideoModel();
       videoModel.setTitle("video " + i);
-      videoModel.setUrl("http://techslides.com/demos/sample-videos/small.mp4");
+      videoModel.setUrl("http://clips.vorwaerts-gmbh.de/VfE_html5.mp4");
       videoModel.setImage("http://wiizom.click/wp-content/uploads/2016/01/2015-Chloe-Grace-Moretz-66.png");
       videoModels1.add(videoModel);
     }
