@@ -30,7 +30,9 @@ public class VideoModelMapper extends Mapper<Video, VideoModel> {
   public List<VideoModel> mapList(List<Video> videos) {
     List<VideoModel> videoModels = new ArrayList<>();
     for (Video video : videos) {
-      videoModels.add(map(video));
+      if(video.getUrl() != null && !video.getUrl().isEmpty()) {
+        videoModels.add(map(video));
+      }
     }
     return videoModels;
   }

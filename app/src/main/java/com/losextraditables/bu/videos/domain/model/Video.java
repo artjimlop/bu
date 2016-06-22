@@ -6,4 +6,9 @@ import lombok.Data;
   private String title;
   private String image;
   private String url;
+
+  public String getUrl() {
+    return url;
+  }
 }
+

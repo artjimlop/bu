@@ -13,6 +13,7 @@ import android.text.InputType;
 import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -29,7 +30,6 @@ import com.losextraditables.bu.videos.view.presenter.VideoListPresenter;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -126,24 +126,7 @@ public class VideoActivity extends BuAppCompatActivity
   }
 
   @Override public void showSavePictureDialog() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-    builder.setMessage("Insert picture's url here")
-        .setTitle("Save picture");
-
-    final EditText input = new EditText(this);
-
-    input.setInputType(InputType.TYPE_CLASS_TEXT);
-    builder.setView(input);
-    final Context context = this;
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
-      }
-    });
-
-    builder.create().show();
+    /* no-op */
   }
 
   @Override public void showPicture(String pictureUrl) {
@@ -180,8 +163,29 @@ public class VideoActivity extends BuAppCompatActivity
     adapter.notifyDataSetChanged();
   }
 
-  @Override public void goToVideo(VideoModel videoModel) {
-    //TODO
+  @Override public void showAddVideoDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    builder.setMessage("Insert video's url here")
+        .setTitle("Save video");
+
+    final EditText input = new EditText(this);
+
+    input.setInputType(InputType.TYPE_CLASS_TEXT);
+    builder.setView(input);
+    final Context context = this;
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        presenter.saveVideo(input.getText().toString(), session.getUid());
+      }
+    });
+
+    builder.create().show();
+  }
+
+  @Override public void refresh() {
+    presenter.showVideos(session.getUid());
   }
 
   @Override public void hideLoading() {
@@ -195,5 +199,9 @@ public class VideoActivity extends BuAppCompatActivity
   @Override protected void onPause() {
     super.onPause();
     JCVideoPlayer.releaseAllVideos();
+  }
+
+  @OnClick(R.id.fab) void onFabClick() {
+    presenter.onAddVideoClick();
   }
 }
