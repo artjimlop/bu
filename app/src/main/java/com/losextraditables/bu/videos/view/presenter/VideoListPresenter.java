@@ -11,6 +11,7 @@ import com.losextraditables.bu.videos.domain.GetVideosUseCase;
 import com.losextraditables.bu.videos.domain.model.Video;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import com.losextraditables.bu.videos.view.model.mapper.VideoModelMapper;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -39,7 +40,7 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
   }
 
   public void showVideos(String uid) {
-    getView().showLoading();
+    /*getView().showLoading();
     createUseCaseCall(getVideosUseCase).args(uid)
         .onSuccess(new OnSuccessCallback() {
           @Success
@@ -69,7 +70,17 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
             return false;
           }
         })
-        .execute();
+        .execute();*/
+    ArrayList<VideoModel> videoModels1 = new ArrayList<>();
+
+    for(int i= 0; i<10; i++) {
+      VideoModel videoModel = new VideoModel();
+      videoModel.setTitle("video " + i);
+      videoModel.setUrl("http://techslides.com/demos/sample-videos/small.mp4");
+      videoModel.setImage("http://wiizom.click/wp-content/uploads/2016/01/2015-Chloe-Grace-Moretz-66.png");
+      videoModels1.add(videoModel);
+    }
+    getView().showVideos(videoModels1);
   }
 
   private void showVideosInView(List<VideoModel> videoModels) {

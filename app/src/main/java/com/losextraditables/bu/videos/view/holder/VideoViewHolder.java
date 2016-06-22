@@ -31,7 +31,7 @@ public class VideoViewHolder extends RecyclerView.ViewHolder {
 
   public void render (final VideoModel videoModel) {
     title.setText(videoModel.getTitle());
-    Picasso.with(context).load(videoModel.getUrl()).into(picture);
+    Picasso.with(context).load(videoModel.getImage()).into(picture);
     container.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
         onVideoClickListener.onClickListener(videoModel);

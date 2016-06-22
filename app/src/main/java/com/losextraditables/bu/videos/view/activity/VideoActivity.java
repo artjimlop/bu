@@ -1,4 +1,4 @@
-package com.losextraditables.bu.instagrammers.view.activity;
+package com.losextraditables.bu.videos.view.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -10,84 +10,66 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.bottombar.view.BottomBarPresenter;
-import com.losextraditables.bu.instagrammers.InstagrammersListModule;
-import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
-import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
-import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
 import com.losextraditables.bu.utils.SessionManager;
+import com.losextraditables.bu.videos.VideosModule;
+import com.losextraditables.bu.videos.view.adapter.VideoAdapter;
+import com.losextraditables.bu.videos.view.listener.OnVideoClickListener;
+import com.losextraditables.bu.videos.view.model.VideoModel;
+import com.losextraditables.bu.videos.view.presenter.VideoListPresenter;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 
-public class InstagrammersListActivity extends BuAppCompatActivity
-    implements BottomBarPresenter.View, InstagrammersListPresenter.View {
+public class VideoActivity extends BuAppCompatActivity
+    implements BottomBarPresenter.View, VideoListPresenter.View {
 
-  private static final int ANIMATION_DURATION = 500;
-  @Bind(R.id.instagrammers_list)
-  RecyclerView instagrammersList;
+  @Bind(R.id.videos) RecyclerView videoRecycler;
   @Bind(R.id.toolbar) Toolbar toolbar;
 
-  @Bind(R.id.instagrammers_progress) ProgressBar progressBar;
-
-  @Inject
-  @Presenter
-  InstagrammersListPresenter instagrammersListPresenter;
-
-  @Inject
-  @Presenter
-  BottomBarPresenter bottomBarPresenter;
-
+  @Inject @Presenter VideoListPresenter presenter;
+  @Inject @Presenter BottomBarPresenter bottomBarPresenter;
   @Inject SessionManager session;
 
-  private InstagrammersAdapter adapter;
+  private VideoAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
-  private View sharedImage;
   private BottomBar bottomBar;
-
   private boolean justInitialized = true;
 
-  @Override
-  protected int getLayoutId() {
-    return R.layout.activity_instagrammers;
+  @Override protected int getLayoutId() {
+    return R.layout.activity_video;
   }
 
   @Override protected List<Object> getActivityScopeModules() {
-    return Arrays.asList((Object) new InstagrammersListModule());
+    return Collections.singletonList((Object) new VideosModule());
   }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_instagrammers);
+    setContentView(R.layout.activity_video);
     ButterKnife.bind(this);
     setSupportActionBar(toolbar);
-    adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
-      @Override
-      public void onItemClick(View view, InstagrammerModel instagrammerModel) {
-        sharedImage = view.findViewById(R.id.instagrammer_avatar);
-        instagrammersListPresenter.goToInstagrammerDetail(instagrammerModel);
-      }
-    });
-    instagrammersList.setAdapter(adapter);
-    linearLayoutManager = new LinearLayoutManager(this);
-    instagrammersList.setLayoutManager(linearLayoutManager);
-    instagrammersListPresenter.showInstagrammers(session.getUid());
-
+    setupAdapter();
+    presenter.showVideos(session.getUid());
     setupBottomBar(savedInstanceState, this);
+  }
+
+  @Override protected void onPreparePresenter() {
+    super.onPreparePresenter();
+    presenter.initialize();
   }
 
   private void setupBottomBar(Bundle savedInstanceState, final Context context) {
@@ -98,7 +80,9 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
-          bottomBarPresenter.savePictureClicked();
+          if (!justInitialized) {
+            bottomBarPresenter.savePictureClicked();
+          }
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           bottomBarPresenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
@@ -119,35 +103,25 @@ public class InstagrammersListActivity extends BuAppCompatActivity
         }
       }
     });
-    bottomBar.selectTabAtPosition(3, true);
+    bottomBar.selectTabAtPosition(1, true);
     justInitialized = false;
   }
 
-  @Override public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    bottomBar.onSaveInstanceState(outState);
+
+  private void setupAdapter() {
+    adapter = new VideoAdapter(this, new OnVideoClickListener() {
+      @Override public void onClickListener(VideoModel videoModel) {
+        //TODO
+      }
+    });
+    videoRecycler.setAdapter(adapter);
+    linearLayoutManager = new LinearLayoutManager(this);
+    videoRecycler.setLayoutManager(linearLayoutManager);
   }
 
-  @Override
-  protected void redirectToLogin() {
+  @Override protected void redirectToLogin() {
     startActivity(new Intent(this, LoginActivity.class));
     finish();
-  }
-
-  @Override protected void onPreparePresenter() {
-    super.onPreparePresenter();
-    instagrammersListPresenter.initialize();
-  }
-
-  @Override
-  public void showInstagrammers(List<InstagrammerModel> instagrammerModels) {
-    adapter.setUsers(instagrammerModels);
-    adapter.notifyDataSetChanged();
-  }
-
-  @Override
-  public void goToInstagrammerDetail(InstagrammerModel instagrammerModel) {
-    InstagrammerDetailActivity.init(this, sharedImage, instagrammerModel);
   }
 
   @Override public void showSavePictureDialog() {
@@ -197,18 +171,23 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   }
 
   @Override public void showSavedInstagrammer() {
+    /* no-op */
   }
 
-  @Override
-  public void hideLoading() {
-    instagrammersList.setVisibility(View.VISIBLE);
-    progressBar.setVisibility(View.GONE);
+  @Override public void showVideos(List<VideoModel> videoModels) {
+    adapter.setVideoList(videoModels);
+    adapter.notifyDataSetChanged();
   }
 
-  @Override
-  public void showLoading() {
-    instagrammersList.setVisibility(View.GONE);
-    progressBar.setVisibility(View.VISIBLE);
+  @Override public void goToVideo(VideoModel videoModel) {
+    //TODO
   }
 
+  @Override public void hideLoading() {
+    //TODO
+  }
+
+  @Override public void showLoading() {
+    //TODO
+  }
 }

@@ -9,21 +9,21 @@ import com.losextraditables.bu.R;
 import com.losextraditables.bu.videos.view.holder.VideoViewHolder;
 import com.losextraditables.bu.videos.view.listener.OnVideoClickListener;
 import com.losextraditables.bu.videos.view.model.VideoModel;
-import java.util.ArrayList;
+import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
   
   private final Context context;
   private final OnVideoClickListener onVideoClickListener;
 
-  private ArrayList<VideoModel> videoModels;
+  private List<VideoModel> videoModels;
 
   public VideoAdapter(Context context, OnVideoClickListener onVideoClickListener) {
     this.context = context;
     this.onVideoClickListener = onVideoClickListener;
   }
 
-  public void setVideoList(ArrayList<VideoModel> videoList) {
+  public void setVideoList(List<VideoModel> videoList) {
     this.videoModels = videoList;
   }
 

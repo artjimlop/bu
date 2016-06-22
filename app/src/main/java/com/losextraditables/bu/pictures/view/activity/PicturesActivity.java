@@ -29,6 +29,7 @@ import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
 import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
 import com.losextraditables.bu.utils.SessionManager;
+import com.losextraditables.bu.videos.view.activity.VideoActivity;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import java.util.Arrays;
@@ -89,7 +90,7 @@ public class PicturesActivity extends BuAppCompatActivity
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
+        if (menuItemId == R.id.bottom_videos) {
           bottomBarPresenter.savePictureClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           bottomBarPresenter.saveInstagrammerClicked();
@@ -102,7 +103,7 @@ public class PicturesActivity extends BuAppCompatActivity
 
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
+        if (menuItemId == R.id.bottom_videos) {
           bottomBarPresenter.savePictureClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           bottomBarPresenter.saveInstagrammerClicked();
@@ -132,7 +133,7 @@ public class PicturesActivity extends BuAppCompatActivity
   }
 
   @Override public void showSavePictureDialog() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
     builder.setMessage("Insert picture's url here")
         .setTitle("Save picture");
@@ -148,7 +149,9 @@ public class PicturesActivity extends BuAppCompatActivity
       }
     });
 
-    builder.create().show();
+    builder.create().show();*/
+    startActivity(new Intent(this, VideoActivity.class));
+    finish();
   }
 
   @Override public void showPicture(String pictureUrl) {
