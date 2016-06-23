@@ -17,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -91,7 +92,7 @@ public class PicturesActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
-          bottomBarPresenter.savePictureClicked();
+          bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           bottomBarPresenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_instagrammers) {
@@ -104,7 +105,7 @@ public class PicturesActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
-          bottomBarPresenter.savePictureClicked();
+          bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           bottomBarPresenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_instagrammers) {
@@ -132,24 +133,7 @@ public class PicturesActivity extends BuAppCompatActivity
     bottomBarPresenter.initialize();
   }
 
-  @Override public void showSavePictureDialog() {
-    /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-    builder.setMessage("Insert picture's url here")
-        .setTitle("Save picture");
-
-    final EditText input = new EditText(this);
-
-    input.setInputType(InputType.TYPE_CLASS_TEXT);
-    builder.setView(input);
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
-      }
-    });
-
-    builder.create().show();*/
+  @Override public void showVideos() {
     startActivity(new Intent(this, VideoActivity.class));
     finish();
   }
@@ -191,6 +175,26 @@ public class PicturesActivity extends BuAppCompatActivity
     picturesList.setAdapter(adapter);
   }
 
+  @Override public void showSavePictureDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    builder.setMessage("Insert picture's url here")
+        .setTitle("Save picture");
+
+    final EditText input = new EditText(this);
+
+    input.setInputType(InputType.TYPE_CLASS_TEXT);
+    builder.setView(input);
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
+      }
+    });
+
+    builder.create().show();
+  }
+
   private void goToSavedPictureActivity(View view, int position) {
     PictureActivity.init(this, view, adapter.getItem(position).getUrl());
   }
@@ -218,5 +222,9 @@ public class PicturesActivity extends BuAppCompatActivity
   @Override protected void onResume() {
     super.onResume();
     picturesPresenter.loadSavedPictures(session.getUid());
+  }
+
+  @OnClick(R.id.fab) void onFabClick() {
+    picturesPresenter.onAddPictureClick();
   }
 }

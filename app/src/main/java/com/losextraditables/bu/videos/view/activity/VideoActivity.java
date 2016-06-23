@@ -82,7 +82,7 @@ public class VideoActivity extends BuAppCompatActivity
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
           if (!justInitialized) {
-            bottomBarPresenter.savePictureClicked();
+            bottomBarPresenter.showVideosClicked();
           }
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           bottomBarPresenter.saveInstagrammerClicked();
@@ -98,7 +98,7 @@ public class VideoActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
-          bottomBarPresenter.savePictureClicked();
+          bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           bottomBarPresenter.saveInstagrammerClicked();
         }
@@ -125,7 +125,7 @@ public class VideoActivity extends BuAppCompatActivity
     finish();
   }
 
-  @Override public void showSavePictureDialog() {
+  @Override public void showVideos() {
     /* no-op */
   }
 

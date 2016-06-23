@@ -36,8 +36,8 @@ public class BottomBarPresenter extends BuPresenter<BottomBarPresenter.View> {
     this.saveInstagrammerUseCase = saveInstagrammerUseCase;
   }
 
-  public void savePictureClicked() {
-    getView().showSavePictureDialog();
+  public void showVideosClicked() {
+    getView().showVideos();
   }
 
   public void savePicture(final String url, @NonNull final String uid) {
@@ -152,7 +152,7 @@ public class BottomBarPresenter extends BuPresenter<BottomBarPresenter.View> {
   }
 
   public interface View extends BuPresenter.View {
-    void showSavePictureDialog();
+    void showVideos();
 
     void showPicture(String pictureUrl);
 

@@ -98,7 +98,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
-          bottomBarPresenter.savePictureClicked();
+          bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           bottomBarPresenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
@@ -113,7 +113,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
-          bottomBarPresenter.savePictureClicked();
+          bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
           bottomBarPresenter.saveInstagrammerClicked();
         }
@@ -150,7 +150,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     InstagrammerDetailActivity.init(this, sharedImage, instagrammerModel);
   }
 
-  @Override public void showSavePictureDialog() {
+  @Override public void showVideos() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
     builder.setMessage("Insert picture's url here")
