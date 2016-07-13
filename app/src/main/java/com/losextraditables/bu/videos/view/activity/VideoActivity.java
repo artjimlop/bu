@@ -10,9 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -27,7 +25,6 @@ import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
 import com.losextraditables.bu.utils.SessionManager;
 import com.losextraditables.bu.videos.VideosModule;
 import com.losextraditables.bu.videos.view.adapter.VideoAdapter;
-import com.losextraditables.bu.videos.view.listener.OnVideoClickListener;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import com.losextraditables.bu.videos.view.presenter.VideoListPresenter;
 import com.roughike.bottombar.BottomBar;
@@ -60,8 +57,7 @@ public class VideoActivity extends BuAppCompatActivity
     return Collections.singletonList((Object) new VideosModule());
   }
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_video);
     ButterKnife.bind(this);
@@ -81,8 +77,7 @@ public class VideoActivity extends BuAppCompatActivity
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
-      @Override
-      public void onMenuTabSelected(@IdRes int menuItemId) {
+      @Override public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
           if (!justInitialized) {
             bottomBarPresenter.showVideosClicked();
@@ -102,8 +97,7 @@ public class VideoActivity extends BuAppCompatActivity
         }
       }
 
-      @Override
-      public void onMenuTabReSelected(@IdRes int menuItemId) {
+      @Override public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
           bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_save_instagrammers) {
@@ -115,13 +109,8 @@ public class VideoActivity extends BuAppCompatActivity
     justInitialized = false;
   }
 
-
   private void setupAdapter() {
-    adapter = new VideoAdapter(this, new OnVideoClickListener() {
-      @Override public void onClickListener(VideoModel videoModel) {
-        //TODO
-      }
-    });
+    adapter = new VideoAdapter(this);
     videoRecycler.setAdapter(adapter);
     linearLayoutManager = new LinearLayoutManager(this);
     videoRecycler.setLayoutManager(linearLayoutManager);
@@ -143,8 +132,7 @@ public class VideoActivity extends BuAppCompatActivity
   @Override public void showSaveInstagrammerDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-    builder.setMessage("Insert instagrammers's url here")
-        .setTitle("Save");
+    builder.setMessage("Insert instagrammers's url here").setTitle("Save");
 
     final EditText input = new EditText(this);
 
@@ -152,8 +140,7 @@ public class VideoActivity extends BuAppCompatActivity
     builder.setView(input);
     final Context context = this;
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
+      @Override public void onClick(DialogInterface dialog, int which) {
         bottomBarPresenter.saveUser(input.getText().toString(), session.getUid());
       }
     });
@@ -173,8 +160,7 @@ public class VideoActivity extends BuAppCompatActivity
   @Override public void showAddVideoDialog() {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-    builder.setMessage("Insert video's url here")
-        .setTitle("Save video");
+    builder.setMessage("Insert video's url here").setTitle("Save video");
 
     final EditText input = new EditText(this);
 
@@ -182,8 +168,7 @@ public class VideoActivity extends BuAppCompatActivity
     builder.setView(input);
     final Context context = this;
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
+      @Override public void onClick(DialogInterface dialog, int which) {
         presenter.saveVideo(input.getText().toString(), session.getUid());
       }
     });
@@ -196,11 +181,11 @@ public class VideoActivity extends BuAppCompatActivity
   }
 
   @Override public void hideLoading() {
-    //TODO
+    /*no-op*/
   }
 
   @Override public void showLoading() {
-    //TODO
+    /*no-op*/
   }
 
   @Override protected void onPause() {

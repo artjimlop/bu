@@ -7,20 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.videos.view.holder.VideoViewHolder;
-import com.losextraditables.bu.videos.view.listener.OnVideoClickListener;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import java.util.List;
 
 public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
-  
+
   private final Context context;
-  private final OnVideoClickListener onVideoClickListener;
 
   private List<VideoModel> videoModels;
 
-  public VideoAdapter(Context context, OnVideoClickListener onVideoClickListener) {
+  public VideoAdapter(Context context) {
     this.context = context;
-    this.onVideoClickListener = onVideoClickListener;
   }
 
   public void setVideoList(List<VideoModel> videoList) {
@@ -28,9 +25,9 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
   }
 
   @Override public VideoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-    View v = LayoutInflater.from(parent.getContext())
-        .inflate(R.layout.item_video_list, parent, false);
-    return new VideoViewHolder(v, context, onVideoClickListener);
+    View v =
+        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_video_list, parent, false);
+    return new VideoViewHolder(v, context);
   }
 
   @Override public void onBindViewHolder(VideoViewHolder holder, int position) {
