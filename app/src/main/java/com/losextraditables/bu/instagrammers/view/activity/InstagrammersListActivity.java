@@ -27,6 +27,7 @@ import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
 import com.losextraditables.bu.utils.SessionManager;
+import com.losextraditables.bu.videos.view.activity.VideoActivity;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import java.util.Arrays;
@@ -151,24 +152,9 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   }
 
   @Override public void showVideos() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-    builder.setMessage("Insert picture's url here")
-        .setTitle("Save picture");
-
-    final EditText input = new EditText(this);
-
-    input.setInputType(InputType.TYPE_CLASS_TEXT);
-    builder.setView(input);
-    final Context context = this;
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
-      }
-    });
-
-    builder.create().show();
+    startActivity(new Intent(this, VideoActivity.class));
+    overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+    finish();
   }
 
   @Override public void showPicture(String pictureUrl) {

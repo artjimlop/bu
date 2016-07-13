@@ -10,7 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -18,6 +20,7 @@ import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.bottombar.view.BottomBarPresenter;
+import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
@@ -92,6 +95,10 @@ public class VideoActivity extends BuAppCompatActivity
             overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
             finish();
           }
+        } else if (menuItemId == R.id.bottom_instagrammers) {
+          startActivity(new Intent(context, InstagrammersListActivity.class));
+          overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+          finish();
         }
       }
 
