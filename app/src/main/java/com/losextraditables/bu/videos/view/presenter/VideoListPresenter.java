@@ -10,10 +10,12 @@ import com.losextraditables.bu.login.domain.usecase.RefreshAuthUseCase;
 import com.losextraditables.bu.utils.SessionManager;
 import com.losextraditables.bu.videos.domain.GetVideoUseCase;
 import com.losextraditables.bu.videos.domain.GetVideosUseCase;
+import com.losextraditables.bu.videos.domain.RemoveVideoUseCase;
 import com.losextraditables.bu.videos.domain.SaveVideoUseCase;
 import com.losextraditables.bu.videos.domain.model.Video;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import com.losextraditables.bu.videos.view.model.mapper.VideoModelMapper;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -26,18 +28,21 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
   private final GetVideosUseCase getVideosUseCase;
   private final SaveVideoUseCase saveVideoUseCase;
   private final GetVideoUseCase getVideoUseCase;
+  private final RemoveVideoUseCase removeVideoUseCase;
   private final RefreshAuthUseCase refreshAuthUseCase;
   private final SessionManager sessionManager;
   private final VideoModelMapper mapper;
+  private List<VideoModel> videoModels;
 
   @Inject public VideoListPresenter(UseCaseHandler useCaseHandler,
       GetVideosUseCase getVideosUseCase, SaveVideoUseCase saveVideoUseCase,
-      GetVideoUseCase getVideoUseCase, RefreshAuthUseCase refreshAuthUseCase,
+      GetVideoUseCase getVideoUseCase, RemoveVideoUseCase removeVideoUseCase, RefreshAuthUseCase refreshAuthUseCase,
       SessionManager sessionManager, VideoModelMapper mapper) {
     super(useCaseHandler);
     this.getVideosUseCase = getVideosUseCase;
     this.saveVideoUseCase = saveVideoUseCase;
     this.getVideoUseCase = getVideoUseCase;
+    this.removeVideoUseCase = removeVideoUseCase;
     this.refreshAuthUseCase = refreshAuthUseCase;
     this.sessionManager = sessionManager;
     this.mapper = mapper;
@@ -65,7 +70,7 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
                   }
 
                   @Override public void onNext(List<Video> videos) {
-                    List<VideoModel> videoModels = mapper.mapList(videos);
+                    videoModels = mapper.mapList(videos);
                     getView().showVideos(videoModels);
                   }
                 });
@@ -171,6 +176,41 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
 
   public void onAddVideoClick() {
     getView().showAddVideoDialog();
+  }
+
+  public void removeVideo(String uid, final String url) {
+    createUseCaseCall(removeVideoUseCase).args(uid, url)
+        .onSuccess(new OnSuccessCallback() {
+          @Success
+          public void onVideosLoaded(Observable<List<Video>> videoObservable) {
+            videoObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<Video>>() {
+                  @Override public void onCompleted() {
+                    List<VideoModel> videos = new ArrayList<>();
+                    for (VideoModel video : videoModels) {
+                      if (!video.getUrl().equals(url)) {
+                        videos.add(video);
+                      }
+                    }
+                    getView().showVideos(videos);
+                  }
+
+                  @Override public void onError(Throwable e) {
+                  }
+
+                  @Override public void onNext(List<Video> videos) {
+                  }
+                });
+          }
+        })
+        .onError(new OnErrorCallback() {
+          @Override public boolean onError(Error error) {
+            getView().hideLoading();
+            return false;
+          }
+        })
+        .execute();
   }
 
   public interface View extends BuPresenter.View {

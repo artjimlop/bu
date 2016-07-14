@@ -8,6 +8,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import com.losextraditables.bu.R;
+import com.losextraditables.bu.pictures.view.adapter.OnVideoClickListener;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import com.squareup.picasso.Picasso;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
@@ -27,11 +28,17 @@ public class VideoViewHolder extends RecyclerView.ViewHolder {
     this.context = context;
   }
 
-  public void render(final VideoModel videoModel) {
+  public void render(final VideoModel videoModel, final OnVideoClickListener onVideoClickListener) {
     title.setText(videoModel.getTitle());
     if (videoModel.getImage() != null) {
       Picasso.with(context).load(videoModel.getImage()).into(videoPlayer.thumbImageView);
     }
     videoPlayer.setUp(videoModel.getUrl(), EMPTY_STRING);
+    container.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override public boolean onLongClick(View v) {
+        onVideoClickListener.onItemLongClick(v, videoModel.getUrl());
+        return false;
+      }
+    });
   }
 }
