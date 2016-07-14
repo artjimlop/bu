@@ -76,14 +76,13 @@ public class VideoActivity extends BuAppCompatActivity
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
+    bottomBar.setMaxFixedTabs(2);
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
           if (!justInitialized) {
             bottomBarPresenter.showVideosClicked();
           }
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
           if (!justInitialized) {
             startActivity(new Intent(context, PicturesActivity.class));
@@ -100,8 +99,6 @@ public class VideoActivity extends BuAppCompatActivity
       @Override public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
           bottomBarPresenter.showVideosClicked();
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
         }
       }
     });

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -95,13 +96,12 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
+    bottomBar.setMaxFixedTabs(2);
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
           bottomBarPresenter.showVideosClicked();
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
           if (!justInitialized) {
             startActivity(new Intent(context, PicturesActivity.class));
@@ -115,12 +115,10 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       public void onMenuTabReSelected(@IdRes int menuItemId) {
         if (menuItemId == R.id.bottom_videos) {
           bottomBarPresenter.showVideosClicked();
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
         }
       }
     });
-    bottomBar.selectTabAtPosition(3, true);
+    bottomBar.selectTabAtPosition(2, true);
     justInitialized = false;
   }
 
@@ -153,7 +151,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
   @Override public void showVideos() {
     startActivity(new Intent(this, VideoActivity.class));
-    overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+    overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     finish();
   }
 
@@ -195,6 +193,10 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   public void showLoading() {
     instagrammersList.setVisibility(View.GONE);
     progressBar.setVisibility(View.VISIBLE);
+  }
+
+  @OnClick(R.id.fab) void onFabClick() {
+    bottomBarPresenter.saveInstagrammerClicked();
   }
 
 }
