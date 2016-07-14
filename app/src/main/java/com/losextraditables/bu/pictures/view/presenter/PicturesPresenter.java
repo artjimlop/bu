@@ -98,8 +98,14 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     }).execute();
   }
 
+  public void onAddPictureClick() {
+    getView().showSavePictureDialog();
+  }
+
   public interface View extends BuPresenter.View {
 
     void showSavedPictures(List<PictureModel> pictures);
+
+    void showSavePictureDialog();
   }
 }

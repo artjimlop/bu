@@ -21,4 +21,5 @@
 
   <style name="BuTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
+  <style name="BuTheme" parent="AppTheme.NoActionBar"/>
 </resources>

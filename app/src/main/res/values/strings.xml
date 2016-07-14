@@ -129,4 +129,5 @@
   <string name="pictures_activity">Pictures</string>
   <string name="instagrammers_activity">Instagrammers</string>
   <string name="show_in_instagram">Show in Instagram</string>
+  <string name="title_activity_video">Videos</string>
 </resources>

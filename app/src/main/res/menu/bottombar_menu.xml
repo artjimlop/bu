@@ -6,13 +6,9 @@
       android:icon="@drawable/ic_pictures"
       android:title="Pictures" />
   <item
-      android:id="@+id/bottom_save_picture"
-      android:icon="@drawable/ic_save_picture"
-      android:title="Save picture" />
-  <item
-      android:id="@+id/bottom_save_instagrammers"
-      android:icon="@drawable/ic_add_instagrammer"
-      android:title="Save user" />
+      android:id="@+id/bottom_videos"
+      android:icon="@drawable/ic_video_collection"
+      android:title="Videos" />
   <item
       android:id="@+id/bottom_instagrammers"
       android:icon="@drawable/ic_instagrammers"

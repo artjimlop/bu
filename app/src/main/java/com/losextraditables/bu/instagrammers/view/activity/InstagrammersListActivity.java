@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -27,6 +28,7 @@ import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
 import com.losextraditables.bu.utils.SessionManager;
+import com.losextraditables.bu.videos.view.activity.VideoActivity;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import java.util.Arrays;
@@ -94,13 +96,12 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
+    bottomBar.setMaxFixedTabs(2);
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
-          bottomBarPresenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
+        if (menuItemId == R.id.bottom_videos) {
+          bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
           if (!justInitialized) {
             startActivity(new Intent(context, PicturesActivity.class));
@@ -112,14 +113,12 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
-          bottomBarPresenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
+        if (menuItemId == R.id.bottom_videos) {
+          bottomBarPresenter.showVideosClicked();
         }
       }
     });
-    bottomBar.selectTabAtPosition(3, true);
+    bottomBar.selectTabAtPosition(2, true);
     justInitialized = false;
   }
 
@@ -150,25 +149,10 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     InstagrammerDetailActivity.init(this, sharedImage, instagrammerModel);
   }
 
-  @Override public void showSavePictureDialog() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-    builder.setMessage("Insert picture's url here")
-        .setTitle("Save picture");
-
-    final EditText input = new EditText(this);
-
-    input.setInputType(InputType.TYPE_CLASS_TEXT);
-    builder.setView(input);
-    final Context context = this;
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
-      }
-    });
-
-    builder.create().show();
+  @Override public void showVideos() {
+    startActivity(new Intent(this, VideoActivity.class));
+    overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+    finish();
   }
 
   @Override public void showPicture(String pictureUrl) {
@@ -209,6 +193,10 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   public void showLoading() {
     instagrammersList.setVisibility(View.GONE);
     progressBar.setVisibility(View.VISIBLE);
+  }
+
+  @OnClick(R.id.fab) void onFabClick() {
+    bottomBarPresenter.saveInstagrammerClicked();
   }
 
 }
