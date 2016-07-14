@@ -11,4 +11,6 @@ public interface PictureDataSource {
   Observable<Void> savePicture(Picture url, String uid);
 
   Observable<List<Picture>> getPictures(String uid);
+
+  Observable<Void> removePicture(String uid, Integer position);
 }

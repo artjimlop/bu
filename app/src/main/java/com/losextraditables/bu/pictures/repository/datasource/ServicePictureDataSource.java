@@ -48,6 +48,14 @@ public class ServicePictureDataSource implements PictureDataSource {
     });
   }
 
+  @Override public Observable<Void> removePicture(final String uid, final Integer position) {
+    return Observable.create(new Observable.OnSubscribe<Void>() {
+      @Override public void call(final Subscriber<? super Void> subscriber) {
+        removePictureInFirebase(subscriber, uid, position);
+      }
+    });
+  }
+
   private void getPicturesFromFirebase(final Subscriber<? super List<Picture>> subscriber,
       String uid) {
     final Firebase instagrammersReference = firebaseService.getPicturesReference(uid);
@@ -80,6 +88,32 @@ public class ServicePictureDataSource implements PictureDataSource {
             picturesReference.setValue(pictures);
           } else {
             pictures = Collections.singletonList(picture);
+            picturesReference.setValue(pictures);
+          }
+          changeMade = true;
+        }
+        subscriber.onCompleted();
+      }
+
+      @Override public void onCancelled(FirebaseError firebaseError) {
+        Crashlytics.log(firebaseError.getMessage());
+        subscriber.onError(new ConnectionError());
+      }
+    });
+  }
+
+  private void removePictureInFirebase(final Subscriber<? super Void> subscriber, String uid,
+      final Integer position) {
+    final Firebase picturesReference = firebaseService.getPicturesReference(uid);
+    picturesReference.addValueEventListener(new ValueEventListener() {
+      @Override public void onDataChange(DataSnapshot dataSnapshot) {
+        GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
+        };
+        List<Picture> pictures = dataSnapshot.getValue(t);
+        if (!changeMade) {
+          if (pictures != null) {
+            int index = position;
+            pictures.remove(index);
             picturesReference.setValue(pictures);
           }
           changeMade = true;

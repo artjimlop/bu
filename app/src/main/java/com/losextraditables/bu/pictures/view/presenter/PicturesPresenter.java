@@ -8,6 +8,7 @@ import com.losextraditables.bu.base.view.presenter.BuPresenter;
 import com.losextraditables.bu.login.domain.usecase.RefreshAuthUseCase;
 import com.losextraditables.bu.pictures.domain.GetPicturesUseCase;
 import com.losextraditables.bu.pictures.domain.model.Picture;
+import com.losextraditables.bu.pictures.domain.model.RemovePictureUserCase;
 import com.losextraditables.bu.pictures.domain.model.mapper.PictureModelMapper;
 import com.losextraditables.bu.pictures.model.PictureModel;
 import com.losextraditables.bu.utils.SessionManager;
@@ -22,16 +23,19 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
 
   private final GetPicturesUseCase getPicturesUseCase;
   private final RefreshAuthUseCase refreshAuthUseCase;
+  private final RemovePictureUserCase removePictureUserCase;
   private final SessionManager sessionManager;
   private final PictureModelMapper pictureModelMapper;
+  private List<PictureModel> pictureModels;
 
   @Inject
   public PicturesPresenter(UseCaseHandler useCaseHandler, GetPicturesUseCase getPicturesUseCase,
-      RefreshAuthUseCase refreshAuthUseCase, SessionManager sessionManager,
-      PictureModelMapper pictureModelMapper) {
+      RefreshAuthUseCase refreshAuthUseCase, RemovePictureUserCase removePictureUserCase,
+      SessionManager sessionManager, PictureModelMapper pictureModelMapper) {
     super(useCaseHandler);
     this.getPicturesUseCase = getPicturesUseCase;
     this.refreshAuthUseCase = refreshAuthUseCase;
+    this.removePictureUserCase = removePictureUserCase;
     this.sessionManager = sessionManager;
     this.pictureModelMapper = pictureModelMapper;
   }
@@ -57,7 +61,7 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
               }
 
               @Override public void onNext(List<Picture> pictures) {
-                List<PictureModel> pictureModels = pictureModelMapper.listMap(pictures);
+                pictureModels = pictureModelMapper.listMap(pictures);
                 getView().hideLoading();
                 getView().showSavedPictures(pictureModels);
               }
@@ -100,6 +104,35 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
 
   public void onAddPictureClick() {
     getView().showSavePictureDialog();
+  }
+
+  public void removePicure(String uid, final int position) {
+    createUseCaseCall(removePictureUserCase).args(uid, position).onSuccess(new OnSuccessCallback() {
+      @Success public void onPictureRemoved(Observable<Void> observable) {
+        observable.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<Void>() {
+              @Override public void onCompleted() {
+                pictureModels.remove(position);
+                getView().showSavedPictures(pictureModels);
+              }
+
+              @Override public void onError(Throwable e) {
+                getView().hideLoading();
+                getView().showConnectionError();
+                refreshAuth();
+              }
+
+              @Override public void onNext(Void aVoid) {
+              }
+            });
+      }
+    }).onError(new OnErrorCallback() {
+      @Override public boolean onError(Error error) {
+        getView().hideLoading();
+        return false;
+      }
+    }).execute();
   }
 
   public interface View extends BuPresenter.View {

@@ -25,4 +25,8 @@ public class PictureRepository {
   public Observable<List<Picture>> getPictures(String uid) {
     return pictureDataSource.getPictures(uid);
   }
+
+  public Observable<Void> removePicture(String uid, Integer position) {
+    return pictureDataSource.removePicture(uid, position);
+  }
 }
