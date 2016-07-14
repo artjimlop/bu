@@ -1,9 +1,7 @@
 package com.losextraditables.bu.pictures.view.activity;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityOptions;
-import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -19,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import com.artjimlop.altex.AltexImageDownloader;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
@@ -41,15 +40,20 @@ public class PictureActivity extends BuAppCompatActivity {
   @Bind(R.id.mopub_ad) MoPubView moPubView;
   @Inject WritePermissionManager writePermissionManager;
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   public static void init(Activity activity, View sharedView, String imageUrl) {
     Intent intent = new Intent(activity, PictureActivity.class);
     intent.putExtra(EXTRA_IMAGE_URL, imageUrl);
+    handleActivityVersion(activity, sharedView, intent);
+  }
 
-    ActivityOptions activityOptions =
-        ActivityOptions.makeSceneTransitionAnimation(activity, sharedView,
-            sharedView.getTransitionName());
-    activity.startActivity(intent, activityOptions.toBundle());
+  private static void handleActivityVersion(Activity activity, View sharedView, Intent intent) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      ActivityOptions activityOptions =
+          ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, sharedView.getTransitionName());
+      activity.startActivity(intent, activityOptions.toBundle());
+    } else {
+      activity.startActivity(intent);
+    }
   }
 
   @Override protected int getLayoutId() {
@@ -129,18 +133,7 @@ public class PictureActivity extends BuAppCompatActivity {
     Uri imageUri = Uri.parse(imageUrl);
     String fileName = imageUri.getLastPathSegment();
     String downloadSubpath = getString(R.string.downloaded_pictures_subfolder) + fileName;
-
-    DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-    DownloadManager.Request request = new DownloadManager.Request(imageUri);
-    request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-    request.setDescription(imageUrl);
-    request.allowScanningByMediaScanner();
-    // Equivalent to request.setDestinationInExternalPublicDir(), but makes sure the Shootr subfolder exists
-    request.setDestinationUri(getDownloadDestination(downloadSubpath));
-
-    request.setMimeType("image/jpeg"); //TODO servidor debe mandarlo correctamente
-
-    downloadManager.enqueue(request);
+    AltexImageDownloader.writeToDisk(this, imageUrl, downloadSubpath);
   }
 
   @Override public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,

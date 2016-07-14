@@ -17,6 +17,7 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -24,13 +25,14 @@ import com.losextraditables.bu.bottombar.view.BottomBarPresenter;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
+import com.losextraditables.bu.pictures.model.PictureModel;
 import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
 import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
-import com.losextraditables.bu.utils.InstagramSession;
+import com.losextraditables.bu.utils.SessionManager;
+import com.losextraditables.bu.videos.view.activity.VideoActivity;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
@@ -50,7 +52,7 @@ public class PicturesActivity extends BuAppCompatActivity
   @Presenter
   BottomBarPresenter bottomBarPresenter;
 
-  @Inject InstagramSession session;
+  @Inject SessionManager session;
 
   private BottomBar bottomBar;
   private SavedPicturesAdapter adapter;
@@ -74,7 +76,7 @@ public class PicturesActivity extends BuAppCompatActivity
     final Context context = this;
     setupBottomBar(savedInstanceState, context);
 
-    picturesPresenter.loadSavedPictures(session.getUid(context));
+    picturesPresenter.loadSavedPictures(session.getUid());
   }
 
   private void setupToolbar() {
@@ -86,13 +88,12 @@ public class PicturesActivity extends BuAppCompatActivity
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
+    bottomBar.setMaxFixedTabs(2);
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
-          bottomBarPresenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
+        if (menuItemId == R.id.bottom_videos) {
+          bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_instagrammers) {
           startActivity(new Intent(context, InstagrammersListActivity.class));
           overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
@@ -102,10 +103,8 @@ public class PicturesActivity extends BuAppCompatActivity
 
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
-          bottomBarPresenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
+        if (menuItemId == R.id.bottom_videos) {
+          bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_instagrammers) {
           startActivity(new Intent(context, InstagrammersListActivity.class));
           finish();
@@ -131,25 +130,10 @@ public class PicturesActivity extends BuAppCompatActivity
     bottomBarPresenter.initialize();
   }
 
-  @Override public void showSavePictureDialog() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-    builder.setMessage("Insert picture's url here")
-        .setTitle("Save picture");
-
-    final EditText input = new EditText(this);
-
-    input.setInputType(InputType.TYPE_CLASS_TEXT);
-    builder.setView(input);
-    final Context context = this;
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid(context));
-      }
-    });
-
-    builder.create().show();
+  @Override public void showVideos() {
+    startActivity(new Intent(this, VideoActivity.class));
+    overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
+    finish();
   }
 
   @Override public void showPicture(String pictureUrl) {
@@ -170,7 +154,7 @@ public class PicturesActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid(context));
+        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid());
       }
     });
 
@@ -180,8 +164,8 @@ public class PicturesActivity extends BuAppCompatActivity
   @Override public void showSavedInstagrammer() {
   }
 
-  @Override public void showSavedPictures(ArrayList<String> urls) {
-    adapter = new SavedPicturesAdapter(this, urls, new ItemClickListener() {
+  @Override public void showSavedPictures(List<PictureModel> pictures) {
+    adapter = new SavedPicturesAdapter(this, pictures, new ItemClickListener() {
       @Override public void onItemClick(View view, int position) {
         goToSavedPictureActivity(view, position);
       }
@@ -189,8 +173,28 @@ public class PicturesActivity extends BuAppCompatActivity
     picturesList.setAdapter(adapter);
   }
 
+  @Override public void showSavePictureDialog() {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    builder.setMessage("Insert picture's url here")
+        .setTitle("Save picture");
+
+    final EditText input = new EditText(this);
+
+    input.setInputType(InputType.TYPE_CLASS_TEXT);
+    builder.setView(input);
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
+      }
+    });
+
+    builder.create().show();
+  }
+
   private void goToSavedPictureActivity(View view, int position) {
-    PictureActivity.init(this, view, adapter.getItem(position));
+    PictureActivity.init(this, view, adapter.getItem(position).getUrl());
   }
 
   @Override
@@ -207,12 +211,18 @@ public class PicturesActivity extends BuAppCompatActivity
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   private void setupWindowAnimations() {
-    getWindow().setReenterTransition(new Explode());
-    getWindow().setExitTransition(new Explode().setDuration(500));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      getWindow().setReenterTransition(new Explode());
+      getWindow().setExitTransition(new Explode().setDuration(500));
+    }
   }
 
   @Override protected void onResume() {
     super.onResume();
-    picturesPresenter.loadSavedPictures(session.getUid(this));
+    picturesPresenter.loadSavedPictures(session.getUid());
+  }
+
+  @OnClick(R.id.fab) void onFabClick() {
+    picturesPresenter.onAddPictureClick();
   }
 }

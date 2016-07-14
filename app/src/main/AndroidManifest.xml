@@ -28,7 +28,9 @@
     <activity
         android:name=".instagrammers.view.activity.SearchInstagrammersActivity"
         android:theme="@style/AppTheme"/>
-    <activity android:name=".login.view.activity.LoginActivity"/>
+    <activity
+        android:name=".login.view.activity.LoginActivity"
+        android:theme="@style/AppTheme"/>
     <activity
         android:name=".instagrammers.view.activity.InstagrammerDetailActivity"
         android:label="@string/title_activity_instagrammer_detail"
@@ -40,11 +42,14 @@
 
     <activity
         android:name=".login.view.activity.SignInActivity"
-        android:label="@string/title_activity_firebase_login"/>
+        android:label="@string/title_activity_firebase_login"
+        android:theme="@style/AppTheme"/>
     <activity
         android:name=".pictures.view.activity.PictureActivity"
         android:theme="@style/AppTheme"/>
-    <activity android:name=".pictures.view.activity.PicturesActivity">
+    <activity
+        android:name=".pictures.view.activity.PicturesActivity"
+        android:theme="@style/AppTheme.NoActionBar">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -58,16 +63,21 @@
     </activity>
     <activity
         android:name="com.mopub.mobileads.MoPubActivity"
-        android:configChanges="keyboardHidden|orientation|screenSize" />
+        android:configChanges="keyboardHidden|orientation|screenSize"/>
     <activity
         android:name="com.mopub.mobileads.MraidActivity"
-        android:configChanges="keyboardHidden|orientation|screenSize" />
+        android:configChanges="keyboardHidden|orientation|screenSize"/>
     <activity
         android:name="com.mopub.common.MoPubBrowser"
-        android:configChanges="keyboardHidden|orientation|screenSize" />
+        android:configChanges="keyboardHidden|orientation|screenSize"/>
     <activity
         android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
-        android:configChanges="keyboardHidden|orientation|screenSize" />
+        android:configChanges="keyboardHidden|orientation|screenSize"/>
+    <activity
+        android:name=".videos.view.activity.VideoActivity"
+        android:label="@string/title_activity_video"
+        android:theme="@style/BuTheme">
+    </activity>
   </application>
 
 </manifest>

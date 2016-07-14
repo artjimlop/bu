@@ -22,6 +22,11 @@
         app:contentScrim="?attr/colorPrimary"
         app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
+      <FrameLayout
+          android:layout_width="match_parent"
+          android:layout_height="300dp"
+          >
+
       <ImageView
           android:id="@+id/instagrammer_blur_avatar"
           android:layout_width="match_parent"
@@ -33,6 +38,13 @@
           android:tint="#11000000"
           app:layout_collapseParallaxMultiplier="0.9"
           tools:src="@drawable/bu_ic_launcher"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/application_background"
+            android:alpha="0.5"/>
+      </FrameLayout>
 
       <FrameLayout
           android:id="@+id/frame_layout"

@@ -22,7 +22,7 @@ import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.login.view.presenter.SignInPresenter;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
-import com.losextraditables.bu.utils.InstagramSession;
+import com.losextraditables.bu.utils.SessionManager;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -32,7 +32,7 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
     public static final int UI_ANIMATION_DURATION = 3000;
 
     @Inject @Presenter SignInPresenter presenter;
-    @Inject InstagramSession session;
+    @Inject SessionManager session;
 
     @Bind(R.id.email) AutoCompleteTextView email;
     @Bind(R.id.password) EditText password;
@@ -113,7 +113,7 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
     }
 
     @Override public void saveUid(String uid) {
-      session.setUid(this, uid);
+      session.setUid(uid);
     }
 
     @Override public void hideSignInButton() {

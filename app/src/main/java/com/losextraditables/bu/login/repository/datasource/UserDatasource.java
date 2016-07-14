@@ -8,4 +8,6 @@ public interface UserDatasource extends WriteableDataSource {
   Observable<Void> createUser(String username, String password);
 
   Observable<String> login(String username, String password);
+
+  void logout();
 }

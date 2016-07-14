@@ -1,10 +1,8 @@
 package com.losextraditables.bu.instagrammers.view.activity;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
@@ -12,13 +10,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.transition.Slide;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -30,7 +27,8 @@ import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPre
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
-import com.losextraditables.bu.utils.InstagramSession;
+import com.losextraditables.bu.utils.SessionManager;
+import com.losextraditables.bu.videos.view.activity.VideoActivity;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import java.util.Arrays;
@@ -55,7 +53,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   @Presenter
   BottomBarPresenter bottomBarPresenter;
 
-  @Inject InstagramSession session;
+  @Inject SessionManager session;
 
   private InstagrammersAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
@@ -78,7 +76,6 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_instagrammers);
     ButterKnife.bind(this);
-    setupWindowAnimations();
     setSupportActionBar(toolbar);
     adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
       @Override
@@ -90,7 +87,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     instagrammersList.setAdapter(adapter);
     linearLayoutManager = new LinearLayoutManager(this);
     instagrammersList.setLayoutManager(linearLayoutManager);
-    instagrammersListPresenter.showInstagrammers(session.getUid(this));
+    instagrammersListPresenter.showInstagrammers(session.getUid());
 
     setupBottomBar(savedInstanceState, this);
   }
@@ -99,13 +96,12 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
+    bottomBar.setMaxFixedTabs(2);
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
-          bottomBarPresenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
+        if (menuItemId == R.id.bottom_videos) {
+          bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
           if (!justInitialized) {
             startActivity(new Intent(context, PicturesActivity.class));
@@ -117,14 +113,12 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_save_picture) {
-          bottomBarPresenter.savePictureClicked();
-        } else if (menuItemId == R.id.bottom_save_instagrammers) {
-          bottomBarPresenter.saveInstagrammerClicked();
+        if (menuItemId == R.id.bottom_videos) {
+          bottomBarPresenter.showVideosClicked();
         }
       }
     });
-    bottomBar.selectTabAtPosition(3, true);
+    bottomBar.selectTabAtPosition(2, true);
     justInitialized = false;
   }
 
@@ -145,7 +139,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   }
 
   @Override
-  public void showMockedInstagrammers(List<InstagrammerModel> instagrammerModels) {
+  public void showInstagrammers(List<InstagrammerModel> instagrammerModels) {
     adapter.setUsers(instagrammerModels);
     adapter.notifyDataSetChanged();
   }
@@ -155,25 +149,10 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     InstagrammerDetailActivity.init(this, sharedImage, instagrammerModel);
   }
 
-  @Override public void showSavePictureDialog() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-    builder.setMessage("Insert picture's url here")
-        .setTitle("Save picture");
-
-    final EditText input = new EditText(this);
-
-    input.setInputType(InputType.TYPE_CLASS_TEXT);
-    builder.setView(input);
-    final Context context = this;
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.savePicture(input.getText().toString(), session.getUid(context));
-      }
-    });
-
-    builder.create().show();
+  @Override public void showVideos() {
+    startActivity(new Intent(this, VideoActivity.class));
+    overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
+    finish();
   }
 
   @Override public void showPicture(String pictureUrl) {
@@ -194,7 +173,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid(context));
+        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid());
       }
     });
 
@@ -216,13 +195,8 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     progressBar.setVisibility(View.VISIBLE);
   }
 
-  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  private void setupWindowAnimations() {
-      Slide slideTransition = new Slide();
-      slideTransition.setSlideEdge(Gravity.START);
-      slideTransition.setDuration(ANIMATION_DURATION);
-      getWindow().setReenterTransition(slideTransition);
-      getWindow().setExitTransition(slideTransition);
+  @OnClick(R.id.fab) void onFabClick() {
+    bottomBarPresenter.saveInstagrammerClicked();
   }
 
 }
