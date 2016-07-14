@@ -40,8 +40,7 @@ public class ServiceVideoDataSource implements VideoDataSource {
     });
   }
 
-  @Override
-  public Observable<List<Video>> getVideos(final String uid) {
+  @Override public Observable<List<Video>> getVideos(final String uid) {
     return Observable.create(new Observable.OnSubscribe<List<Video>>() {
       @Override public void call(final Subscriber<? super List<Video>> subscriber) {
         getPicturesFromFirebase(subscriber, uid);
@@ -111,17 +110,14 @@ public class ServiceVideoDataSource implements VideoDataSource {
         GenericTypeIndicator<List<Video>> t = new GenericTypeIndicator<List<Video>>() {
         };
         List<Video> videos = dataSnapshot.getValue(t);
-        if (!changeMade) {
-          if (videos != null) {
-            List<Video> videoList = new ArrayList<>();
-            for (Video video : videos) {
-              if (!video.getUrl().equals(url)) {
-                videoList.add(video);
-              }
+        if (videos != null) {
+          List<Video> videoList = new ArrayList<>();
+          for (Video video : videos) {
+            if (!video.getUrl().equals(url)) {
+              videoList.add(video);
             }
-            picturesReference.setValue(videoList);
           }
-          changeMade = true;
+          picturesReference.setValue(videoList);
         }
         subscriber.onCompleted();
       }

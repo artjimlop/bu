@@ -161,17 +161,14 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
                 new GenericTypeIndicator<List<Instagrammer>>() {
                 };
             List<Instagrammer> instagrammers = dataSnapshot.getValue(t);
-            if (!changeMade) {
-              if (instagrammers != null) {
-                List<Instagrammer> igs = new ArrayList<>();
-                for (Instagrammer instagrammer : instagrammers) {
-                  if (!instagrammer.getUserName().equals(username)) {
-                    igs.add(instagrammer);
-                  }
+            if (instagrammers != null) {
+              List<Instagrammer> igs = new ArrayList<>();
+              for (Instagrammer instagrammer : instagrammers) {
+                if (!instagrammer.getUserName().equals(username)) {
+                  igs.add(instagrammer);
                 }
-                instagrammersReference.setValue(igs);
               }
-              changeMade = true;
+              instagrammersReference.setValue(igs);
             }
             subscriber.onCompleted();
           }
