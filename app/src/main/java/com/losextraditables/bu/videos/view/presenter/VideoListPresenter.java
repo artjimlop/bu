@@ -194,6 +194,7 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
                       }
                     }
                     getView().showVideos(videos);
+                    videoModels = videos;
                   }
 
                   @Override public void onError(Throwable e) {

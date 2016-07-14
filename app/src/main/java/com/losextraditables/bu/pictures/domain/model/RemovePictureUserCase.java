@@ -16,11 +16,11 @@ public class RemovePictureUserCase extends RosieUseCase {
   }
 
   @UseCase
-  public void removePicture(String uid, Integer position) throws Exception {
-    notifySuccess(removeUserPicture(uid, position));
+  public void removePicture(String uid, String url) throws Exception {
+    notifySuccess(removeUserPicture(uid, url));
   }
 
-  protected Observable<Void> removeUserPicture(String uid, Integer position) throws Exception {
-    return pictureRepository.removePicture(uid, position);
+  protected Observable<Void> removeUserPicture(String uid, String url) throws Exception {
+    return pictureRepository.removePicture(uid, url);
   }
 }

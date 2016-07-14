@@ -172,14 +172,14 @@ public class PicturesActivity extends BuAppCompatActivity
       }
     }, new OnItemLongClickListener() {
       @Override
-      public void onItemLongClick(View view, int position) {
-        showRemovePictureAlert(position);
+      public void onItemLongClick(View view, String url) {
+        showRemovePictureAlert(url);
       }
     });
     picturesList.setAdapter(adapter);
   }
 
-  private void showRemovePictureAlert(final int position) {
+  private void showRemovePictureAlert(final String url) {
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
     builder.setMessage("Do you want to delete the picture?");
@@ -187,7 +187,7 @@ public class PicturesActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
-        picturesPresenter.removePicure(session.getUid(), position);
+        picturesPresenter.removePicure(session.getUid(), url);
       }
     });
 
@@ -207,6 +207,7 @@ public class PicturesActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
+        hideLoading();
         bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
       }
     });

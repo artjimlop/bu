@@ -9,6 +9,7 @@ import com.firebase.client.ValueEventListener;
 import com.losextraditables.bu.base.view.error.ConnectionError;
 import com.losextraditables.bu.pictures.domain.model.Picture;
 import com.losextraditables.bu.utils.FirebaseService;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -48,10 +49,10 @@ public class ServicePictureDataSource implements PictureDataSource {
     });
   }
 
-  @Override public Observable<Void> removePicture(final String uid, final Integer position) {
+  @Override public Observable<Void> removePicture(final String uid, final String url) {
     return Observable.create(new Observable.OnSubscribe<Void>() {
       @Override public void call(final Subscriber<? super Void> subscriber) {
-        removePictureInFirebase(subscriber, uid, position);
+        removePictureInFirebase(subscriber, uid, url);
       }
     });
   }
@@ -103,21 +104,22 @@ public class ServicePictureDataSource implements PictureDataSource {
   }
 
   private void removePictureInFirebase(final Subscriber<? super Void> subscriber, String uid,
-      final Integer position) {
+      final String position) {
     final Firebase picturesReference = firebaseService.getPicturesReference(uid);
     picturesReference.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
         GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
         };
         List<Picture> pictures = dataSnapshot.getValue(t);
-        if (!changeMade) {
           if (pictures != null) {
-            int index = position;
-            pictures.remove(index);
-            picturesReference.setValue(pictures);
+            List<Picture> pics = new ArrayList<>();
+            for (Picture picture : pictures) {
+              if (!picture.getUrl().equals(position)) {
+                pics.add(picture);
+              }
+            }
+            picturesReference.setValue(pics);
           }
-          changeMade = true;
-        }
         subscriber.onCompleted();
       }
 

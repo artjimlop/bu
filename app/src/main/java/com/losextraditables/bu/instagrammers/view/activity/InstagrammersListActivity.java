@@ -192,6 +192,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
+        hideLoading();
         bottomBarPresenter.saveUser(input.getText().toString(), session.getUid());
       }
     });

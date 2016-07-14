@@ -130,6 +130,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
                     }
                     Collections.sort(igs, InstagrammerModel.InstagrammerComparator);
                     showInstagrammersInView(igs);
+                    instagrammerModels = igs;
                   }
 
                   @Override public void onError(Throwable e) {

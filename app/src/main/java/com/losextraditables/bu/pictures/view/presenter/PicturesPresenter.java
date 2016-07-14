@@ -12,6 +12,7 @@ import com.losextraditables.bu.pictures.domain.model.RemovePictureUserCase;
 import com.losextraditables.bu.pictures.domain.model.mapper.PictureModelMapper;
 import com.losextraditables.bu.pictures.model.PictureModel;
 import com.losextraditables.bu.utils.SessionManager;
+import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -106,15 +107,22 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     getView().showSavePictureDialog();
   }
 
-  public void removePicure(String uid, final int position) {
-    createUseCaseCall(removePictureUserCase).args(uid, position).onSuccess(new OnSuccessCallback() {
+  public void removePicure(String uid, final String url) {
+    createUseCaseCall(removePictureUserCase).args(uid, url).onSuccess(new OnSuccessCallback() {
       @Success public void onPictureRemoved(Observable<Void> observable) {
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Observer<Void>() {
               @Override public void onCompleted() {
-                pictureModels.remove(position);
-                getView().showSavedPictures(pictureModels);
+                //TODO
+                List<PictureModel> pics = new ArrayList<>();
+                for (PictureModel pictureModel : pictureModels) {
+                  if (!pictureModel.getUrl().equals(url)) {
+                    pics.add(pictureModel);
+                  }
+                }
+                getView().showSavedPictures(pics);
+                pictureModels = pics;
               }
 
               @Override public void onError(Throwable e) {

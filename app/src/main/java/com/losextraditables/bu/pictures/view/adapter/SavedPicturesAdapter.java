@@ -54,7 +54,7 @@ public class SavedPicturesAdapter extends BaseAdapter {
     });
     picture.setOnLongClickListener(new View.OnLongClickListener() {
       @Override public boolean onLongClick(View v) {
-        onItemLongClickListener.onItemLongClick(v, position);
+        onItemLongClickListener.onItemLongClick(v, pictureModels.get(position).getUrl());
         return false;
       }
     });
