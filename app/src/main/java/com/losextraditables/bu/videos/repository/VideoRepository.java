@@ -25,4 +25,8 @@ public class VideoRepository {
   public Observable<List<Video>> getVideos(String uid) {
     return videoDataSource.getVideos(uid);
   }
+
+  public Observable<Void> removeVideo(String uid, String url) {
+    return videoDataSource.removeVideo(uid, url);
+  }
 }

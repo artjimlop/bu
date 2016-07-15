@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.View;
 import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -22,6 +23,7 @@ import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActi
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
+import com.losextraditables.bu.pictures.view.adapter.OnVideoClickListener;
 import com.losextraditables.bu.utils.SessionManager;
 import com.losextraditables.bu.videos.VideosModule;
 import com.losextraditables.bu.videos.view.adapter.VideoAdapter;
@@ -107,10 +109,29 @@ public class VideoActivity extends BuAppCompatActivity
   }
 
   private void setupAdapter() {
-    adapter = new VideoAdapter(this);
+    adapter = new VideoAdapter(this, new OnVideoClickListener() {
+      @Override public void onItemLongClick(View view, String url) {
+        showRemoveVideoAlert(url);
+      }
+    });
     videoRecycler.setAdapter(adapter);
     linearLayoutManager = new LinearLayoutManager(this);
     videoRecycler.setLayoutManager(linearLayoutManager);
+  }
+
+  private void showRemoveVideoAlert(final String url) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    builder.setMessage("Do you want to delete the video?");
+
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        presenter.removeVideo(session.getUid(), url);
+      }
+    });
+
+    builder.create().show();
   }
 
   @Override protected void redirectToLogin() {

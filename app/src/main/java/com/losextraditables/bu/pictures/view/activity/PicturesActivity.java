@@ -27,6 +27,7 @@ import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.pictures.model.PictureModel;
 import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
+import com.losextraditables.bu.pictures.view.adapter.OnItemLongClickListener;
 import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
 import com.losextraditables.bu.utils.SessionManager;
@@ -169,8 +170,28 @@ public class PicturesActivity extends BuAppCompatActivity
       @Override public void onItemClick(View view, int position) {
         goToSavedPictureActivity(view, position);
       }
+    }, new OnItemLongClickListener() {
+      @Override
+      public void onItemLongClick(View view, String url) {
+        showRemovePictureAlert(url);
+      }
     });
     picturesList.setAdapter(adapter);
+  }
+
+  private void showRemovePictureAlert(final String url) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    builder.setMessage("Do you want to delete the picture?");
+
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        picturesPresenter.removePicure(session.getUid(), url);
+      }
+    });
+
+    builder.create().show();
   }
 
   @Override public void showSavePictureDialog() {
@@ -186,6 +207,7 @@ public class PicturesActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
+        hideLoading();
         bottomBarPresenter.savePicture(input.getText().toString(), session.getUid());
       }
     });

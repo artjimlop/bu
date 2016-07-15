@@ -31,4 +31,8 @@ public class InstagrammersRepository {
   public Observable<Void> saveInstagrammer(Instagrammer instagrammer, String uid) {
     return apiDatasource.saveInstagrammer(instagrammer, uid);
   }
+
+  public Observable<Void> removeInstagrammer(String uid, String username) {
+    return apiDatasource.removeInstagrammer(username, uid);
+  }
 }

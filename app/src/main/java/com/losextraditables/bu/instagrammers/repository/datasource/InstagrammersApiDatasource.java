@@ -15,6 +15,7 @@ import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammerRe
 import com.losextraditables.bu.instagrammers.repository.service.InstagramApiService;
 import com.losextraditables.bu.instagrammers.repository.service.InstagramServiceGenerator;
 import com.losextraditables.bu.utils.FirebaseService;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -33,22 +34,21 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
   private final FirebaseService firebaseService;
   private boolean changeMade = false;
 
-  @Inject
-  public InstagrammersApiDatasource(InstagramServiceGenerator serviceGenerator,
+  @Inject public InstagrammersApiDatasource(InstagramServiceGenerator serviceGenerator,
       FirebaseService firebaseService) {
     this.serviceGenerator = serviceGenerator;
     this.firebaseService = firebaseService;
   }
 
-  @Override
-  public Observable<List<Instagrammer>> getInstagrammers(final String uid) {
+  @Override public Observable<List<Instagrammer>> getInstagrammers(final String uid) {
     return Observable.create(new Observable.OnSubscribe<List<Instagrammer>>() {
       @Override public void call(final Subscriber<? super List<Instagrammer>> subscriber) {
         final Firebase instagrammersReference = firebaseService.instagrammersReference(uid);
         instagrammersReference.addValueEventListener(new ValueEventListener() {
           @Override public void onDataChange(DataSnapshot dataSnapshot) {
-            GenericTypeIndicator<List<Instagrammer>> t = new GenericTypeIndicator<List<Instagrammer>>() {
-            };
+            GenericTypeIndicator<List<Instagrammer>> t =
+                new GenericTypeIndicator<List<Instagrammer>>() {
+                };
             List<Instagrammer> instagrammers = dataSnapshot.getValue(t);
             subscriber.onNext(instagrammers);
           }
@@ -62,26 +62,22 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
     });
   }
 
-  @Override
-  public List<SearchedInstagrammer> searchIntagrammers(String query, String accessToken) {
+  @Override public List<SearchedInstagrammer> searchIntagrammers(String query, String accessToken) {
     InstagramApiService instagramService = serviceGenerator.createInstagramService();
     SearchedInstagrammerResponse searchedInstagrammerResponse =
         instagramService.searchInstagrammers(query, accessToken);
     return searchedInstagrammerResponse.getData();
   }
 
-  @Override
-  public PaginatedCollection<List<Instagrammer>> getPage(Page page) throws Exception {
+  @Override public PaginatedCollection<List<Instagrammer>> getPage(Page page) throws Exception {
     return null;
   }
 
-  @Override
-  public List<Instagrammer> getByKey(Integer key) throws Exception {
+  @Override public List<Instagrammer> getByKey(Integer key) throws Exception {
     return null;
   }
 
-  @Override
-  public Collection<List<Instagrammer>> getAll() throws Exception {
+  @Override public Collection<List<Instagrammer>> getAll() throws Exception {
     return null;
   }
 
@@ -122,13 +118,15 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
   }
 
   public Observable<Void> saveInstagrammer(final Instagrammer instagrammer, final String uid) {
+    changeMade = false;
     return Observable.create(new Observable.OnSubscribe<Void>() {
       @Override public void call(final Subscriber<? super Void> subscriber) {
         final Firebase instagrammersReference = firebaseService.instagrammersReference(uid);
         instagrammersReference.addValueEventListener(new ValueEventListener() {
           @Override public void onDataChange(DataSnapshot dataSnapshot) {
-            GenericTypeIndicator<List<Instagrammer>> t = new GenericTypeIndicator<List<Instagrammer>>() {
-            };
+            GenericTypeIndicator<List<Instagrammer>> t =
+                new GenericTypeIndicator<List<Instagrammer>>() {
+                };
             List<Instagrammer> instagrammers = dataSnapshot.getValue(t);
             if (!changeMade) {
               if (instagrammers != null) {
@@ -139,6 +137,38 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
                 instagrammersReference.setValue(instagrammers);
               }
               changeMade = true;
+            }
+            subscriber.onCompleted();
+          }
+
+          @Override public void onCancelled(FirebaseError firebaseError) {
+            Crashlytics.log(firebaseError.getMessage());
+            subscriber.onError(new ConnectionError());
+          }
+        });
+      }
+    });
+  }
+
+  public Observable<Void> removeInstagrammer(final String username, final String uid) {
+    changeMade = false;
+    return Observable.create(new Observable.OnSubscribe<Void>() {
+      @Override public void call(final Subscriber<? super Void> subscriber) {
+        final Firebase instagrammersReference = firebaseService.instagrammersReference(uid);
+        instagrammersReference.addValueEventListener(new ValueEventListener() {
+          @Override public void onDataChange(DataSnapshot dataSnapshot) {
+            GenericTypeIndicator<List<Instagrammer>> t =
+                new GenericTypeIndicator<List<Instagrammer>>() {
+                };
+            List<Instagrammer> instagrammers = dataSnapshot.getValue(t);
+            if (instagrammers != null) {
+              List<Instagrammer> igs = new ArrayList<>();
+              for (Instagrammer instagrammer : instagrammers) {
+                if (!instagrammer.getUserName().equals(username)) {
+                  igs.add(instagrammer);
+                }
+              }
+              instagrammersReference.setValue(igs);
             }
             subscriber.onCompleted();
           }

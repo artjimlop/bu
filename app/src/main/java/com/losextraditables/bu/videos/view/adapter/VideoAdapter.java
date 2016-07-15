@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.losextraditables.bu.R;
+import com.losextraditables.bu.pictures.view.adapter.OnVideoClickListener;
 import com.losextraditables.bu.videos.view.holder.VideoViewHolder;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import java.util.List;
@@ -13,11 +14,13 @@ import java.util.List;
 public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
 
   private final Context context;
+  private final OnVideoClickListener onVideoClickListener;
 
   private List<VideoModel> videoModels;
 
-  public VideoAdapter(Context context) {
+  public VideoAdapter(Context context, OnVideoClickListener onVideoClickListener) {
     this.context = context;
+    this.onVideoClickListener = onVideoClickListener;
   }
 
   public void setVideoList(List<VideoModel> videoList) {
@@ -31,7 +34,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoViewHolder> {
   }
 
   @Override public void onBindViewHolder(VideoViewHolder holder, int position) {
-    holder.render(videoModels.get(position));
+    holder.render(videoModels.get(position), onVideoClickListener);
   }
 
   @Override public int getItemCount() {

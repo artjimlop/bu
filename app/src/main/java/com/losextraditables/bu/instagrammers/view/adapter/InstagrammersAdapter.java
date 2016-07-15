@@ -9,18 +9,22 @@ import com.losextraditables.bu.R;
 import com.losextraditables.bu.instagrammers.view.holder.UserViewHolder;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
+import com.losextraditables.bu.pictures.view.adapter.OnInstagrammerClickListener;
 import java.util.List;
 
 public class InstagrammersAdapter extends RecyclerView.Adapter<UserViewHolder> {
 
   private final Context context;
+  private final OnInstagrammerClickListener onItemLongClickListener;
   private List<InstagrammerModel> instagrammers;
   private InstagrammersListPresenter.ItemClickListener itemClickListener;
 
   public InstagrammersAdapter(Context context,
-      InstagrammersListPresenter.ItemClickListener itemClickListener) {
+      InstagrammersListPresenter.ItemClickListener itemClickListener,
+      OnInstagrammerClickListener onItemLongClickListener) {
     this.context = context;
     this.itemClickListener = itemClickListener;
+    this.onItemLongClickListener = onItemLongClickListener;
   }
 
   @Override
@@ -33,7 +37,7 @@ public class InstagrammersAdapter extends RecyclerView.Adapter<UserViewHolder> {
 
   @Override
   public void onBindViewHolder(UserViewHolder holder, int position) {
-    holder.render(instagrammers.get(position));
+    holder.render(instagrammers.get(position), onItemLongClickListener);
   }
 
   @Override

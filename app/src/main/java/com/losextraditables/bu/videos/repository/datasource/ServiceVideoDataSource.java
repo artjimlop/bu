@@ -9,6 +9,7 @@ import com.firebase.client.ValueEventListener;
 import com.losextraditables.bu.base.view.error.ConnectionError;
 import com.losextraditables.bu.utils.FirebaseService;
 import com.losextraditables.bu.videos.domain.model.Video;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -39,11 +40,18 @@ public class ServiceVideoDataSource implements VideoDataSource {
     });
   }
 
-  @Override
-  public Observable<List<Video>> getVideos(final String uid) {
+  @Override public Observable<List<Video>> getVideos(final String uid) {
     return Observable.create(new Observable.OnSubscribe<List<Video>>() {
       @Override public void call(final Subscriber<? super List<Video>> subscriber) {
         getPicturesFromFirebase(subscriber, uid);
+      }
+    });
+  }
+
+  @Override public Observable<Void> removeVideo(final String uid, final String url) {
+    return Observable.create(new Observable.OnSubscribe<Void>() {
+      @Override public void call(final Subscriber<? super Void> subscriber) {
+        removeVideoInFirebase(subscriber, uid, url);
       }
     });
   }
@@ -83,6 +91,33 @@ public class ServiceVideoDataSource implements VideoDataSource {
             picturesReference.setValue(videos);
           }
           changeMade = true;
+        }
+        subscriber.onCompleted();
+      }
+
+      @Override public void onCancelled(FirebaseError firebaseError) {
+        Crashlytics.log(firebaseError.getMessage());
+        subscriber.onError(new ConnectionError());
+      }
+    });
+  }
+
+  private void removeVideoInFirebase(final Subscriber<? super Void> subscriber, String uid,
+      final String url) {
+    final Firebase picturesReference = firebaseService.getVideosReference(uid);
+    picturesReference.addValueEventListener(new ValueEventListener() {
+      @Override public void onDataChange(DataSnapshot dataSnapshot) {
+        GenericTypeIndicator<List<Video>> t = new GenericTypeIndicator<List<Video>>() {
+        };
+        List<Video> videos = dataSnapshot.getValue(t);
+        if (videos != null) {
+          List<Video> videoList = new ArrayList<>();
+          for (Video video : videos) {
+            if (!video.getUrl().equals(url)) {
+              videoList.add(video);
+            }
+          }
+          picturesReference.setValue(videoList);
         }
         subscriber.onCompleted();
       }

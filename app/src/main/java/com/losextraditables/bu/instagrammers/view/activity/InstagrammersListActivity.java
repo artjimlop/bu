@@ -27,6 +27,7 @@ import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPre
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
+import com.losextraditables.bu.pictures.view.adapter.OnInstagrammerClickListener;
 import com.losextraditables.bu.utils.SessionManager;
 import com.losextraditables.bu.videos.view.activity.VideoActivity;
 import com.roughike.bottombar.BottomBar;
@@ -78,10 +79,13 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     ButterKnife.bind(this);
     setSupportActionBar(toolbar);
     adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
-      @Override
-      public void onItemClick(View view, InstagrammerModel instagrammerModel) {
+      @Override public void onItemClick(View view, InstagrammerModel instagrammerModel) {
         sharedImage = view.findViewById(R.id.instagrammer_avatar);
         instagrammersListPresenter.goToInstagrammerDetail(instagrammerModel);
+      }
+    }, new OnInstagrammerClickListener() {
+      @Override public void onItemLongClick(View view, String username) {
+        showRemoveInstagrammerAlert(username);
       }
     });
     instagrammersList.setAdapter(adapter);
@@ -90,6 +94,21 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     instagrammersListPresenter.showInstagrammers(session.getUid());
 
     setupBottomBar(savedInstanceState, this);
+  }
+
+  private void showRemoveInstagrammerAlert(final String usename) {
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+    builder.setMessage("Do you want to delete the instagrammer?");
+
+    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialog, int which) {
+        instagrammersListPresenter.removeInstagrammer(session.getUid(), usename);
+      }
+    });
+
+    builder.create().show();
   }
 
   private void setupBottomBar(Bundle savedInstanceState, final Context context) {
@@ -173,6 +192,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
+        hideLoading();
         bottomBarPresenter.saveUser(input.getText().toString(), session.getUid());
       }
     });
