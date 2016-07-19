@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.View;
@@ -20,14 +19,20 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
+import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
+import com.losextraditables.bu.instagrammers.view.presenter.InstagrammerDetailPresenter;
+import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.utils.BlurTransform;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.List;
+import javax.inject.Inject;
 
-public class InstagrammerDetailActivity extends AppCompatActivity
-    implements AppBarLayout.OnOffsetChangedListener {
+public class InstagrammerDetailActivity extends BuAppCompatActivity
+    implements AppBarLayout.OnOffsetChangedListener, InstagrammerDetailPresenter.View {
 
   public static final String USERNAME = "username";
   public static final String PHOTO = "photo";
@@ -45,6 +50,9 @@ public class InstagrammerDetailActivity extends AppCompatActivity
   @Bind(R.id.app_bar) AppBarLayout appBarLayout;
   @Bind(R.id.toolbar_username) TextView toolbarUsername;
   @Bind(R.id.title_container) LinearLayout titleContainer;
+
+  @Inject
+  @Presenter InstagrammerDetailPresenter instagrammerDetailPresenter;
 
   private boolean mIsTheTitleVisible = false;
   private boolean mIsTheTitleContainerVisible = true;
@@ -80,6 +88,21 @@ public class InstagrammerDetailActivity extends AppCompatActivity
     setupUsername();
     setupStatusBarColor();
     startAlphaAnimation(toolbarUsername, 0, View.INVISIBLE);
+    instagrammerDetailPresenter.getProfilePictures(getIntent().getStringExtra(URL));
+  }
+
+  @Override protected int getLayoutId() {
+    return R.layout.activity_instagrammer_detail;
+  }
+
+  @Override protected void redirectToLogin() {
+    startActivity(new Intent(this, LoginActivity.class));
+    finish();
+  }
+
+  @Override protected void onPreparePresenter() {
+    super.onPreparePresenter();
+    instagrammerDetailPresenter.initialize();
   }
 
   private void setupToolbar() {
@@ -164,5 +187,29 @@ public class InstagrammerDetailActivity extends AppCompatActivity
     Intent i = new Intent(Intent.ACTION_VIEW);
     i.setData(Uri.parse(url));
     startActivity(i);
+  }
+
+  @Override public void renderProfilePictures(List<String> pictures) {
+    //TODO
+  }
+
+  @Override public void showEmpty() {
+    //TODO
+  }
+
+  @Override public void showGenericError() {
+    //TODO
+  }
+
+  @Override public void showConnectionError() {
+    //TODO
+  }
+
+  @Override public void hideLoading() {
+    //TODO
+  }
+
+  @Override public void showLoading() {
+    //TODO
   }
 }

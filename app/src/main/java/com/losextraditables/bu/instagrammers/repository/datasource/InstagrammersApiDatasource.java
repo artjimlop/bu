@@ -15,6 +15,11 @@ import com.losextraditables.bu.instagrammers.domain.model.SearchedInstagrammerRe
 import com.losextraditables.bu.instagrammers.repository.service.InstagramApiService;
 import com.losextraditables.bu.instagrammers.repository.service.InstagramServiceGenerator;
 import com.losextraditables.bu.utils.FirebaseService;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -22,6 +27,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.inject.Inject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -180,5 +187,42 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
         });
       }
     });
+  }
+
+  public List<String> getInstagrammerPicturesFromScrap(String profileUrl) {
+    HttpURLConnection urlConnection = null;
+    ArrayList<String> pictures = new ArrayList<>();
+    String json = "";
+    try {
+      URL url = new URL(profileUrl + "?__a=1");
+      urlConnection = (HttpURLConnection) url.openConnection();
+      InputStreamReader in = new InputStreamReader((InputStream) urlConnection.getContent());
+      BufferedReader buff = new BufferedReader(in);
+      String line;
+      do {
+        line = buff.readLine();
+        json += line;
+      } while (line != null);
+
+      JSONObject jsonObject = new JSONObject(json);
+      JSONObject jsonUserObject = jsonObject.getJSONObject("user");
+      JSONObject jsonMediaObject = jsonUserObject.getJSONObject("media");
+      JSONArray jsonNodesArray = jsonMediaObject.getJSONArray("nodes");
+
+      int lengthJsonArr = jsonNodesArray.length();
+
+      for (int i = 0; i < lengthJsonArr; i++) {
+        JSONObject jsonChildNode = jsonNodesArray.getJSONObject(i);
+        String picture = jsonChildNode.optString("display_src");
+        pictures.add(picture);
+      }
+    } catch (Exception e) {
+      throw new ConnectionError();
+    } finally {
+      if (urlConnection != null) {
+        urlConnection.disconnect();
+      }
+    }
+    return pictures;
   }
 }

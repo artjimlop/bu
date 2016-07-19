@@ -35,4 +35,8 @@ public class InstagrammersRepository {
   public Observable<Void> removeInstagrammer(String uid, String username) {
     return apiDatasource.removeInstagrammer(username, uid);
   }
+
+  public List<String> getInstagrammerProfilePictures(String profileUrl) {
+    return apiDatasource.getInstagrammerPicturesFromScrap(profileUrl);
+  }
 }
