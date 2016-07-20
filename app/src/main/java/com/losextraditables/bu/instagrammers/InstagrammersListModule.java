@@ -4,6 +4,7 @@ import com.losextraditables.bu.instagrammers.repository.InstagrammersRepository;
 import com.losextraditables.bu.instagrammers.repository.datasource.InstagrammersApiDatasource;
 import com.losextraditables.bu.instagrammers.repository.datasource.InstagrammersDatasource;
 import com.losextraditables.bu.instagrammers.repository.service.InstagramServiceGenerator;
+import com.losextraditables.bu.instagrammers.view.activity.InstagrammerDetailActivity;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.instagrammers.view.activity.SearchInstagrammersActivity;
 import com.losextraditables.bu.utils.FirebaseService;
@@ -15,6 +16,7 @@ import dagger.Provides;
     injects = {
         InstagrammersListActivity.class, SearchInstagrammersActivity.class,
         InstagrammersApiDatasource.class, InstagrammersRepository.class,
+        InstagrammerDetailActivity.class
     }) public class InstagrammersListModule {
 
   @Provides public InstagrammersDatasource providesInstagrammersDatasource(
