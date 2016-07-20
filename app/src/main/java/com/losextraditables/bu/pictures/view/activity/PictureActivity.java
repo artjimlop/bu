@@ -47,7 +47,7 @@ public class PictureActivity extends BuAppCompatActivity {
   }
 
   private static void handleActivityVersion(Activity activity, View sharedView, Intent intent) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && sharedView != null) {
       ActivityOptions activityOptions =
           ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, sharedView.getTransitionName());
       activity.startActivity(intent, activityOptions.toBundle());
