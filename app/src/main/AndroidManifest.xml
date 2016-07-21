@@ -30,7 +30,7 @@
         android:theme="@style/AppTheme"/>
     <activity
         android:name=".login.view.activity.LoginActivity"
-        android:theme="@style/AppTheme"/>
+        android:theme="@style/AppTheme.NoActionBar"/>
     <activity
         android:name=".instagrammers.view.activity.InstagrammerDetailActivity"
         android:label="@string/title_activity_instagrammer_detail"
