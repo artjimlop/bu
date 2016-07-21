@@ -107,12 +107,11 @@ public class PictureActivity extends BuAppCompatActivity {
     if (actionBar != null) {
       actionBar.setDisplayHomeAsUpEnabled(false);
       actionBar.setDisplayShowHomeEnabled(false);
-      actionBar.setDisplayShowTitleEnabled(false);
     }
   }
 
   private void loadImages() {
-    Picasso.with(this).load(imageUrl).into(imageView);
+    Picasso.with(this).load(imageUrl).fit().centerInside().into(imageView);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
