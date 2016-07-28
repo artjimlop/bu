@@ -79,6 +79,10 @@
         android:label="@string/title_activity_video"
         android:theme="@style/BuTheme">
     </activity>
+    <activity android:name=".pictures.view.activity.GalleryActivity"
+        android:label="@string/title_activity_saved_picture"
+        android:theme="@style/AppTheme">
+    </activity>
   </application>
 
 </manifest>
