@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:pv="http://schemas.android.com/apk/res-auto"
     android:background="@color/bb_darkBackgroundColor"
     tools:context="com.losextraditables.bu.pictures.view.activity.GalleryActivity"
     >
@@ -11,6 +12,10 @@
   <com.losextraditables.bu.widgets.CustomViewPager
       android:id="@+id/pager"
       android:layout_width="match_parent"
-      android:layout_height="match_parent" />
+      android:layout_height="match_parent"
+      pv:interpolator="@anim/decelerate_interpolator"
+      pv:mode="right_overlay"
+      pv:outset="99%"
+      pv:shadow_width="30dp"/>
 
 </RelativeLayout>

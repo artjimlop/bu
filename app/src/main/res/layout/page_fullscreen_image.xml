@@ -7,6 +7,7 @@
 
   <ImageView
       android:id="@+id/picture"
+      android:background="@color/bb_darkBackgroundColor"
       android:layout_width="match_parent"
       android:layout_height="match_parent"/>
 </RelativeLayout>
