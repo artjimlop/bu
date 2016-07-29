@@ -13,6 +13,7 @@ import com.losextraditables.bu.pictures.domain.model.mapper.PictureModelMapper;
 import com.losextraditables.bu.pictures.model.PictureModel;
 import com.losextraditables.bu.utils.SessionManager;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -63,6 +64,7 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
 
               @Override public void onNext(List<Picture> pictures) {
                 pictureModels = pictureModelMapper.listMap(pictures);
+                Collections.reverse(pictureModels);
                 getView().hideLoading();
                 getView().showSavedPictures(pictureModels);
               }

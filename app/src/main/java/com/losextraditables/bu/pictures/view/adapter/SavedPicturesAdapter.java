@@ -8,8 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.pictures.model.PictureModel;
-import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavedPicturesAdapter extends BaseAdapter {
@@ -60,9 +60,16 @@ public class SavedPicturesAdapter extends BaseAdapter {
     });
 
     final PictureModel item = getItem(position);
-    Picasso.with(context).load(item.getUrl()).placeholder(R.drawable.no_image_placeholder).networkPolicy(
-        NetworkPolicy.OFFLINE).into(picture);
+    Picasso.with(context).load(item.getUrl()).placeholder(R.drawable.no_image_placeholder).into(picture);
     return view;
+  }
+
+  public ArrayList<String> getImagesUrls() {
+    ArrayList<String> urls = new ArrayList<>();
+    for (PictureModel pictureModel : pictureModels) {
+      urls.add(pictureModel.getUrl());
+    }
+    return urls;
   }
 }
 

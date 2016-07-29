@@ -67,6 +67,11 @@ public class PicturesActivity extends BuAppCompatActivity
     return Arrays.asList((Object) new PicturesModule());
   }
 
+  public static Intent getIntentForActivity(Context context) {
+    Intent intent = new Intent(context, PicturesActivity.class);
+    return intent;
+  }
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -138,7 +143,8 @@ public class PicturesActivity extends BuAppCompatActivity
   }
 
   @Override public void showPicture(String pictureUrl) {
-    startActivity(PictureActivity.getIntentForActivity(this, pictureUrl));
+    startActivity(PictureActivity.getIntentForPicturesActivity(this, pictureUrl));
+    finish();
   }
 
   @Override public void showSaveInstagrammerDialog() {
@@ -216,7 +222,8 @@ public class PicturesActivity extends BuAppCompatActivity
   }
 
   private void goToSavedPictureActivity(View view, int position) {
-    PictureActivity.init(this, view, adapter.getItem(position).getUrl());
+    //PictureActivity.init(this, view, adapter.getItem(position).getUrl());
+    startActivity(GalleryActivity.getIntentForPicturesActivity(this, adapter.getImagesUrls(), position));
   }
 
   @Override
@@ -237,11 +244,6 @@ public class PicturesActivity extends BuAppCompatActivity
       getWindow().setReenterTransition(new Explode());
       getWindow().setExitTransition(new Explode().setDuration(500));
     }
-  }
-
-  @Override protected void onResume() {
-    super.onResume();
-    picturesPresenter.loadSavedPictures(session.getUid());
   }
 
   @OnClick(R.id.fab) void onFabClick() {

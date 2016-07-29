@@ -4,6 +4,7 @@ import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActi
 import com.losextraditables.bu.pictures.repository.PictureRepository;
 import com.losextraditables.bu.pictures.repository.datasource.PictureDataSource;
 import com.losextraditables.bu.pictures.repository.datasource.ServicePictureDataSource;
+import com.losextraditables.bu.pictures.view.activity.GalleryActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
 import com.losextraditables.bu.utils.FirebaseService;
@@ -19,7 +20,7 @@ import dagger.Provides;
         InstagrammersListActivity.class,
         PicturesActivity.class,
         ServicePictureDataSource.class,
-        PictureRepository.class,
+        PictureRepository.class, GalleryActivity.class
     }) public class PicturesModule {
 
     @Provides
