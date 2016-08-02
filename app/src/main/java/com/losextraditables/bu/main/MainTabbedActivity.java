@@ -9,8 +9,10 @@ import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
+import com.losextraditables.bu.videos.view.activity.VideoFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 import java.util.Collections;
 import java.util.List;
 
@@ -59,14 +61,14 @@ public class MainTabbedActivity extends BuAppCompatActivity {
 
         switch (menuItemId) {
           case R.id.bottom_pictures:
-            PicturesFragment picturesFragment = PicturesFragment.newInstance();
+            Fragment picturesFragment = PicturesFragment.newInstance();
             //currentFragment = picturesFragment;
             switchTab(picturesFragment);
             break;
           case R.id.bottom_videos:
-            /*Fragment favoritesFragment = FavoritesFragment.newInstance();
-            currentFragment = favoritesFragment;
-            switchTab(favoritesFragment);*/
+            Fragment videoFragment = VideoFragment.newInstance();
+            //currentFragment = favoritesFragment;
+            switchTab(videoFragment);
             break;
           case R.id.bottom_instagrammers:
             /*Fragment discoverFragment = DiscoverFragment.newInstance();
@@ -88,5 +90,10 @@ public class MainTabbedActivity extends BuAppCompatActivity {
   protected void switchTab(Fragment fragment) {
     getFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getName())
         .commit();
+  }
+
+  @Override protected void onPause() {
+    super.onPause();
+    JCVideoPlayer.releaseAllVideos();
   }
 }

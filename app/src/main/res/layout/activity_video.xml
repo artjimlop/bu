@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:background="@color/application_background"
-    tools:context="com.losextraditables.bu.videos.view.activity.VideoActivity"
+    tools:context=".videos.view.activity.VideoFragment"
     >
 
   <android.support.design.widget.AppBarLayout

@@ -29,7 +29,7 @@ import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
 import com.losextraditables.bu.pictures.view.adapter.OnInstagrammerClickListener;
 import com.losextraditables.bu.utils.SessionManager;
-import com.losextraditables.bu.videos.view.activity.VideoActivity;
+import com.losextraditables.bu.videos.view.activity.VideoFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import java.util.Arrays;
@@ -169,7 +169,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   }
 
   @Override public void showVideos() {
-    startActivity(new Intent(this, VideoActivity.class));
+    startActivity(new Intent(this, VideoFragment.class));
     overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
     finish();
   }

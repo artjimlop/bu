@@ -1,9 +1,7 @@
 package com.losextraditables.bu.pictures.view.activity;
 
 import android.annotation.TargetApi;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -46,11 +44,6 @@ public class PicturesFragment extends BaseFragment
 
   public static PicturesFragment newInstance() {
     return new PicturesFragment();
-  }
-
-  public static Intent getIntentForActivity(Context context) {
-    Intent intent = new Intent(context, PicturesFragment.class);
-    return intent;
   }
 
   @Override protected int getLayoutId() {
@@ -161,10 +154,10 @@ public class PicturesFragment extends BaseFragment
   }
 
   @Override public void showGenericError() {
-    //TODO
+    /* no-op */
   }
 
   @Override public void showConnectionError() {
-    //TODO
+    /* no-op */
   }
 }

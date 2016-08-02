@@ -66,11 +66,6 @@
         android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
         android:configChanges="keyboardHidden|orientation|screenSize"/>
     <activity
-        android:name=".videos.view.activity.VideoActivity"
-        android:label="@string/title_activity_video"
-        android:theme="@style/BuTheme">
-    </activity>
-    <activity
         android:name=".pictures.view.activity.GalleryActivity"
         android:label="@string/title_activity_saved_picture"
         android:theme="@style/AppTheme">
