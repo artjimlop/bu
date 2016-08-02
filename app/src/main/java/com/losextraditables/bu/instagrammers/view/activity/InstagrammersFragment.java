@@ -2,9 +2,7 @@ package com.losextraditables.bu.instagrammers.view.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,26 +16,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
-import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
+import com.losextraditables.bu.base.view.fragment.BaseFragment;
 import com.losextraditables.bu.bottombar.view.BottomBarPresenter;
-import com.losextraditables.bu.instagrammers.InstagrammersListModule;
 import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
-import com.losextraditables.bu.login.view.activity.LoginActivity;
-import com.losextraditables.bu.pictures.view.activity.PictureActivity;
-import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
 import com.losextraditables.bu.pictures.view.adapter.OnInstagrammerClickListener;
 import com.losextraditables.bu.utils.SessionManager;
-import com.losextraditables.bu.videos.view.activity.VideoFragment;
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnMenuTabClickListener;
-import java.util.Arrays;
 import java.util.List;
 import javax.inject.Inject;
 
-public class InstagrammersListActivity extends BuAppCompatActivity
-    implements BottomBarPresenter.View, InstagrammersListPresenter.View {
+public class InstagrammersFragment extends BaseFragment
+    implements InstagrammersListPresenter.View {
 
   private static final int ANIMATION_DURATION = 500;
   @Bind(R.id.instagrammers_list)
@@ -59,26 +49,30 @@ public class InstagrammersListActivity extends BuAppCompatActivity
   private InstagrammersAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
   private View sharedImage;
-  private BottomBar bottomBar;
 
-  private boolean justInitialized = true;
+  public static InstagrammersFragment newInstance() {
+    return new InstagrammersFragment();
+  }
 
   @Override
   protected int getLayoutId() {
     return R.layout.activity_instagrammers;
   }
 
-  @Override protected List<Object> getActivityScopeModules() {
-    return Arrays.asList((Object) new InstagrammersListModule());
+  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+    setupAdapter();
+    toolbar.setTitle(this.getResources().getString(R.string.instagrammers_activity));
+    instagrammersListPresenter.showInstagrammers(session.getUid());
   }
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_instagrammers);
-    ButterKnife.bind(this);
-    setSupportActionBar(toolbar);
-    adapter = new InstagrammersAdapter(this, new InstagrammersListPresenter.ItemClickListener() {
+  @Override public void onDestroyView() {
+    super.onDestroyView();
+    ButterKnife.unbind(this);
+  }
+
+  private void setupAdapter() {
+    adapter = new InstagrammersAdapter(getContext(), new InstagrammersListPresenter.ItemClickListener() {
       @Override public void onItemClick(View view, InstagrammerModel instagrammerModel) {
         sharedImage = view.findViewById(R.id.instagrammer_avatar);
         instagrammersListPresenter.goToInstagrammerDetail(instagrammerModel);
@@ -89,15 +83,12 @@ public class InstagrammersListActivity extends BuAppCompatActivity
       }
     });
     instagrammersList.setAdapter(adapter);
-    linearLayoutManager = new LinearLayoutManager(this);
+    linearLayoutManager = new LinearLayoutManager(getContext());
     instagrammersList.setLayoutManager(linearLayoutManager);
-    instagrammersListPresenter.showInstagrammers(session.getUid());
-
-    setupBottomBar(savedInstanceState, this);
   }
 
   private void showRemoveInstagrammerAlert(final String usename) {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
     builder.setMessage("Do you want to delete the instagrammer?");
 
@@ -111,52 +102,6 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     builder.create().show();
   }
 
-  private void setupBottomBar(Bundle savedInstanceState, final Context context) {
-    bottomBar = BottomBar.attach(this, savedInstanceState);
-    bottomBar.noTopOffset();
-    bottomBar.noNavBarGoodness();
-    bottomBar.setMaxFixedTabs(2);
-    bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
-      @Override
-      public void onMenuTabSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_videos) {
-          bottomBarPresenter.showVideosClicked();
-        } else if (menuItemId == R.id.bottom_pictures) {
-          if (!justInitialized) {
-            startActivity(new Intent(context, PicturesFragment.class));
-            overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
-            finish();
-          }
-        }
-      }
-
-      @Override
-      public void onMenuTabReSelected(@IdRes int menuItemId) {
-        if (menuItemId == R.id.bottom_videos) {
-          bottomBarPresenter.showVideosClicked();
-        }
-      }
-    });
-    bottomBar.selectTabAtPosition(2, true);
-    justInitialized = false;
-  }
-
-  @Override public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    bottomBar.onSaveInstanceState(outState);
-  }
-
-  @Override
-  protected void redirectToLogin() {
-    startActivity(new Intent(this, LoginActivity.class));
-    finish();
-  }
-
-  @Override protected void onPreparePresenter() {
-    super.onPreparePresenter();
-    instagrammersListPresenter.initialize();
-  }
-
   @Override
   public void showInstagrammers(List<InstagrammerModel> instagrammerModels) {
     adapter.setUsers(instagrammerModels);
@@ -165,30 +110,19 @@ public class InstagrammersListActivity extends BuAppCompatActivity
 
   @Override
   public void goToInstagrammerDetail(InstagrammerModel instagrammerModel) {
-    InstagrammerDetailActivity.init(this, sharedImage, instagrammerModel);
-  }
-
-  @Override public void showVideos() {
-    startActivity(new Intent(this, VideoFragment.class));
-    overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
-    finish();
-  }
-
-  @Override public void showPicture(String pictureUrl) {
-    startActivity(PictureActivity.getIntentForActivity(this, pictureUrl));
+    InstagrammerDetailActivity.init(getActivity(), sharedImage, instagrammerModel);
   }
 
   @Override public void showSaveInstagrammerDialog() {
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
+    final Context context = getContext();
+    AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setMessage("Insert instagrammers's url here")
         .setTitle("Save");
 
-    final EditText input = new EditText(this);
-
+    final EditText input = new EditText(context);
     input.setInputType(InputType.TYPE_CLASS_TEXT);
     builder.setView(input);
-    final Context context = this;
+
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
       public void onClick(DialogInterface dialog, int which) {
@@ -198,9 +132,6 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     });
 
     builder.create().show();
-  }
-
-  @Override public void showSavedInstagrammer() {
   }
 
   @Override
@@ -219,4 +150,11 @@ public class InstagrammersListActivity extends BuAppCompatActivity
     bottomBarPresenter.saveInstagrammerClicked();
   }
 
+  @Override public void showGenericError() {
+    /* no-op */
+  }
+
+  @Override public void showConnectionError() {
+    /* no-op */
+  }
 }

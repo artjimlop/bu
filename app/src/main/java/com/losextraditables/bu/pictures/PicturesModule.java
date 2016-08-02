@@ -1,6 +1,6 @@
 package com.losextraditables.bu.pictures;
 
-import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
+import com.losextraditables.bu.instagrammers.view.activity.InstagrammersFragment;
 import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.repository.PictureRepository;
 import com.losextraditables.bu.pictures.repository.datasource.PictureDataSource;
@@ -18,7 +18,7 @@ import dagger.Provides;
     injects = {
         PictureActivity.class,
         WritePermissionManager.class,
-        InstagrammersListActivity.class,
+        InstagrammersFragment.class,
         PicturesFragment.class,
         ServicePictureDataSource.class,
         PictureRepository.class, GalleryActivity.class, MainTabbedActivity.class

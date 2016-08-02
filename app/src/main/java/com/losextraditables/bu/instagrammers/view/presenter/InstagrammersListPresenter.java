@@ -156,6 +156,8 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
     void showInstagrammers(List<InstagrammerModel> instagrammerModels);
 
     void goToInstagrammerDetail(InstagrammerModel instagrammerModel);
+
+    void showSaveInstagrammerDialog();
   }
 
   public interface ItemClickListener {

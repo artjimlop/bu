@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
+import com.losextraditables.bu.instagrammers.view.activity.InstagrammersFragment;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
 import com.losextraditables.bu.videos.view.activity.VideoFragment;
@@ -71,9 +72,9 @@ public class MainTabbedActivity extends BuAppCompatActivity {
             switchTab(videoFragment);
             break;
           case R.id.bottom_instagrammers:
-            /*Fragment discoverFragment = DiscoverFragment.newInstance();
-            currentFragment = discoverFragment;
-            switchTab(discoverFragment);*/
+            Fragment instagrammerFragment = InstagrammersFragment.newInstance();
+            //currentFragment = discoverFragment;
+            switchTab(instagrammerFragment);
             break;
           default:
             break;

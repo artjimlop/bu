@@ -21,7 +21,7 @@
       android:theme="@style/BuTheme"
       tools:replace="android:icon">
     <activity
-        android:name=".instagrammers.view.activity.InstagrammersListActivity"
+        android:name=".instagrammers.view.activity.InstagrammersFragment"
         android:label="@string/instagrammers_activity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
