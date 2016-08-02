@@ -26,7 +26,7 @@ import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
-import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
+import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
 import com.losextraditables.bu.pictures.view.adapter.OnInstagrammerClickListener;
 import com.losextraditables.bu.utils.SessionManager;
 import com.losextraditables.bu.videos.view.activity.VideoActivity;
@@ -123,7 +123,7 @@ public class InstagrammersListActivity extends BuAppCompatActivity
           bottomBarPresenter.showVideosClicked();
         } else if (menuItemId == R.id.bottom_pictures) {
           if (!justInitialized) {
-            startActivity(new Intent(context, PicturesActivity.class));
+            startActivity(new Intent(context, PicturesFragment.class));
             overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
             finish();
           }

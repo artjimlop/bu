@@ -22,7 +22,7 @@ import com.losextraditables.bu.bottombar.view.BottomBarPresenter;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersListActivity;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
-import com.losextraditables.bu.pictures.view.activity.PicturesActivity;
+import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
 import com.losextraditables.bu.pictures.view.adapter.OnVideoClickListener;
 import com.losextraditables.bu.utils.SessionManager;
 import com.losextraditables.bu.videos.VideosModule;
@@ -87,7 +87,7 @@ public class VideoActivity extends BuAppCompatActivity
           }
         } else if (menuItemId == R.id.bottom_pictures) {
           if (!justInitialized) {
-            startActivity(new Intent(context, PicturesActivity.class));
+            startActivity(new Intent(context, PicturesFragment.class));
             overridePendingTransition(R.anim.activity_back_in, R.anim.activity_back_out);
             finish();
           }

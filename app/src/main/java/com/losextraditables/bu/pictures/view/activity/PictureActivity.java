@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import com.artjimlop.altex.AltexImageDownloader;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
+import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.utils.WritePermissionManager;
 import com.mopub.mobileads.MoPubView;
@@ -171,7 +172,7 @@ public class PictureActivity extends BuAppCompatActivity {
   @Override public void onBackPressed() {
     super.onBackPressed();
     if(getIntent().getBooleanExtra(EXTRA_REFRESH, false)) {
-      startActivity(PicturesActivity.getIntentForActivity(this));
+      startActivity(MainTabbedActivity.getIntentForActivity(this));
     }
   }
 }
