@@ -21,6 +21,7 @@ import java.util.List;
 public class MainTabbedActivity extends BuAppCompatActivity {
 
   private Fragment currentFragment;
+  private BottomBar bottomBar;
 
   public static Intent getIntentForActivity(Context context) {
     return new Intent(context, MainTabbedActivity.class);
@@ -46,7 +47,7 @@ public class MainTabbedActivity extends BuAppCompatActivity {
   }
 
   private void setupBottomBar(Bundle savedInstanceState, final Context context) {
-    BottomBar bottomBar = BottomBar.attach(this, savedInstanceState);
+    bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
     bottomBar.setMaxFixedTabs(2);
@@ -79,6 +80,8 @@ public class MainTabbedActivity extends BuAppCompatActivity {
         ((BaseFragment)currentFragment).scrollListToTop();
       }
     });
+    bottomBar.mapColorForTab(1, "#C62828");
+    bottomBar.mapColorForTab(2, "#B71C1C");
   }
 
   protected void switchTab(Fragment fragment) {

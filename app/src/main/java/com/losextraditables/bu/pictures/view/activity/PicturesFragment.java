@@ -1,7 +1,10 @@
 package com.losextraditables.bu.pictures.view.activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -9,6 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.transition.Explode;
 import android.view.View;
+import android.view.ViewAnimationUtils;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -64,6 +70,11 @@ public class PicturesFragment extends BaseFragment
 
   private void setupToolbar() {
     toolbar.setTitle(this.getResources().getString(R.string.pictures_activity));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      Window window = getActivity().getWindow();
+      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      window.setStatusBarColor(Color.parseColor("#B71C1C"));
+    }
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {
