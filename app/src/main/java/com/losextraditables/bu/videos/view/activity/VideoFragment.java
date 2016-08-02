@@ -133,4 +133,8 @@ public class VideoFragment extends BaseFragment
   @Override public void showConnectionError() {
     /* no-op */
   }
+
+  @Override public void scrollListToTop() {
+    videoRecycler.smoothScrollToPosition(0);
+  }
 }

@@ -160,4 +160,8 @@ public class PicturesFragment extends BaseFragment
   @Override public void showConnectionError() {
     /* no-op */
   }
+
+  @Override public void scrollListToTop() {
+    picturesList.smoothScrollToPosition(0);
+  }
 }

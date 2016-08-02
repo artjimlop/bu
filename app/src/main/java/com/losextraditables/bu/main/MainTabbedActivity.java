@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
+import com.losextraditables.bu.base.view.fragment.BaseFragment;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersFragment;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MainTabbedActivity extends BuAppCompatActivity {
 
-  private BottomBar bottomBar;
+  private Fragment currentFragment;
 
   public static Intent getIntentForActivity(Context context) {
     return new Intent(context, MainTabbedActivity.class);
@@ -45,35 +46,27 @@ public class MainTabbedActivity extends BuAppCompatActivity {
   }
 
   private void setupBottomBar(Bundle savedInstanceState, final Context context) {
-    bottomBar = BottomBar.attach(this, savedInstanceState);
+    BottomBar bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
     bottomBar.setMaxFixedTabs(2);
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
-        /*if (menuItemId == R.id.bottom_videos) {
-          bottomBarPresenter.showVideosClicked();
-        } else if (menuItemId == R.id.bottom_instagrammers) {
-          startActivity(new Intent(context, InstagrammersListActivity.class));
-          overridePendingTransition(R.anim.activity_in, R.anim.activity_out);
-          finish();
-        }*/
-
         switch (menuItemId) {
           case R.id.bottom_pictures:
             Fragment picturesFragment = PicturesFragment.newInstance();
-            //currentFragment = picturesFragment;
+            currentFragment = picturesFragment;
             switchTab(picturesFragment);
             break;
           case R.id.bottom_videos:
             Fragment videoFragment = VideoFragment.newInstance();
-            //currentFragment = favoritesFragment;
+            currentFragment = videoFragment;
             switchTab(videoFragment);
             break;
           case R.id.bottom_instagrammers:
             Fragment instagrammerFragment = InstagrammersFragment.newInstance();
-            //currentFragment = discoverFragment;
+            currentFragment = instagrammerFragment;
             switchTab(instagrammerFragment);
             break;
           default:
@@ -83,7 +76,7 @@ public class MainTabbedActivity extends BuAppCompatActivity {
 
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
-        //TODO
+        ((BaseFragment)currentFragment).scrollListToTop();
       }
     });
   }

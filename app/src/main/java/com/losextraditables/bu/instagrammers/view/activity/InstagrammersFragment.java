@@ -157,4 +157,8 @@ public class InstagrammersFragment extends BaseFragment
   @Override public void showConnectionError() {
     /* no-op */
   }
+
+  @Override public void scrollListToTop() {
+    instagrammersList.smoothScrollToPosition(0);
+  }
 }
