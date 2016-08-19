@@ -1,13 +1,13 @@
 package com.losextraditables.bu.instagrammers.view.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -21,9 +21,13 @@ import com.losextraditables.bu.bottombar.view.BottomBarPresenter;
 import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
+import com.losextraditables.bu.main.DialogAdapter;
 import com.losextraditables.bu.pictures.view.adapter.OnInstagrammerClickListener;
+import com.losextraditables.bu.utils.RemindTask;
 import com.losextraditables.bu.utils.SessionManager;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 import javax.inject.Inject;
 
 public class InstagrammersFragment extends BaseFragment
@@ -49,6 +53,7 @@ public class InstagrammersFragment extends BaseFragment
   private InstagrammersAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
   private View sharedImage;
+  private Timer timer;
 
   public static InstagrammersFragment newInstance() {
     return new InstagrammersFragment();
@@ -114,24 +119,34 @@ public class InstagrammersFragment extends BaseFragment
   }
 
   @Override public void showSaveInstagrammerDialog() {
-    final Context context = getContext();
-    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    builder.setMessage("Insert instagrammers's url here")
-        .setTitle("Save");
+    ArrayList<Integer> instructionPictures = new ArrayList<>();
+    instructionPictures.add(R.drawable.user_profile);
+    instructionPictures.add(R.drawable.user_profile_url);
 
-    final EditText input = new EditText(context);
-    input.setInputType(InputType.TYPE_CLASS_TEXT);
-    builder.setView(input);
+    LayoutInflater inflater = getActivity().getLayoutInflater();
+    View dialogView = inflater.inflate(R.layout.dialog_add_instagrammer, null);
+    ViewPager dialogPager = (ViewPager) dialogView.findViewById(R.id.dialog_pager);
+    DialogAdapter dialogAdapter = new DialogAdapter(getContext(), instructionPictures);
+    dialogPager.setAdapter(dialogAdapter);
+    timer = new Timer();
+    timer.scheduleAtFixedRate(new RemindTask(getActivity(), dialogPager, 2, timer), 0, 3000);
 
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override
-      public void onClick(DialogInterface dialog, int which) {
-        hideLoading();
-        bottomBarPresenter.saveUser(input.getText().toString(), session.getUid());
-      }
-    });
-
-    builder.create().show();
+    final EditText url = (EditText) dialogView.findViewById(R.id.instagram_url);
+    new android.app.AlertDialog.Builder(getActivity()).setView(dialogView)
+        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            timer.cancel();
+            hideLoading();
+            instagrammersListPresenter.saveUser(url.getText().toString(), session.getUid());
+          }
+        })
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override public void onCancel(DialogInterface dialogInterface) {
+            timer.cancel();
+          }
+        })
+        .create()
+        .show();
   }
 
   @Override
@@ -147,7 +162,7 @@ public class InstagrammersFragment extends BaseFragment
   }
 
   @OnClick(R.id.fab) void onFabClick() {
-    bottomBarPresenter.saveInstagrammerClicked();
+    showSaveInstagrammerDialog();
   }
 
   @Override public void showGenericError() {

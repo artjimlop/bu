@@ -134,4 +134,6 @@
   <string name="insert_picture_s_url_here">Insert picture URL</string>
   <string name="save_video">Save video</string>
   <string name="insert_video_url_here">Insert video URL</string>
+  <string name="insert_instagrammer_url">Insert instagrammer URL</string>
+  <string name="save_instagrammer">Save instagrammer</string>
 </resources>

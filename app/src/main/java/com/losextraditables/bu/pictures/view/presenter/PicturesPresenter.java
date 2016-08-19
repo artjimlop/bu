@@ -37,8 +37,9 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
 
   @Inject
   public PicturesPresenter(UseCaseHandler useCaseHandler, GetPicturesUseCase getPicturesUseCase,
-      GetPictureUseCase getPictureUseCase, SavePictureUseCase savePictureUseCase, RefreshAuthUseCase refreshAuthUseCase,
-      RemovePictureUserCase removePictureUserCase, SessionManager sessionManager, PictureModelMapper pictureModelMapper) {
+      GetPictureUseCase getPictureUseCase, SavePictureUseCase savePictureUseCase,
+      RefreshAuthUseCase refreshAuthUseCase, RemovePictureUserCase removePictureUserCase,
+      SessionManager sessionManager, PictureModelMapper pictureModelMapper) {
     super(useCaseHandler);
     this.getPicturesUseCase = getPicturesUseCase;
     this.getPictureUseCase = getPictureUseCase;
