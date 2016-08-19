@@ -1,13 +1,13 @@
 package com.losextraditables.bu.videos.view.activity;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import butterknife.Bind;
@@ -16,12 +16,16 @@ import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
+import com.losextraditables.bu.main.DialogAdapter;
 import com.losextraditables.bu.pictures.view.adapter.OnVideoClickListener;
+import com.losextraditables.bu.utils.RemindTask;
 import com.losextraditables.bu.utils.SessionManager;
 import com.losextraditables.bu.videos.view.adapter.VideoAdapter;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import com.losextraditables.bu.videos.view.presenter.VideoListPresenter;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 import javax.inject.Inject;
 
 public class VideoFragment extends BaseFragment
@@ -35,6 +39,8 @@ public class VideoFragment extends BaseFragment
 
   private VideoAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
+  private Timer timer;
+
 
   public static VideoFragment newInstance() {
     return new VideoFragment();
@@ -92,22 +98,34 @@ public class VideoFragment extends BaseFragment
   }
 
   @Override public void showAddVideoDialog() {
-    final Context context = getContext();
-    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+    ArrayList<Integer> instructionPictures = new ArrayList<>();
+    instructionPictures.add(R.drawable.instagram_picture);
+    instructionPictures.add(R.drawable.instagram_picture_url);
 
-    builder.setMessage("Insert video's url here").setTitle("Save video");
+    LayoutInflater inflater = getActivity().getLayoutInflater();
+    View dialogView = inflater.inflate(R.layout.dialog_add_video, null);
+    ViewPager dialogPager = (ViewPager) dialogView.findViewById(R.id.dialog_pager);
+    DialogAdapter dialogAdapter = new DialogAdapter(getContext(), instructionPictures);
+    dialogPager.setAdapter(dialogAdapter);
+    timer = new Timer();
+    timer.scheduleAtFixedRate(new RemindTask(getActivity(), dialogPager, 2, timer), 0, 3000);
 
-    final EditText input = new EditText(context);
-
-    input.setInputType(InputType.TYPE_CLASS_TEXT);
-    builder.setView(input);
-    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-      @Override public void onClick(DialogInterface dialog, int which) {
-        presenter.saveVideo(input.getText().toString(), session.getUid());
-      }
-    });
-
-    builder.create().show();
+    final EditText url = (EditText) dialogView.findViewById(R.id.instagram_url);
+    new android.app.AlertDialog.Builder(getActivity()).setView(dialogView)
+        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int whichButton) {
+            timer.cancel();
+            hideLoading();
+            presenter.saveVideo(url.getText().toString(), session.getUid());
+          }
+        })
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override public void onCancel(DialogInterface dialogInterface) {
+            timer.cancel();
+          }
+        })
+        .create()
+        .show();
   }
 
   @Override public void refresh() {
@@ -136,5 +154,12 @@ public class VideoFragment extends BaseFragment
 
   @Override public void scrollListToTop() {
     videoRecycler.smoothScrollToPosition(0);
+  }
+
+  @Override public void onResume() {
+    super.onResume();
+    if (timer != null) {
+      timer.cancel();
+    }
   }
 }
