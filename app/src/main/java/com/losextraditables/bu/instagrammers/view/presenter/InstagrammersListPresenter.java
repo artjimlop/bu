@@ -7,7 +7,9 @@ import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
 import com.losextraditables.bu.instagrammers.domain.model.Instagrammer;
 import com.losextraditables.bu.instagrammers.domain.usecase.GetFollowedInstagrammersUseCase;
+import com.losextraditables.bu.instagrammers.domain.usecase.GetInstagrammerUseCase;
 import com.losextraditables.bu.instagrammers.domain.usecase.RemoveInstagrammerUseCase;
+import com.losextraditables.bu.instagrammers.domain.usecase.SaveInstagrammerUseCase;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.model.mapper.InstagrammerModelMapper;
 import com.losextraditables.bu.login.domain.usecase.RefreshAuthUseCase;
@@ -28,18 +30,24 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
   private final RefreshAuthUseCase refreshAuthUseCase;
   private final SessionManager sessionManager;
   private final InstagrammerModelMapper mapper;
+  private final SaveInstagrammerUseCase saveInstagrammerUseCase;
+  private final GetInstagrammerUseCase getInstagrammerUseCase;
   private List<InstagrammerModel> instagrammerModels;
 
   @Inject public InstagrammersListPresenter(UseCaseHandler useCaseHandler,
       GetFollowedInstagrammersUseCase getFollowedInstagrammersUseCase,
       RemoveInstagrammerUseCase removeInstagrammerUseCase, RefreshAuthUseCase refreshAuthUseCase,
-      SessionManager sessionManager, InstagrammerModelMapper mapper) {
+      SessionManager sessionManager, InstagrammerModelMapper mapper,
+      SaveInstagrammerUseCase saveInstagrammerUseCase,
+      GetInstagrammerUseCase getInstagrammerUseCase) {
     super(useCaseHandler);
     this.getFollowedInstagrammersUseCase = getFollowedInstagrammersUseCase;
     this.removeInstagrammerUseCase = removeInstagrammerUseCase;
     this.refreshAuthUseCase = refreshAuthUseCase;
     this.sessionManager = sessionManager;
     this.mapper = mapper;
+    this.saveInstagrammerUseCase = saveInstagrammerUseCase;
+    this.getInstagrammerUseCase = getInstagrammerUseCase;
   }
 
   public void initialize() {
@@ -152,10 +160,68 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
         .execute();
   }
 
+  public void saveUser(String url, final String uid) {
+    createUseCaseCall(getInstagrammerUseCase).args(url, uid).onSuccess(new OnSuccessCallback() {
+      @Success public void onPictureSaved(Observable<Instagrammer> instagrammerObservable) {
+        instagrammerObservable.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Observer<Instagrammer>() {
+              @Override public void onCompleted() {
+              }
+
+              @Override public void onError(Throwable e) {
+                getView().showConnectionError();
+              }
+
+              @Override public void onNext(Instagrammer instagrammer) {
+                addToUsersInstagrammers(instagrammer, uid);
+              }
+            });
+      }
+    }).onError(new OnErrorCallback() {
+      @Override public boolean onError(Error error) {
+        getView().showConnectionError();
+        return false;
+      }
+    }).execute();
+  }
+
+  private void addToUsersInstagrammers(final Instagrammer instagrammer, String uid) {
+    createUseCaseCall(saveInstagrammerUseCase).args(instagrammer, uid)
+        .onSuccess(new OnSuccessCallback() {
+          @Success public void onPictureSaved(Observable<Void> saveInstagrammerObservable) {
+            saveInstagrammerObservable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Void>() {
+                  @Override public void onCompleted() {
+                    /* no-op */
+                  }
+
+                  @Override public void onError(Throwable e) {
+
+                  }
+
+                  @Override public void onNext(Void aVoid) {
+
+                  }
+                });
+          }
+        })
+        .onError(new OnErrorCallback() {
+          @Override public boolean onError(Error error) {
+            return false;
+          }
+        })
+        .execute();
+  }
+
   public interface View extends BuPresenter.View {
     void showInstagrammers(List<InstagrammerModel> instagrammerModels);
 
     void goToInstagrammerDetail(InstagrammerModel instagrammerModel);
+
+    void showSaveInstagrammerDialog();
+
   }
 
   public interface ItemClickListener {
