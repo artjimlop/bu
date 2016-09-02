@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:background="@color/application_background"
     tools:context=".pictures.view.activity.PictureActivity">
 
   <ImageView android:id="@+id/picture"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"/>
+      android:layout_height="match_parent"
+      tools:src="@drawable/bu_ic_launcher"/>
 
   <com.mopub.mobileads.MoPubView
       android:id="@+id/mopub_ad"

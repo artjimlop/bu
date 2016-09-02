@@ -21,7 +21,7 @@
       android:theme="@style/BuTheme"
       tools:replace="android:icon">
     <activity
-        android:name=".instagrammers.view.activity.InstagrammersListActivity"
+        android:name=".instagrammers.view.activity.InstagrammersFragment"
         android:label="@string/instagrammers_activity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
@@ -30,7 +30,7 @@
         android:theme="@style/AppTheme"/>
     <activity
         android:name=".login.view.activity.LoginActivity"
-        android:theme="@style/AppTheme"/>
+        android:theme="@style/AppTheme.NoActionBar"/>
     <activity
         android:name=".instagrammers.view.activity.InstagrammerDetailActivity"
         android:label="@string/title_activity_instagrammer_detail"
@@ -46,16 +46,8 @@
         android:theme="@style/AppTheme"/>
     <activity
         android:name=".pictures.view.activity.PictureActivity"
+        android:label="@string/title_activity_saved_picture"
         android:theme="@style/AppTheme"/>
-    <activity
-        android:name=".pictures.view.activity.PicturesActivity"
-        android:theme="@style/AppTheme.NoActionBar">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
     <activity
         android:name=".pictures.view.activity.SavedPictureActivity"
         android:label="@string/title_activity_saved_picture"
@@ -74,9 +66,16 @@
         android:name="com.mopub.mobileads.MraidVideoPlayerActivity"
         android:configChanges="keyboardHidden|orientation|screenSize"/>
     <activity
-        android:name=".videos.view.activity.VideoActivity"
-        android:label="@string/title_activity_video"
-        android:theme="@style/BuTheme">
+        android:name=".pictures.view.activity.GalleryActivity"
+        android:label="@string/title_activity_saved_picture"
+        android:theme="@style/AppTheme">
+    </activity>
+    <activity android:name=".main.MainTabbedActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
     </activity>
   </application>
 

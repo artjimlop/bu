@@ -8,7 +8,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.View;
@@ -20,14 +22,24 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
+import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
+import com.losextraditables.bu.instagrammers.view.adapter.OnProfilePictureClickListener;
+import com.losextraditables.bu.instagrammers.view.adapter.ProfilePicturesAdapter;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
+import com.losextraditables.bu.instagrammers.view.presenter.InstagrammerDetailPresenter;
+import com.losextraditables.bu.login.view.activity.LoginActivity;
+import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.utils.BlurTransform;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.List;
+import javax.inject.Inject;
 
-public class InstagrammerDetailActivity extends AppCompatActivity
-    implements AppBarLayout.OnOffsetChangedListener {
+public class InstagrammerDetailActivity extends BuAppCompatActivity
+    implements AppBarLayout.OnOffsetChangedListener, InstagrammerDetailPresenter.View,
+    View.OnClickListener {
 
   public static final String USERNAME = "username";
   public static final String PHOTO = "photo";
@@ -45,6 +57,11 @@ public class InstagrammerDetailActivity extends AppCompatActivity
   @Bind(R.id.app_bar) AppBarLayout appBarLayout;
   @Bind(R.id.toolbar_username) TextView toolbarUsername;
   @Bind(R.id.title_container) LinearLayout titleContainer;
+  @Bind(R.id.pictures_list) RecyclerView pictureList;
+  @Bind(R.id.stalin_info_card) CardView cardView;
+
+  @Inject
+  @Presenter InstagrammerDetailPresenter instagrammerDetailPresenter;
 
   private boolean mIsTheTitleVisible = false;
   private boolean mIsTheTitleContainerVisible = true;
@@ -80,6 +97,21 @@ public class InstagrammerDetailActivity extends AppCompatActivity
     setupUsername();
     setupStatusBarColor();
     startAlphaAnimation(toolbarUsername, 0, View.INVISIBLE);
+    instagrammerDetailPresenter.getProfilePictures(getIntent().getStringExtra(URL));
+  }
+
+  @Override protected int getLayoutId() {
+    return R.layout.activity_instagrammer_detail;
+  }
+
+  @Override protected void redirectToLogin() {
+    startActivity(new Intent(this, LoginActivity.class));
+    finish();
+  }
+
+  @Override protected void onPreparePresenter() {
+    super.onPreparePresenter();
+    instagrammerDetailPresenter.initialize();
   }
 
   private void setupToolbar() {
@@ -88,12 +120,15 @@ public class InstagrammerDetailActivity extends AppCompatActivity
     setSupportActionBar(toolbar);
     Picasso.with(this).load(photo).into(userPhoto);
     Picasso.with(this).load(photo).transform(new BlurTransform(this)).into(blurImage);
+    toolbar.setOnClickListener(this);
+    userPhoto.setOnClickListener(this);
   }
 
   private void setupUsername() {
     String username = getIntent().getStringExtra(USERNAME);
     instagrammerName.setText(username);
     toolbarUsername.setText(username);
+    instagrammerName.setOnClickListener(this);
   }
 
   private void setupAppBarLayout() {
@@ -160,9 +195,61 @@ public class InstagrammerDetailActivity extends AppCompatActivity
 
   @OnClick(R.id.stalin_info_card)
   public void onInstagramInfoCardClicked() {
+    goToInstagram();
+  }
+
+  private void goToInstagram() {
     String url = getIntent().getStringExtra(URL);
     Intent i = new Intent(Intent.ACTION_VIEW);
     i.setData(Uri.parse(url));
     startActivity(i);
   }
+
+  @Override public void renderProfilePictures(List<String> pictures) {
+    cardView.setVisibility(View.GONE);
+    pictureList.setVisibility(View.VISIBLE);
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+    ProfilePicturesAdapter profilePicturesAdapter = new ProfilePicturesAdapter(this,
+        new OnProfilePictureClickListener() {
+          @Override public void onItemClick(String pictureUrl) {
+            goToSavedPictureActivity(pictureUrl);
+          }
+        });
+    profilePicturesAdapter.setItems(pictures);
+    if (pictureList != null) {
+      pictureList.setLayoutManager(linearLayoutManager);
+      pictureList.setHasFixedSize(true);
+      pictureList.setAdapter(profilePicturesAdapter);
+    }
+  }
+
+  @Override public void showEmpty() {
+    cardView.setVisibility(View.VISIBLE);
+    pictureList.setVisibility(View.GONE);
+  }
+
+  @Override public void showGenericError() {
+    /* no-op */
+  }
+
+  @Override public void showConnectionError() {
+    /* no-op */
+  }
+
+  @Override public void hideLoading() {
+    //TODO
+  }
+
+  @Override public void showLoading() {
+    //TODO
+  }
+
+  @Override public void onClick(View view) {
+    goToInstagram();
+  }
+
+  private void goToSavedPictureActivity(String url) {
+    PictureActivity.init(this, null, url);
+  }
+
 }

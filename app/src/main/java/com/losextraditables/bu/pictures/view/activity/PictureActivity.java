@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import com.artjimlop.altex.AltexImageDownloader;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
+import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.utils.WritePermissionManager;
 import com.mopub.mobileads.MoPubView;
@@ -35,6 +36,7 @@ public class PictureActivity extends BuAppCompatActivity {
   @Bind(R.id.picture) ImageView imageView;
 
   private static final String EXTRA_IMAGE_URL = "image";
+  private static final String EXTRA_REFRESH = "refreshPictures";
   private String imageUrl;
   private PhotoViewAttacher attacher;
   @Bind(R.id.mopub_ad) MoPubView moPubView;
@@ -47,7 +49,7 @@ public class PictureActivity extends BuAppCompatActivity {
   }
 
   private static void handleActivityVersion(Activity activity, View sharedView, Intent intent) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && sharedView != null) {
       ActivityOptions activityOptions =
           ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, sharedView.getTransitionName());
       activity.startActivity(intent, activityOptions.toBundle());
@@ -75,9 +77,17 @@ public class PictureActivity extends BuAppCompatActivity {
     return Arrays.asList((Object) new PicturesModule());
   }
 
+  public static Intent getIntentForPicturesActivity(Context context, String imageUrl) {
+    Intent intent = new Intent(context, PictureActivity.class);
+    intent.putExtra(EXTRA_IMAGE_URL, imageUrl);
+    intent.putExtra(EXTRA_REFRESH, true);
+    return intent;
+  }
+
   public static Intent getIntentForActivity(Context context, String imageUrl) {
     Intent intent = new Intent(context, PictureActivity.class);
     intent.putExtra(EXTRA_IMAGE_URL, imageUrl);
+    intent.putExtra(EXTRA_REFRESH, false);
     return intent;
   }
 
@@ -98,12 +108,11 @@ public class PictureActivity extends BuAppCompatActivity {
     if (actionBar != null) {
       actionBar.setDisplayHomeAsUpEnabled(false);
       actionBar.setDisplayShowHomeEnabled(false);
-      actionBar.setDisplayShowTitleEnabled(false);
     }
   }
 
   private void loadImages() {
-    Picasso.with(this).load(imageUrl).into(imageView);
+    Picasso.with(this).load(imageUrl).fit().centerInside().into(imageView);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
@@ -158,5 +167,12 @@ public class PictureActivity extends BuAppCompatActivity {
   @Override protected void onDestroy() {
     super.onDestroy();
     moPubView.destroy();
+  }
+
+  @Override public void onBackPressed() {
+    super.onBackPressed();
+    if(getIntent().getBooleanExtra(EXTRA_REFRESH, false)) {
+      startActivity(MainTabbedActivity.getIntentForActivity(this));
+    }
   }
 }

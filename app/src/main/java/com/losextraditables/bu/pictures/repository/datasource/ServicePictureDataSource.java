@@ -9,6 +9,7 @@ import com.firebase.client.ValueEventListener;
 import com.losextraditables.bu.base.view.error.ConnectionError;
 import com.losextraditables.bu.pictures.domain.model.Picture;
 import com.losextraditables.bu.utils.FirebaseService;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
@@ -44,6 +45,14 @@ public class ServicePictureDataSource implements PictureDataSource {
     return Observable.create(new Observable.OnSubscribe<List<Picture>>() {
       @Override public void call(final Subscriber<? super List<Picture>> subscriber) {
         getPicturesFromFirebase(subscriber, uid);
+      }
+    });
+  }
+
+  @Override public Observable<Void> removePicture(final String uid, final String url) {
+    return Observable.create(new Observable.OnSubscribe<Void>() {
+      @Override public void call(final Subscriber<? super Void> subscriber) {
+        removePictureInFirebase(subscriber, uid, url);
       }
     });
   }
@@ -84,6 +93,33 @@ public class ServicePictureDataSource implements PictureDataSource {
           }
           changeMade = true;
         }
+        subscriber.onCompleted();
+      }
+
+      @Override public void onCancelled(FirebaseError firebaseError) {
+        Crashlytics.log(firebaseError.getMessage());
+        subscriber.onError(new ConnectionError());
+      }
+    });
+  }
+
+  private void removePictureInFirebase(final Subscriber<? super Void> subscriber, String uid,
+      final String position) {
+    final Firebase picturesReference = firebaseService.getPicturesReference(uid);
+    picturesReference.addValueEventListener(new ValueEventListener() {
+      @Override public void onDataChange(DataSnapshot dataSnapshot) {
+        GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
+        };
+        List<Picture> pictures = dataSnapshot.getValue(t);
+          if (pictures != null) {
+            List<Picture> pics = new ArrayList<>();
+            for (Picture picture : pictures) {
+              if (!picture.getUrl().equals(position)) {
+                pics.add(picture);
+              }
+            }
+            picturesReference.setValue(pics);
+          }
         subscriber.onCompleted();
       }
 

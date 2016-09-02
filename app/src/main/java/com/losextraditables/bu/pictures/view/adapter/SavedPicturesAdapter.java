@@ -9,18 +9,22 @@ import android.widget.ImageView;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.pictures.model.PictureModel;
 import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SavedPicturesAdapter extends BaseAdapter {
+  private final OnItemLongClickListener onItemLongClickListener;
   private Context context;
   private List<PictureModel> pictureModels;
   private ItemClickListener itemClickListener;
 
   public SavedPicturesAdapter(Context context, List<PictureModel> pictureModels,
-      ItemClickListener itemClickListener) {
+      ItemClickListener itemClickListener,
+      OnItemLongClickListener onItemLongClickListener) {
     this.context = context;
     this.pictureModels = pictureModels;
     this.itemClickListener = itemClickListener;
+    this.onItemLongClickListener = onItemLongClickListener;
   }
 
   @Override public int getCount() {
@@ -48,10 +52,24 @@ public class SavedPicturesAdapter extends BaseAdapter {
         itemClickListener.onItemClick(view, position);
       }
     });
+    picture.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override public boolean onLongClick(View v) {
+        onItemLongClickListener.onItemLongClick(v, pictureModels.get(position).getUrl());
+        return false;
+      }
+    });
 
     final PictureModel item = getItem(position);
-    Picasso.with(context).load(item.getUrl()).into(picture);
+    Picasso.with(context).load(item.getUrl()).noFade().placeholder(R.drawable.no_image_placeholder).into(picture);
     return view;
+  }
+
+  public ArrayList<String> getImagesUrls() {
+    ArrayList<String> urls = new ArrayList<>();
+    for (PictureModel pictureModel : pictureModels) {
+      urls.add(pictureModel.getUrl());
+    }
+    return urls;
   }
 }
 

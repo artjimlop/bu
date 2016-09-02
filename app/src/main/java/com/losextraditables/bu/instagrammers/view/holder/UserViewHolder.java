@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
+import com.losextraditables.bu.pictures.view.adapter.OnInstagrammerClickListener;
 import com.losextraditables.bu.utils.BlurTransform;
 import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -35,9 +36,16 @@ public class UserViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     this.onClickListener = onClickListener;
   }
 
-  public void render(final InstagrammerModel instagrammerModel) {
+  public void render(final InstagrammerModel instagrammerModel,
+      final OnInstagrammerClickListener onItemLongClickListener) {
     this.instagrammerModel = instagrammerModel;
     container.setOnClickListener(this);
+    container.setOnLongClickListener(new View.OnLongClickListener() {
+      @Override public boolean onLongClick(View v) {
+        onItemLongClickListener.onItemLongClick(v, instagrammerModel.getUserName());
+        return false;
+      }
+    });
     username.setText(instagrammerModel.getFullName());
     username.setText(instagrammerModel.getUserName());
     Picasso.with(context).load(instagrammerModel.getProfilePicture()).

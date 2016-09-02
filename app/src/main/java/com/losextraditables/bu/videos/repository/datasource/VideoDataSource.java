@@ -10,4 +10,6 @@ public interface VideoDataSource {
   Observable<Void> saveVideo(Video video, String uid);
 
   Observable<List<Video>> getVideos(String uid);
+
+  Observable<Void> removeVideo(String uid, String url);
 }

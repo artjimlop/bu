@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="@color/application_background"
-    tools:context=".instagrammers.view.activity.InstagrammersListActivity">
+    tools:context=".instagrammers.view.activity.InstagrammersFragment">
 
   <ProgressBar
       android:id="@+id/saved_pictures_progress"
