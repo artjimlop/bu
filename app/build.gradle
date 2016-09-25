@@ -48,18 +48,18 @@ def getRedirectUri() {
   "null"
 }
 
-def versionMajor = 0
-def versionMinor = 1
-def versionRevision = 8
+def versionMajor = 1
+def versionMinor = 0
+def versionRevision = 3
 
 android {
-  compileSdkVersion 23
-  buildToolsVersion "23.0.3"
+  compileSdkVersion 24
+  buildToolsVersion "24.0.2"
 
   defaultConfig {
     applicationId "com.losextraditables.bu"
-    minSdkVersion 18
-    targetSdkVersion 23
+    minSdkVersion 15
+    targetSdkVersion 24
     versionCode versionMajor * 1000000 + versionMinor * 1000 + versionRevision
     versionName versionMajor + "." + versionMinor + "." + versionRevision
     buildConfigField "String", "CLIENT_ID", getClientId()
@@ -93,10 +93,10 @@ android {
 dependencies {
   compile fileTree(dir: 'libs', include: ['*.jar'])
   testCompile 'junit:junit:4.12'
-  compile 'com.android.support:appcompat-v7:23.4.0'
-  compile 'com.android.support:support-v13:23.4.0'
-  compile 'com.android.support:design:23.4.0'
-  compile 'com.android.support:cardview-v7:23.4.0'
+  compile 'com.android.support:appcompat-v7:24.2.0'
+  compile 'com.android.support:support-v13:24.2.0'
+  compile 'com.android.support:design:24.2.0'
+  compile 'com.android.support:cardview-v7:24.2.0'
   compile 'com.nineoldandroids:library:2.4.0'
   compile 'de.hdodenhof:circleimageview:2.0.0'
   compile 'com.karumi.rosie:rosie:2.0.0'
@@ -112,7 +112,7 @@ dependencies {
   }
   androidTestCompile('com.android.support.test.espresso:espresso-intents:2.2.1')
   testCompile 'junit:junit:4.12'
-  androidTestCompile 'com.android.support:support-annotations:23.4.0'
+  androidTestCompile 'com.android.support:support-annotations:24.2.0'
   compile 'com.squareup.picasso:picasso:2.5.2'
   testCompile 'org.mockito:mockito-core:1.10.19'
   compile 'com.squareup.retrofit:retrofit:1.9.0'
