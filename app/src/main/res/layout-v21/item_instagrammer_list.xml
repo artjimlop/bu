@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.2"
-        android:background="@color/application_background"
+        android:background="@color/old_application_background"
         />
 
     <TextView
