@@ -21,12 +21,20 @@
       android:layout_gravity="center"
       />
 
-  <EditText
-      android:id="@+id/instagram_url"
+  <android.support.design.widget.TextInputLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/insert_video_url_here"
-      android:textColorHint="#BDBDBD"
-      />
+      >
+
+    <EditText
+        android:id="@+id/instagram_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/insert_video_url_here"
+        android:textColorHint="#BDBDBD"
+        android:layout_margin="16dp"
+        android:singleLine="true"
+        />
+  </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

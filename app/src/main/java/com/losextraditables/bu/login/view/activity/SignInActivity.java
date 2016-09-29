@@ -3,9 +3,6 @@ package com.losextraditables.bu.login.view.activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +10,6 @@ import android.view.Window;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import butterknife.Bind;
 import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
@@ -29,15 +25,12 @@ import javax.inject.Inject;
 
 public class SignInActivity extends BuAppCompatActivity implements SignInPresenter.View {
 
-    public static final int UI_ANIMATION_DURATION = 3000;
-
     @Inject @Presenter SignInPresenter presenter;
     @Inject SessionManager session;
 
     @Bind(R.id.email) AutoCompleteTextView email;
     @Bind(R.id.password) EditText password;
     @Bind(R.id.email_login_button) Button signInButton;
-    @Bind(R.id.container) LinearLayout container;
 
     @Override protected List<Object> getActivityScopeModules() {
         return Collections.singletonList((Object) new LoginModule());
@@ -46,7 +39,6 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setupStatusBarColor();
-        setupBackgroundAnimation();
     }
 
     private void setupStatusBarColor() {
@@ -54,17 +46,6 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
             Window window = getWindow();
             window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
         }
-    }
-
-    private void setupBackgroundAnimation() {
-        Drawable backgrounds[] = new Drawable[2];
-        Resources res = getResources();
-        backgrounds[0] = res.getDrawable(R.color.colorPrimaryDark);
-        backgrounds[1] = res.getDrawable(R.color.application_background);
-
-        TransitionDrawable transitionDrawable = new TransitionDrawable(backgrounds);
-        container.setBackground(transitionDrawable);
-        transitionDrawable.startTransition(UI_ANIMATION_DURATION);
     }
 
     @Override protected int getLayoutId() {
