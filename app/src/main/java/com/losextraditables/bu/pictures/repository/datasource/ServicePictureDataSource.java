@@ -9,13 +9,17 @@ import com.firebase.client.ValueEventListener;
 import com.losextraditables.bu.base.view.error.ConnectionError;
 import com.losextraditables.bu.pictures.domain.model.Picture;
 import com.losextraditables.bu.utils.FirebaseService;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.inject.Inject;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.Subscriber;
 
@@ -101,6 +105,7 @@ public class ServicePictureDataSource implements PictureDataSource {
         subscriber.onError(new ConnectionError());
       }
     });
+    saveDownloadedItem(picture);
   }
 
   private void removePictureInFirebase(final Subscriber<? super Void> subscriber, String uid,
@@ -153,5 +158,39 @@ public class ServicePictureDataSource implements PictureDataSource {
     } catch (Exception e) {
       throw new ConnectionError();
     }
+  }
+
+  public void saveDownloadedItem(final Picture picture) {
+    changeMade = false;
+    Firebase firebase = firebaseService.getBaseReference();
+    final Firebase discover = firebase.child("discover");
+    discover.addValueEventListener(new ValueEventListener() {
+      @Override public void onDataChange(DataSnapshot dataSnapshot) {
+        GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
+        };
+        List<Picture> pictures = dataSnapshot.getValue(t);
+        List<Picture> modifiedPictures = new ArrayList<>();
+        if (!changeMade) {
+          if (pictures != null) {
+            for (Picture parameters : pictures) {
+              if (parameters.getOriginalUrl().equals(picture.getOriginalUrl())) {
+                break;
+              } else {
+                modifiedPictures.add(parameters);
+              }
+            }
+            discover.setValue(modifiedPictures);
+          } else {
+            pictures = Collections.singletonList(picture);
+            discover.setValue(pictures);
+          }
+          changeMade = true;
+        }
+      }
+
+      @Override public void onCancelled(FirebaseError firebaseError) {
+        //TODO something
+      }
+    });
   }
 }

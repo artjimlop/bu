@@ -1,6 +1,7 @@
 package com.losextraditables.bu.utils;
 
 import com.firebase.client.Firebase;
+
 import javax.inject.Inject;
 
 public class FirebaseHandler implements FirebaseService{
@@ -12,6 +13,10 @@ public class FirebaseHandler implements FirebaseService{
 
   public Firebase getFirebaseConnection() {
     return new Firebase(FIREBASE_URL);
+  }
+
+  public Firebase getBaseReference() {
+    return new Firebase(FIREBASE_URL+"/");
   }
 
   public Firebase createUserReference(String uid) {
