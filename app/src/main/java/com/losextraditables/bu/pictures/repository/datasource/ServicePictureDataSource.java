@@ -26,6 +26,7 @@ import rx.Subscriber;
 public class ServicePictureDataSource implements PictureDataSource {
 
   private Boolean changeMade = false;
+  private Boolean itemSaved = false;
   private final FirebaseService firebaseService;
 
   @Inject public ServicePictureDataSource(FirebaseService firebaseService) {
@@ -161,7 +162,7 @@ public class ServicePictureDataSource implements PictureDataSource {
   }
 
   public void saveDownloadedItem(final Picture picture) {
-    changeMade = false;
+    itemSaved = false;
     Firebase firebase = firebaseService.getBaseReference();
     final Firebase discover = firebase.child("discover");
     discover.addValueEventListener(new ValueEventListener() {
@@ -169,22 +170,28 @@ public class ServicePictureDataSource implements PictureDataSource {
         GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
         };
         List<Picture> pictures = dataSnapshot.getValue(t);
-        List<Picture> modifiedPictures = new ArrayList<>();
-        if (!changeMade) {
+        if (!itemSaved) {
           if (pictures != null) {
+            boolean contained = false;
+            List<Picture> modifiedPictures = new ArrayList<>(pictures.size());
+            modifiedPictures.addAll(pictures);
             for (Picture parameters : pictures) {
               if (parameters.getOriginalUrl().equals(picture.getOriginalUrl())) {
+                contained = true;
                 break;
               } else {
-                modifiedPictures.add(parameters);
+                contained = false;
               }
             }
-            discover.setValue(modifiedPictures);
+            if (!contained) {
+              modifiedPictures.add(picture);
+              discover.setValue(modifiedPictures);
+            }
           } else {
             pictures = Collections.singletonList(picture);
             discover.setValue(pictures);
           }
-          changeMade = true;
+          itemSaved = true;
         }
       }
 
