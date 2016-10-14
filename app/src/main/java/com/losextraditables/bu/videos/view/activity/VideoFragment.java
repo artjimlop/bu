@@ -111,6 +111,7 @@ public class VideoFragment extends BaseFragment
     timer.scheduleAtFixedRate(new RemindTask(getActivity(), dialogPager, 2, timer), 0, 3000);
 
     final EditText url = (EditText) dialogView.findViewById(R.id.instagram_url);
+    url.clearFocus();
     new android.app.AlertDialog.Builder(getActivity()).setView(dialogView)
         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {
