@@ -196,7 +196,7 @@ public class ServicePictureDataSource implements PictureDataSource {
             List<Latest> modifiedPictures = new ArrayList<>(pictures.size());
             modifiedPictures.addAll(pictures);
             for (Latest parameters : pictures) {
-              if (parameters.getHasPicture() && parameters.getPicture().getOriginalUrl().equals(picture.getOriginalUrl())) {
+              if (parameters != null && parameters.getHasPicture() && parameters.getPicture().getOriginalUrl().equals(picture.getOriginalUrl())) {
                 contained = true;
                 break;
               } else {

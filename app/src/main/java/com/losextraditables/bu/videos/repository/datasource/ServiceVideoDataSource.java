@@ -175,7 +175,7 @@ public class ServiceVideoDataSource implements VideoDataSource {
             List<Latest> modifiedVideos = new ArrayList<>(videos.size());
             modifiedVideos.addAll(videos);
             for (Latest parameters : videos) {
-              if (parameters.getHasVideo() && parameters.getVideo().getUrl().equals(video.getUrl())) {
+              if (parameters != null &&  parameters.getHasVideo() && parameters.getVideo().getUrl().equals(video.getUrl())) {
                 contained = true;
                 break;
               } else {

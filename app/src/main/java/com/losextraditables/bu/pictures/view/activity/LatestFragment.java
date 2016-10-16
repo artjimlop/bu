@@ -78,7 +78,7 @@ public class LatestFragment extends BaseFragment implements LatestPresenter.View
   @Override public void showSavedPictures(List<LatestItemModel> pictures) {
     adapter = new LatestAdapter(getContext(), pictures, new ItemClickListener() {
       @Override public void onItemClick(View view, int position) {
-        //goToSavedPictureActivity(view, position);
+        goToSavedPictureActivity(view, position);
       }
     }, new OnItemLongClickListener() {
       @Override
@@ -87,6 +87,15 @@ public class LatestFragment extends BaseFragment implements LatestPresenter.View
       }
     });
     latestList.setAdapter(adapter);
+  }
+
+  private void goToSavedPictureActivity(View view, int position) {
+    LatestItemModel item = adapter.getItem(position);
+    if (item.getHasPicture()) {
+      startActivity(GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(), position));
+    } else {
+      //TODO Create video layout
+    }
   }
 
   @Override public void showGenericError() {
@@ -108,4 +117,5 @@ public class LatestFragment extends BaseFragment implements LatestPresenter.View
     latestList.setVisibility(View.GONE);
     progressBar.setVisibility(View.VISIBLE);
   }
+
 }
