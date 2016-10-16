@@ -2,7 +2,7 @@ package com.losextraditables.bu.pictures.domain;
 
 import com.karumi.rosie.domain.usecase.RosieUseCase;
 import com.karumi.rosie.domain.usecase.annotation.UseCase;
-import com.losextraditables.bu.pictures.domain.model.Picture;
+import com.losextraditables.bu.pictures.domain.model.Latest;
 import com.losextraditables.bu.pictures.repository.PictureRepository;
 import java.util.List;
 import javax.inject.Inject;
@@ -17,11 +17,11 @@ public class GetLatestItemsUseCase extends RosieUseCase{
   }
 
   @UseCase
-  public void getPictures() throws Exception {
+  public void getLatest() throws Exception {
     notifySuccess(getPicturesFromUser());
   }
 
-  protected Observable<List<Picture>> getPicturesFromUser() throws Exception {
+  protected Observable<List<Latest>> getPicturesFromUser() throws Exception {
     //crear entidad que encapsule videos y pictures
     return pictureRepository.getLatestItems();
   }

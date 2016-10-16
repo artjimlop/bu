@@ -1,5 +1,6 @@
 package com.losextraditables.bu.pictures.repository.datasource;
 
+import com.losextraditables.bu.pictures.domain.model.Latest;
 import com.losextraditables.bu.pictures.domain.model.Picture;
 import java.util.List;
 import rx.Observable;
@@ -14,5 +15,5 @@ public interface PictureDataSource {
 
   Observable<Void> removePicture(String uid, String position);
 
-  Observable<List<Picture>> getLatestItems();
+  Observable<List<Latest>> getLatestItems();
 }

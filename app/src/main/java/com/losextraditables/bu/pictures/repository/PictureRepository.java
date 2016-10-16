@@ -1,5 +1,6 @@
 package com.losextraditables.bu.pictures.repository;
 
+import com.losextraditables.bu.pictures.domain.model.Latest;
 import com.losextraditables.bu.pictures.domain.model.Picture;
 import com.losextraditables.bu.pictures.repository.datasource.PictureDataSource;
 import java.util.List;
@@ -30,7 +31,7 @@ public class PictureRepository {
     return pictureDataSource.removePicture(uid, url);
   }
 
-  public Observable<List<Picture>> getLatestItems() {
+  public Observable<List<Latest>> getLatestItems() {
     return pictureDataSource.getLatestItems();
   }
 }

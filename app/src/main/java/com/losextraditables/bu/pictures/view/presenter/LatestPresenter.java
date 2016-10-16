@@ -7,9 +7,9 @@ import com.karumi.rosie.domain.usecase.error.OnErrorCallback;
 import com.losextraditables.bu.base.view.presenter.BuPresenter;
 import com.losextraditables.bu.login.domain.usecase.RefreshAuthUseCase;
 import com.losextraditables.bu.pictures.domain.GetLatestItemsUseCase;
-import com.losextraditables.bu.pictures.domain.model.Picture;
-import com.losextraditables.bu.pictures.domain.model.mapper.PictureModelMapper;
-import com.losextraditables.bu.pictures.model.PictureModel;
+import com.losextraditables.bu.pictures.domain.model.Latest;
+import com.losextraditables.bu.pictures.domain.model.mapper.LatestItemModelMapper;
+import com.losextraditables.bu.pictures.model.LatestItemModel;
 import com.losextraditables.bu.utils.SessionManager;
 import java.util.Collections;
 import java.util.List;
@@ -19,31 +19,31 @@ import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class DiscoverPresenter extends BuPresenter<DiscoverPresenter.View> {
+public class LatestPresenter extends BuPresenter<LatestPresenter.View> {
 
   private final GetLatestItemsUseCase getLatestItemsUseCase;
   private final RefreshAuthUseCase refreshAuthUseCase;
   private final SessionManager sessionManager;
-  private final PictureModelMapper pictureModelMapper;
-  private List<PictureModel> pictureModels;
+  private final LatestItemModelMapper latestItemModelMapper;
+  private List<LatestItemModel> pictureModels;
 
-  @Inject public DiscoverPresenter(UseCaseHandler useCaseHandler,
+  @Inject public LatestPresenter(UseCaseHandler useCaseHandler,
       GetLatestItemsUseCase getLatestItemsUseCase, RefreshAuthUseCase refreshAuthUseCase,
-      SessionManager sessionManager, PictureModelMapper pictureModelMapper) {
+      SessionManager sessionManager, LatestItemModelMapper latestItemModelMapper) {
     super(useCaseHandler);
     this.getLatestItemsUseCase = getLatestItemsUseCase;
     this.refreshAuthUseCase = refreshAuthUseCase;
     this.sessionManager = sessionManager;
-    this.pictureModelMapper = pictureModelMapper;
+    this.latestItemModelMapper = latestItemModelMapper;
   }
 
   public void loadLatest() {
     getView().showLoading();
     createUseCaseCall(getLatestItemsUseCase).args().onSuccess(new OnSuccessCallback() {
-      @Success public void onLatestLoaded(Observable<List<Picture>> observable) {
+      @Success public void onLatestLoaded(Observable<List<Latest>> observable) {
         observable.subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Observer<List<Picture>>() {
+            .subscribe(new Observer<List<Latest>>() {
               @Override public void onCompleted() {
                 getView().hideLoading();
               }
@@ -54,8 +54,8 @@ public class DiscoverPresenter extends BuPresenter<DiscoverPresenter.View> {
                 refreshAuth();
               }
 
-              @Override public void onNext(List<Picture> pictures) {
-                pictureModels = pictureModelMapper.listMap(pictures);
+              @Override public void onNext(List<Latest> pictures) {
+                pictureModels = latestItemModelMapper.listMap(pictures);
                 Collections.reverse(pictureModels);
                 getView().hideLoading();
                 getView().showSavedPictures(pictureModels);
@@ -99,7 +99,7 @@ public class DiscoverPresenter extends BuPresenter<DiscoverPresenter.View> {
 
   public interface View extends BuPresenter.View {
 
-    void showSavedPictures(List<PictureModel> pictures);
+    void showSavedPictures(List<LatestItemModel> pictures);
 
     //void showSavePictureDialog();
     //

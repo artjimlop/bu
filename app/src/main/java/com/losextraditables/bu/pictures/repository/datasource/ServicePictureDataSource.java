@@ -7,19 +7,16 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 import com.losextraditables.bu.base.view.error.ConnectionError;
+import com.losextraditables.bu.pictures.domain.model.Latest;
 import com.losextraditables.bu.pictures.domain.model.Picture;
 import com.losextraditables.bu.utils.FirebaseService;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import javax.inject.Inject;
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import rx.Observable;
 import rx.Subscriber;
 
@@ -62,16 +59,16 @@ public class ServicePictureDataSource implements PictureDataSource {
     });
   }
 
-  @Override public Observable<List<Picture>> getLatestItems() {
-    return Observable.create(new Observable.OnSubscribe<List<Picture>>() {
-      @Override public void call(final Subscriber<? super List<Picture>> subscriber) {
+  @Override public Observable<List<Latest>> getLatestItems() {
+    return Observable.create(new Observable.OnSubscribe<List<Latest>>() {
+      @Override public void call(final Subscriber<? super List<Latest>> subscriber) {
         Firebase firebase = firebaseService.getBaseReference();
         final Firebase discover = firebase.child("discover");
         discover.addValueEventListener(new ValueEventListener() {
           @Override public void onDataChange(DataSnapshot dataSnapshot) {
-            GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
+            GenericTypeIndicator<List<Latest>> t = new GenericTypeIndicator<List<Latest>>() {
             };
-            List<Picture> instagrammers = dataSnapshot.getValue(t);
+            List<Latest> instagrammers = dataSnapshot.getValue(t);
             subscriber.onNext(instagrammers);
           }
 
@@ -185,20 +182,21 @@ public class ServicePictureDataSource implements PictureDataSource {
 
   public void saveDownloadedItem(final Picture picture) {
     itemSaved = false;
+    final Latest latestToSave = Latest.builder().picture(picture).build();
     Firebase firebase = firebaseService.getBaseReference();
     final Firebase discover = firebase.child("discover");
     discover.addValueEventListener(new ValueEventListener() {
       @Override public void onDataChange(DataSnapshot dataSnapshot) {
-        GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
+        GenericTypeIndicator<List<Latest>> t = new GenericTypeIndicator<List<Latest>>() {
         };
-        List<Picture> pictures = dataSnapshot.getValue(t);
+        List<Latest> pictures = dataSnapshot.getValue(t);
         if (!itemSaved) {
           if (pictures != null) {
             boolean contained = false;
-            List<Picture> modifiedPictures = new ArrayList<>(pictures.size());
+            List<Latest> modifiedPictures = new ArrayList<>(pictures.size());
             modifiedPictures.addAll(pictures);
-            for (Picture parameters : pictures) {
-              if (parameters.getOriginalUrl().equals(picture.getOriginalUrl())) {
+            for (Latest parameters : pictures) {
+              if (parameters.getHasPicture() && parameters.getPicture().getOriginalUrl().equals(picture.getOriginalUrl())) {
                 contained = true;
                 break;
               } else {
@@ -206,11 +204,11 @@ public class ServicePictureDataSource implements PictureDataSource {
               }
             }
             if (!contained) {
-              modifiedPictures.add(picture);
+              modifiedPictures.add(latestToSave);
               discover.setValue(modifiedPictures);
             }
           } else {
-            pictures = Collections.singletonList(picture);
+            pictures = Collections.singletonList(latestToSave);
             discover.setValue(pictures);
           }
           itemSaved = true;

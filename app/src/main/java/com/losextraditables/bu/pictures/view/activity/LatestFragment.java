@@ -14,26 +14,26 @@ import butterknife.ButterKnife;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
-import com.losextraditables.bu.pictures.model.PictureModel;
+import com.losextraditables.bu.pictures.model.LatestItemModel;
 import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
+import com.losextraditables.bu.pictures.view.adapter.LatestAdapter;
 import com.losextraditables.bu.pictures.view.adapter.OnItemLongClickListener;
-import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
-import com.losextraditables.bu.pictures.view.presenter.DiscoverPresenter;
+import com.losextraditables.bu.pictures.view.presenter.LatestPresenter;
 import com.losextraditables.bu.utils.SessionManager;
 import java.util.List;
 import javax.inject.Inject;
 
-public class LatestFragment extends BaseFragment implements DiscoverPresenter.View  {
+public class LatestFragment extends BaseFragment implements LatestPresenter.View  {
 
   @Bind(R.id.latest_list) GridView latestList;
   @Bind(R.id.latest_progress) ProgressBar progressBar;
   @Bind(R.id.toolbar) Toolbar toolbar;
 
-  @Inject @Presenter DiscoverPresenter discoverPresenter;
+  @Inject @Presenter LatestPresenter latestPresenter;
 
   @Inject SessionManager session;
 
-  private SavedPicturesAdapter adapter;
+  private LatestAdapter adapter;
 
   public LatestFragment() {
     // Required empty public constructor
@@ -50,7 +50,7 @@ public class LatestFragment extends BaseFragment implements DiscoverPresenter.Vi
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     setupToolbar();
-    discoverPresenter.loadLatest();
+    latestPresenter.loadLatest();
   }
 
   @Override public void onDestroyView() {
@@ -75,8 +75,8 @@ public class LatestFragment extends BaseFragment implements DiscoverPresenter.Vi
     latestList.smoothScrollToPosition(0);
   }
 
-  @Override public void showSavedPictures(List<PictureModel> pictures) {
-    adapter = new SavedPicturesAdapter(getContext(), pictures, new ItemClickListener() {
+  @Override public void showSavedPictures(List<LatestItemModel> pictures) {
+    adapter = new LatestAdapter(getContext(), pictures, new ItemClickListener() {
       @Override public void onItemClick(View view, int position) {
         //goToSavedPictureActivity(view, position);
       }
