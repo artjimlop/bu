@@ -136,4 +136,7 @@
   <string name="insert_video_url_here">Insert video URL</string>
   <string name="insert_instagrammer_url">Insert instagrammer URL</string>
   <string name="save_instagrammer">Save instagrammer</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="latest_fragment">Latest</string>
 </resources>

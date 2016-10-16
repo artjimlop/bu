@@ -6,6 +6,7 @@ import com.losextraditables.bu.pictures.repository.PictureRepository;
 import com.losextraditables.bu.pictures.repository.datasource.PictureDataSource;
 import com.losextraditables.bu.pictures.repository.datasource.ServicePictureDataSource;
 import com.losextraditables.bu.pictures.view.activity.GalleryActivity;
+import com.losextraditables.bu.pictures.view.activity.LatestFragment;
 import com.losextraditables.bu.pictures.view.activity.PictureActivity;
 import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
 import com.losextraditables.bu.utils.FirebaseService;
@@ -20,6 +21,7 @@ import dagger.Provides;
         WritePermissionManager.class,
         InstagrammersFragment.class,
         PicturesFragment.class,
+        LatestFragment.class,
         ServicePictureDataSource.class,
         PictureRepository.class, GalleryActivity.class, MainTabbedActivity.class
     }) public class PicturesModule {

@@ -10,6 +10,7 @@ import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersFragment;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
+import com.losextraditables.bu.pictures.view.activity.LatestFragment;
 import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
 import com.losextraditables.bu.videos.view.activity.VideoFragment;
 import com.roughike.bottombar.BottomBar;
@@ -50,11 +51,16 @@ public class MainTabbedActivity extends BuAppCompatActivity {
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
-    bottomBar.setMaxFixedTabs(2);
+    bottomBar.setMaxFixedTabs(3);
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
         switch (menuItemId) {
+          case R.id.bottom_latest:
+            Fragment latestFragment = LatestFragment.newInstance();
+            currentFragment = latestFragment;
+            switchTab(latestFragment);
+            break;
           case R.id.bottom_pictures:
             Fragment picturesFragment = PicturesFragment.newInstance();
             currentFragment = picturesFragment;

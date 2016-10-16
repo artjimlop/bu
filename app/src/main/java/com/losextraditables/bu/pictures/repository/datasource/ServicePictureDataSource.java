@@ -62,6 +62,28 @@ public class ServicePictureDataSource implements PictureDataSource {
     });
   }
 
+  @Override public Observable<List<Picture>> getLatestItems() {
+    return Observable.create(new Observable.OnSubscribe<List<Picture>>() {
+      @Override public void call(final Subscriber<? super List<Picture>> subscriber) {
+        Firebase firebase = firebaseService.getBaseReference();
+        final Firebase discover = firebase.child("discover");
+        discover.addValueEventListener(new ValueEventListener() {
+          @Override public void onDataChange(DataSnapshot dataSnapshot) {
+            GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
+            };
+            List<Picture> instagrammers = dataSnapshot.getValue(t);
+            subscriber.onNext(instagrammers);
+          }
+
+          @Override public void onCancelled(FirebaseError firebaseError) {
+            Crashlytics.log(firebaseError.getMessage());
+            subscriber.onError(new ConnectionError());
+          }
+        });
+      }
+    });
+  }
+
   private void getPicturesFromFirebase(final Subscriber<? super List<Picture>> subscriber,
       String uid) {
     final Firebase instagrammersReference = firebaseService.getPicturesReference(uid);

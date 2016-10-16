@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item
+      android:id="@+id/bottom_latest"
+      android:icon="@drawable/ic_latest"
+      android:title="Latest" />
+
+  <item
       android:id="@+id/bottom_pictures"
       android:icon="@drawable/ic_pictures"
       android:title="Pictures" />

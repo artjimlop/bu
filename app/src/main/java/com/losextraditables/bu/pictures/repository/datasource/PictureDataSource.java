@@ -13,4 +13,6 @@ public interface PictureDataSource {
   Observable<List<Picture>> getPictures(String uid);
 
   Observable<Void> removePicture(String uid, String position);
+
+  Observable<List<Picture>> getLatestItems();
 }

@@ -29,4 +29,8 @@ public class PictureRepository {
   public Observable<Void> removePicture(String uid, String url) {
     return pictureDataSource.removePicture(uid, url);
   }
+
+  public Observable<List<Picture>> getLatestItems() {
+    return pictureDataSource.getLatestItems();
+  }
 }
