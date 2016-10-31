@@ -139,4 +139,11 @@
 
   <!-- TODO: Remove or change this placeholder text -->
   <string name="latest_fragment">Latest</string>
+  <string name="share_this_awesome_app">Share this awesome app</string>
+  <string name="share_app_subject">Download Instagram Images and Videos</string>
+  <string name="share_app_message">b.u. allows to download videos and images from INSTAGRAM\'s
+    links
+  </string>
+  <string name="share_app_website">https://losextraditablesstudio.github.io/</string>
+  <string name="share_app_chooser_title">Share</string>
 </resources>

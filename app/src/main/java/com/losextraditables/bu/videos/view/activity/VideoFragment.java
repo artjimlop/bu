@@ -17,6 +17,7 @@ import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
 import com.losextraditables.bu.main.DialogAdapter;
+import com.losextraditables.bu.pictures.view.adapter.OnVideoClick;
 import com.losextraditables.bu.pictures.view.adapter.OnVideoClickListener;
 import com.losextraditables.bu.utils.RemindTask;
 import com.losextraditables.bu.utils.SessionManager;
@@ -70,6 +71,10 @@ public class VideoFragment extends BaseFragment
     adapter = new VideoAdapter(getContext(), new OnVideoClickListener() {
       @Override public void onItemLongClick(View view, String url) {
         showRemoveVideoAlert(url);
+      }
+    }, new OnVideoClick() {
+      @Override public void onItemClick(View view, VideoModel videoModel) {
+        startActivity(WatchVideoActivity.getIntentForPicturesActivity(view.getContext(), videoModel));
       }
     });
     videoRecycler.setAdapter(adapter);

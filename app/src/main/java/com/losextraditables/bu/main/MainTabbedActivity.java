@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v4.app.ShareCompat;
+import android.view.Menu;
+import android.view.MenuItem;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
@@ -12,6 +15,7 @@ import com.losextraditables.bu.instagrammers.view.activity.InstagrammersFragment
 import com.losextraditables.bu.login.view.activity.LoginActivity;
 import com.losextraditables.bu.pictures.view.activity.LatestFragment;
 import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
+import com.losextraditables.bu.utils.Intents;
 import com.losextraditables.bu.videos.view.activity.VideoFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
@@ -56,15 +60,15 @@ public class MainTabbedActivity extends BuAppCompatActivity {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
         switch (menuItemId) {
-          case R.id.bottom_latest:
-            Fragment latestFragment = LatestFragment.newInstance();
-            currentFragment = latestFragment;
-            switchTab(latestFragment);
-            break;
           case R.id.bottom_pictures:
             Fragment picturesFragment = PicturesFragment.newInstance();
             currentFragment = picturesFragment;
             switchTab(picturesFragment);
+            break;
+          case R.id.bottom_latest:
+            Fragment latestFragment = LatestFragment.newInstance();
+            currentFragment = latestFragment;
+            switchTab(latestFragment);
             break;
           case R.id.bottom_videos:
             Fragment videoFragment = VideoFragment.newInstance();
@@ -98,5 +102,35 @@ public class MainTabbedActivity extends BuAppCompatActivity {
   @Override protected void onPause() {
     super.onPause();
     JCVideoPlayer.releaseAllVideos();
+  }
+
+  @Override public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.menu_share, menu);
+    return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      return true;
+    } else if (item.getItemId() == R.id.menu_share) {
+      shareApp();
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void shareApp() {
+    String subject = getString(R.string.share_app_subject);
+    String message = getString(R.string.share_app_message);
+    String url = getString(R.string.share_app_website);
+
+    String sharedText = message + " " + url;
+
+    Intent chooserIntent = ShareCompat.IntentBuilder.from(this)
+        .setType("text/plain")
+        .setSubject(subject)
+        .setText(sharedText)
+        .setChooserTitle(R.string.share_app_chooser_title)
+        .createChooserIntent();
+    Intents.maybeStartActivity(this, chooserIntent);
   }
 }

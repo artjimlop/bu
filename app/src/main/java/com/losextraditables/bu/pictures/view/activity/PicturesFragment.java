@@ -86,7 +86,6 @@ public class PicturesFragment extends BaseFragment
 
   @Override public void showPicture(String pictureUrl) {
     startActivity(PictureActivity.getIntentForPicturesActivity(getActivity(), pictureUrl));
-    getActivity().finish();
   }
 
   @Override public void showSavedPictures(List<PictureModel> pictures) {

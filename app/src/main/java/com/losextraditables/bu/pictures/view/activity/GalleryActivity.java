@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.artjimlop.altex.AltexImageDownloader;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -110,5 +111,9 @@ public class GalleryActivity extends BuAppCompatActivity {
         // TODO feedbackMessage.showLong(getView(), R.string.download_photo_permission_denied);
       }
     }
+  }
+
+  @OnClick(R.id.picture_background) public void onClickOutside() {
+    finish();
   }
 }

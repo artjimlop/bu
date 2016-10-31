@@ -6,6 +6,7 @@ import com.losextraditables.bu.videos.repository.VideoRepository;
 import com.losextraditables.bu.videos.repository.datasource.ServiceVideoDataSource;
 import com.losextraditables.bu.videos.repository.datasource.VideoDataSource;
 import com.losextraditables.bu.videos.view.activity.VideoFragment;
+import com.losextraditables.bu.videos.view.activity.WatchVideoActivity;
 import dagger.Module;
 import dagger.Provides;
 
@@ -13,7 +14,7 @@ import dagger.Provides;
     complete = false,
     injects = {
         ServiceVideoDataSource.class,
-        VideoRepository.class, VideoFragment.class, MainTabbedActivity.class
+        VideoRepository.class, VideoFragment.class, MainTabbedActivity.class, WatchVideoActivity.class
     })public class VideosModule {
   @Provides
   public VideoDataSource providesVideoDataSource(FirebaseService firebaseService) {

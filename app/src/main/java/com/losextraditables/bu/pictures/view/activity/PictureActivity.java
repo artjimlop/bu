@@ -10,13 +10,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.artjimlop.altex.AltexImageDownloader;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -39,7 +37,7 @@ public class PictureActivity extends BuAppCompatActivity {
   private static final String EXTRA_REFRESH = "refreshPictures";
   private String imageUrl;
   private PhotoViewAttacher attacher;
-  @Bind(R.id.mopub_ad) MoPubView moPubView;
+  @Bind(R.id.download_button_container) View downloadView;
   @Inject WritePermissionManager writePermissionManager;
 
   public static void init(Activity activity, View sharedView, String imageUrl) {
@@ -93,41 +91,17 @@ public class PictureActivity extends BuAppCompatActivity {
 
   protected void initializeViews(Bundle savedInstanceState) {
     writePermissionManager.init(this);
-    setupActionBar();
     attacher = new PhotoViewAttacher(imageView);
     attacher.setZoomable(true);
     imageUrl = getIntent().getStringExtra(EXTRA_IMAGE_URL);
     loadImages();
     // TODO: Replace this test id with your personal ad unit id
-    moPubView.setAdUnitId("07c97f5fdd84408e8f05871b0d5874ea");
-    moPubView.loadAd();
-  }
-
-  private void setupActionBar() {
-    ActionBar actionBar = this.getSupportActionBar();
-    if (actionBar != null) {
-      actionBar.setDisplayHomeAsUpEnabled(false);
-      actionBar.setDisplayShowHomeEnabled(false);
-    }
+    //moPubView.setAdUnitId("07c97f5fdd84408e8f05871b0d5874ea");
+    //moPubView.loadAd();
   }
 
   private void loadImages() {
     Picasso.with(this).load(imageUrl).fit().centerInside().into(imageView);
-  }
-
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.photo_view, menu);
-    return true;
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    int id = item.getItemId();
-    if (id == android.R.id.home) {
-      finish();
-    } else if (item.getItemId() == R.id.menu_download_photo) {
-      saveImage();
-    }
-    return super.onOptionsItemSelected(item);
   }
 
   private void saveImage() {
@@ -166,7 +140,7 @@ public class PictureActivity extends BuAppCompatActivity {
 
   @Override protected void onDestroy() {
     super.onDestroy();
-    moPubView.destroy();
+    //moPubView.destroy();
   }
 
   @Override public void onBackPressed() {
@@ -174,5 +148,14 @@ public class PictureActivity extends BuAppCompatActivity {
     if(getIntent().getBooleanExtra(EXTRA_REFRESH, false)) {
       startActivity(MainTabbedActivity.getIntentForActivity(this));
     }
+  }
+
+  @OnClick(R.id.download_button_container)
+  public void onDownloadClicked() {
+    saveImage();
+  }
+
+  @OnClick(R.id.picture_background) public void onClickOutside() {
+    finish();
   }
 }
