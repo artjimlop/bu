@@ -21,7 +21,6 @@ import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.utils.WritePermissionManager;
-import com.mopub.mobileads.MoPubView;
 import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.util.Arrays;

@@ -28,7 +28,7 @@
       <FrameLayout
           android:id="@+id/video_background"
           android:layout_width="match_parent"
-          android:layout_height="336dp"
+          android:layout_height="400dp"
           tools:background="@color/colorPrimaryDark"
           android:background="@color/white">
 

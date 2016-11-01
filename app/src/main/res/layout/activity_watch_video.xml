@@ -28,7 +28,7 @@
       <FrameLayout
           android:id="@+id/video_background"
           android:layout_width="match_parent"
-          android:layout_height="336dp"
+          android:layout_height="400dp"
           tools:background="@color/colorPrimaryDark"
           android:background="@color/white">
 
@@ -66,7 +66,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="?selectableItemBackground"
-            android:text="@string/save_picture"
+            android:text="@string/save_video"
             android:textSize="14sp"/>
 
       </FrameLayout>

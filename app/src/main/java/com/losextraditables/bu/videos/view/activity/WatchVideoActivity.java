@@ -3,17 +3,23 @@ package com.losextraditables.bu.videos.view.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.koushikdutta.ion.ProgressCallback;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
-import com.losextraditables.bu.pictures.view.activity.GalleryActivity;
+import com.losextraditables.bu.utils.DownloadService;
+import com.losextraditables.bu.videos.VideosModule;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import com.squareup.picasso.Picasso;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import java.util.Collections;
+import java.util.List;
+import javax.inject.Inject;
 
 public class WatchVideoActivity extends BuAppCompatActivity {
 
@@ -21,8 +27,12 @@ public class WatchVideoActivity extends BuAppCompatActivity {
   private static final String EXTRA_VIDEO_URL = "videoURL";
   private static final String EXTRA_VIDEO_TITLE = "videoTitle";
   private static final String EMPTY_STRING = "";
+  @Inject DownloadService downloadService;
   @Bind(R.id.video_title) TextView title;
   @Bind(R.id.video) JCVideoPlayerStandard videoPlayer;
+  @Bind(R.id.download_button) TextView donwloadView;
+  @Bind(R.id.download_loading) ProgressBar loadingView;
+  private String videoUrl;
 
   public static Intent getIntentForPicturesActivity(Context context, VideoModel videoModel) {
     Intent intent = new Intent(context, WatchVideoActivity.class);
@@ -49,16 +59,32 @@ public class WatchVideoActivity extends BuAppCompatActivity {
 
   public void renderVideo() {
     String image = getIntent().getStringExtra(EXTRA_VIDEO_IMAGE);
-    String url = getIntent().getStringExtra(EXTRA_VIDEO_URL);
+    videoUrl = getIntent().getStringExtra(EXTRA_VIDEO_URL);
     String videoTitle = getIntent().getStringExtra(EXTRA_VIDEO_TITLE);
     title.setText(videoTitle);
     if (image != null) {
       Picasso.with(this).load(image).into(videoPlayer.thumbImageView);
     }
-    videoPlayer.setUp(url, EMPTY_STRING);
+    videoPlayer.setUp(videoUrl, EMPTY_STRING);
+  }
+
+  @Override protected List<Object> getActivityScopeModules() {
+    return Collections.singletonList((Object) new VideosModule());
   }
 
   @OnClick(R.id.picture_background) public void onClickOutside() {
     finish();
+  }
+
+  @OnClick(R.id.download_button) public void onDownloadClicked() {
+    loadingView.setVisibility(View.VISIBLE);
+    donwloadView.setVisibility(View.GONE);
+    downloadService.donwload(videoUrl, new ProgressCallback() {
+      @Override
+      public void onProgress(long downloaded, long total) {
+        donwloadView.setVisibility(View.VISIBLE);
+        donwloadView.setText("" + (downloaded/total)*100 + "%");
+      }
+    });
   }
 }
