@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.GridView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -35,7 +35,7 @@ import javax.inject.Inject;
 public class VideoFragment extends BaseFragment
     implements VideoListPresenter.View {
 
-  @Bind(R.id.videos) RecyclerView videoRecycler;
+  @Bind(R.id.videos) GridView videoRecycler;
   @Bind(R.id.toolbar) Toolbar toolbar;
 
   @Inject @Presenter VideoListPresenter presenter;
@@ -86,8 +86,6 @@ public class VideoFragment extends BaseFragment
       }
     });
     videoRecycler.setAdapter(adapter);
-    linearLayoutManager = new LinearLayoutManager(getContext());
-    videoRecycler.setLayoutManager(linearLayoutManager);
   }
 
   private void showRemoveVideoAlert(final String url) {

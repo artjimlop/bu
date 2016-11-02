@@ -10,10 +10,16 @@
     tools:showIn="@layout/activity_video"
     >
 
-  <android.support.v7.widget.RecyclerView
+  <GridView
       android:id="@+id/videos"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
-      />
+      android:numColumns="2"
+      android:horizontalSpacing="1dp"
+      android:verticalSpacing="1dp"
+      android:scrollbarStyle="outsideOverlay"
+      android:verticalScrollbarPosition="right"
+      android:scrollbars="vertical"
+      android:padding="1dp" />
 
 </RelativeLayout>
