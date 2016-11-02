@@ -41,7 +41,7 @@
             android:scaleY="0"
             android:background="@color/colorPrimary"
             android:text="@string/login_button_connect"
-            android:textColor="@color/white" />
+            android:textColor="@color/textColorPrimary" />
         <TextView android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

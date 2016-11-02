@@ -34,7 +34,7 @@
   </style>
 
   <style name="BorderlessButton.Primary">
-    <item name="android:textColor">@color/colorPrimaryDark</item>
+    <item name="android:textColor">@color/textColorPrimaryDark</item>
   </style>
 
   <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
@@ -47,4 +47,11 @@
 
   <style name="BuTheme" parent="AppTheme.NoActionBar"/>
   <color name="translucent_background">#CC3E4447</color>
+
+  <style name="ToolbarTheme" parent="Theme.AppCompat.NoActionBar">
+    <item name="android:textColorPrimary">@color/white</item>
+    <item name="actionMenuTextColor">@color/white</item>
+    <item name="android:textColorSecondary">@color/white</item>
+    <item name="android:actionMenuTextAppearance">@color/white</item>
+  </style>
 </resources>

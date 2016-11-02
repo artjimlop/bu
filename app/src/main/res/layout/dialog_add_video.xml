@@ -10,7 +10,7 @@
       android:textSize="20sp"
       android:text="@string/save_video"
       android:layout_margin="16dp"
-      android:textColor="@color/colorPrimaryDark"
+      android:textColor="@color/textColorPrimaryDark"
       android:textStyle="bold"
       />
 

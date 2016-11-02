@@ -77,14 +77,15 @@ public class InstagrammerDetailActivity extends BuAppCompatActivity
   }
 
   private static void handleActivityVersion(Activity activity, View sharedView, Intent intent) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      Pair<View, String> imagePair = new Pair<>(sharedView, sharedView.getTransitionName());
-      ActivityOptions activityOptions =
-          ActivityOptions.makeSceneTransitionAnimation(activity, imagePair);
-      activity.startActivity(intent, activityOptions.toBundle());
-    } else {
-      activity.startActivity(intent);
-    }
+    activity.startActivity(intent);
+//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//      Pair<View, String> imagePair = new Pair<>(sharedView, sharedView.getTransitionName());
+//      ActivityOptions activityOptions =
+//          ActivityOptions.makeSceneTransitionAnimation(activity, imagePair);
+//      activity.startActivity(intent, activityOptions.toBundle());
+//    } else {
+//      activity.startActivity(intent);
+//    }
   }
 
   @Override
@@ -139,7 +140,7 @@ public class InstagrammerDetailActivity extends BuAppCompatActivity
   private void setupStatusBarColor() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       Window window = getWindow();
-      window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+      window.setStatusBarColor(getResources().getColor(R.color.textColorPrimary));
     }
   }
 
@@ -252,4 +253,9 @@ public class InstagrammerDetailActivity extends BuAppCompatActivity
     PictureActivity.init(this, null, url);
   }
 
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+    finish();
+  }
 }

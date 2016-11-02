@@ -1,6 +1,7 @@
 package com.losextraditables.bu.videos.view.activity;
 
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -9,6 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -65,6 +68,11 @@ public class VideoFragment extends BaseFragment
 
   private void setupToolbar() {
     toolbar.setTitle(this.getResources().getString(R.string.title_activity_video));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      Window window = getActivity().getWindow();
+      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+      window.setStatusBarColor(getResources().getColor(R.color.textColorPrimary));
+    }
   }
 
   private void setupAdapter() {

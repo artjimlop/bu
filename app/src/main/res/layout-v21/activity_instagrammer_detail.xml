@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/application_background"
+    android:background="@color/bermuda_gray"
     tools:context="com.losextraditables.bu.instagrammers.view.activity.InstagrammerDetailActivity"
     >
 
@@ -39,7 +39,7 @@
           android:layout_width="match_parent"
           android:layout_height="100dp"
           android:layout_gravity="bottom|center_horizontal"
-          android:background="@color/colorPrimary"
+          android:background="@color/textColorPrimary"
           android:orientation="vertical"
           app:layout_collapseMode="parallax"
           app:layout_collapseParallaxMultiplier="0.3"
@@ -75,8 +75,8 @@
       app:layout_anchor="@id/frame_layout"
       android:layout_width="match_parent"
       android:layout_height="?attr/actionBarSize"
-      android:background="@color/colorPrimary"
-      app:theme="@style/ThemeOverlay.AppCompat.Dark"
+      android:background="@color/textColorPrimary"
+      app:theme="@style/ToolbarTheme"
       app:title="">
 
     <LinearLayout
