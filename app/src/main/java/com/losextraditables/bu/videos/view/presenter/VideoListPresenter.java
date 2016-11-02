@@ -36,7 +36,8 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
 
   @Inject public VideoListPresenter(UseCaseHandler useCaseHandler,
       GetVideosUseCase getVideosUseCase, SaveVideoUseCase saveVideoUseCase,
-      GetVideoUseCase getVideoUseCase, RemoveVideoUseCase removeVideoUseCase, RefreshAuthUseCase refreshAuthUseCase,
+      GetVideoUseCase getVideoUseCase, RemoveVideoUseCase removeVideoUseCase,
+      RefreshAuthUseCase refreshAuthUseCase,
       SessionManager sessionManager, VideoModelMapper mapper) {
     super(useCaseHandler);
     this.getVideosUseCase = getVideosUseCase;

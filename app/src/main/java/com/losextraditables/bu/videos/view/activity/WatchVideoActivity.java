@@ -83,7 +83,7 @@ public class WatchVideoActivity extends BuAppCompatActivity {
       @Override
       public void onProgress(long downloaded, long total) {
         donwloadView.setVisibility(View.VISIBLE);
-        donwloadView.setText("" + (downloaded/total)*100 + "%");
+        donwloadView.setText("" + (downloaded / total) * 100 + "%");
       }
     });
   }

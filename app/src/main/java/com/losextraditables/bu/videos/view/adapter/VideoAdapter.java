@@ -84,7 +84,11 @@ public class VideoAdapter extends BaseAdapter {
     });
 
     final VideoModel item = getItem(position);
-    Picasso.with(context).load(item.getImage()).noFade().placeholder(R.drawable.no_image_placeholder).into(picture);
+    Picasso.with(context)
+        .load(item.getImage())
+        .noFade()
+        .placeholder(R.drawable.no_image_placeholder)
+        .into(picture);
     return view;
   }
 

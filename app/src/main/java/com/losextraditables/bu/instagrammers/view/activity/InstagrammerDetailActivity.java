@@ -1,7 +1,6 @@
 package com.losextraditables.bu.instagrammers.view.activity;
 
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -12,7 +11,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
@@ -78,14 +76,14 @@ public class InstagrammerDetailActivity extends BuAppCompatActivity
 
   private static void handleActivityVersion(Activity activity, View sharedView, Intent intent) {
     activity.startActivity(intent);
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//      Pair<View, String> imagePair = new Pair<>(sharedView, sharedView.getTransitionName());
-//      ActivityOptions activityOptions =
-//          ActivityOptions.makeSceneTransitionAnimation(activity, imagePair);
-//      activity.startActivity(intent, activityOptions.toBundle());
-//    } else {
-//      activity.startActivity(intent);
-//    }
+    //    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    //      Pair<View, String> imagePair = new Pair<>(sharedView, sharedView.getTransitionName());
+    //      ActivityOptions activityOptions =
+    //          ActivityOptions.makeSceneTransitionAnimation(activity, imagePair);
+    //      activity.startActivity(intent, activityOptions.toBundle());
+    //    } else {
+    //      activity.startActivity(intent);
+    //    }
   }
 
   @Override

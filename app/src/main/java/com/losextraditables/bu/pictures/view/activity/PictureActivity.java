@@ -48,7 +48,8 @@ public class PictureActivity extends BuAppCompatActivity {
   private static void handleActivityVersion(Activity activity, View sharedView, Intent intent) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && sharedView != null) {
       ActivityOptions activityOptions =
-          ActivityOptions.makeSceneTransitionAnimation(activity, sharedView, sharedView.getTransitionName());
+          ActivityOptions.makeSceneTransitionAnimation(activity, sharedView,
+              sharedView.getTransitionName());
       activity.startActivity(intent, activityOptions.toBundle());
     } else {
       activity.startActivity(intent);
@@ -144,7 +145,7 @@ public class PictureActivity extends BuAppCompatActivity {
 
   @Override public void onBackPressed() {
     super.onBackPressed();
-    if(getIntent().getBooleanExtra(EXTRA_REFRESH, false)) {
+    if (getIntent().getBooleanExtra(EXTRA_REFRESH, false)) {
       startActivity(MainTabbedActivity.getIntentForActivity(this));
     }
   }

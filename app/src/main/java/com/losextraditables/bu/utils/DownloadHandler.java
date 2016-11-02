@@ -23,7 +23,8 @@ public class DownloadHandler implements DownloadService {
     String fileName = imageUri.getLastPathSegment();
     String downloadSubpath = context.getString(R.string.downloaded_videos_subfolder) + fileName;
 
-    DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+    DownloadManager downloadManager =
+        (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
     DownloadManager.Request request = new DownloadManager.Request(imageUri);
     request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
     request.setDescription(url);
@@ -34,7 +35,8 @@ public class DownloadHandler implements DownloadService {
   }
 
   @NonNull private Uri getDownloadDestination(String downloadSubpath) {
-    File picturesFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
+    File picturesFolder =
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
     File destinationFile = new File(picturesFolder, downloadSubpath);
     destinationFile.mkdirs();
     return Uri.fromFile(destinationFile);

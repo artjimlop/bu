@@ -13,48 +13,49 @@ import javax.inject.Inject;
 
 public class WritePermissionManager {
 
-    public static final int WRITE_PERMISSION_REQUEST = 1;
-    private Activity activity;
+  public static final int WRITE_PERMISSION_REQUEST = 1;
+  private Activity activity;
 
-    @Inject public WritePermissionManager() {
-    }
+  @Inject public WritePermissionManager() {
+  }
 
-    public void init(Activity activity) {
-        this.activity = activity;
-    }
+  public void init(Activity activity) {
+    this.activity = activity;
+  }
 
-    public boolean hasWritePermission() {
-        return ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                == PackageManager.PERMISSION_GRANTED;
-    }
+  public boolean hasWritePermission() {
+    return ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        == PackageManager.PERMISSION_GRANTED;
+  }
 
-    public void requestWritePermissionToUser() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            new AlertDialog.Builder(activity).setMessage(R.string.download_photo_permission_explaination)
-                    .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            requestWritePermission();
-                        }
-                    })
-                    .setNegativeButton(R.string.cancel, null)
-                    .show();
-        } else {
-            requestWritePermission();
-        }
+  public void requestWritePermissionToUser() {
+    if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+      new AlertDialog.Builder(activity).setMessage(R.string.download_photo_permission_explaination)
+          .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              requestWritePermission();
+            }
+          })
+          .setNegativeButton(R.string.cancel, null)
+          .show();
+    } else {
+      requestWritePermission();
     }
+  }
 
-    protected void requestWritePermission() {
-        try {
-            ActivityCompat.requestPermissions(activity,
-                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    WRITE_PERMISSION_REQUEST);
-        } catch (Exception error) {
-            Crashlytics.logException(error);
-        }
+  protected void requestWritePermission() {
+    try {
+      ActivityCompat.requestPermissions(activity,
+          new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},
+          WRITE_PERMISSION_REQUEST);
+    } catch (Exception error) {
+      Crashlytics.logException(error);
     }
+  }
 
-    public int getWritePermissionRequest() {
-        return WRITE_PERMISSION_REQUEST;
-    }
+  public int getWritePermissionRequest() {
+    return WRITE_PERMISSION_REQUEST;
+  }
 }

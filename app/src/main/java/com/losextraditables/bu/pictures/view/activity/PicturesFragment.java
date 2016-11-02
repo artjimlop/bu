@@ -2,7 +2,6 @@ package com.losextraditables.bu.pictures.view.activity;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -116,6 +115,7 @@ public class PicturesFragment extends BaseFragment
 
     builder.create().show();
   }
+
   @Override public void showSavePictureDialog() {
     ArrayList<Integer> instructionPictures = new ArrayList<>();
     instructionPictures.add(R.drawable.instagram_picture);
@@ -149,7 +149,9 @@ public class PicturesFragment extends BaseFragment
   }
 
   private void goToSavedPictureActivity(View view, int position) {
-    startActivity(GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(), position));
+    startActivity(
+        GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(),
+            position));
   }
 
   @Override

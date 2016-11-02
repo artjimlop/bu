@@ -8,7 +8,7 @@ import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
 
-public class GetLatestItemsUseCase extends RosieUseCase{
+public class GetLatestItemsUseCase extends RosieUseCase {
   private final PictureRepository pictureRepository;
 
   @Inject

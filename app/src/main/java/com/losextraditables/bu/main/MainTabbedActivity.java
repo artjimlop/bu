@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.ShareCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.losextraditables.bu.R;
@@ -88,7 +87,7 @@ public class MainTabbedActivity extends BuAppCompatActivity {
 
       @Override
       public void onMenuTabReSelected(@IdRes int menuItemId) {
-        ((BaseFragment)currentFragment).scrollListToTop();
+        ((BaseFragment) currentFragment).scrollListToTop();
       }
     });
     bottomBar.mapColorForTab(0, "#6F88A2");
@@ -98,7 +97,8 @@ public class MainTabbedActivity extends BuAppCompatActivity {
   }
 
   protected void switchTab(Fragment fragment) {
-    getFragmentManager().beginTransaction().replace(R.id.container, fragment, fragment.getClass().getName())
+    getFragmentManager().beginTransaction()
+        .replace(R.id.container, fragment, fragment.getClass().getName())
         .commit();
   }
 

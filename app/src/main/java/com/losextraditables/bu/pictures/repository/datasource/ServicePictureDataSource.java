@@ -136,15 +136,15 @@ public class ServicePictureDataSource implements PictureDataSource {
         GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
         };
         List<Picture> pictures = dataSnapshot.getValue(t);
-          if (pictures != null) {
-            List<Picture> pics = new ArrayList<>();
-            for (Picture picture : pictures) {
-              if (!picture.getUrl().equals(position)) {
-                pics.add(picture);
-              }
+        if (pictures != null) {
+          List<Picture> pics = new ArrayList<>();
+          for (Picture picture : pictures) {
+            if (!picture.getUrl().equals(position)) {
+              pics.add(picture);
             }
-            picturesReference.setValue(pics);
           }
+          picturesReference.setValue(pics);
+        }
         subscriber.onCompleted();
       }
 
@@ -196,7 +196,9 @@ public class ServicePictureDataSource implements PictureDataSource {
             List<Latest> modifiedPictures = new ArrayList<>(pictures.size());
             modifiedPictures.addAll(pictures);
             for (Latest parameters : pictures) {
-              if (parameters != null && parameters.getHasPicture() && parameters.getPicture().getOriginalUrl().equals(picture.getOriginalUrl())) {
+              if (parameters != null && parameters.getHasPicture() && parameters.getPicture()
+                  .getOriginalUrl()
+                  .equals(picture.getOriginalUrl())) {
                 contained = true;
                 break;
               } else {

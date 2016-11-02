@@ -70,9 +70,17 @@ public class LatestAdapter extends BaseAdapter {
     });
 
     if (item.getHasPicture()) {
-      Picasso.with(context).load(item.getPicture().getUrl()).noFade().placeholder(R.drawable.no_image_placeholder).into(picture);
+      Picasso.with(context)
+          .load(item.getPicture().getUrl())
+          .noFade()
+          .placeholder(R.drawable.no_image_placeholder)
+          .into(picture);
     } else {
-      Picasso.with(context).load(item.getVideo().getImage()).noFade().placeholder(R.drawable.no_image_placeholder).into(picture);
+      Picasso.with(context)
+          .load(item.getVideo().getImage())
+          .noFade()
+          .placeholder(R.drawable.no_image_placeholder)
+          .into(picture);
     }
     return view;
   }

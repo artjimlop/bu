@@ -1,6 +1,5 @@
 package com.losextraditables.bu.pictures.view.activity;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -23,7 +22,7 @@ import com.losextraditables.bu.utils.SessionManager;
 import java.util.List;
 import javax.inject.Inject;
 
-public class LatestFragment extends BaseFragment implements LatestPresenter.View  {
+public class LatestFragment extends BaseFragment implements LatestPresenter.View {
 
   @Bind(R.id.latest_list) GridView latestList;
   @Bind(R.id.latest_progress) ProgressBar progressBar;
@@ -92,7 +91,9 @@ public class LatestFragment extends BaseFragment implements LatestPresenter.View
   private void goToSavedPictureActivity(View view, int position) {
     LatestItemModel item = adapter.getItem(position);
     if (item.getHasPicture()) {
-      startActivity(GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(), position));
+      startActivity(
+          GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(),
+              position));
     } else {
       //TODO Create video layout
     }
@@ -117,5 +118,4 @@ public class LatestFragment extends BaseFragment implements LatestPresenter.View
     latestList.setVisibility(View.GONE);
     progressBar.setVisibility(View.VISIBLE);
   }
-
 }

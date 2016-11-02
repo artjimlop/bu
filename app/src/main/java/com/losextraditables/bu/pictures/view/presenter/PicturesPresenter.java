@@ -205,7 +205,6 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     }).execute();
   }
 
-
   public interface View extends BuPresenter.View {
 
     void showSavedPictures(List<PictureModel> pictures);

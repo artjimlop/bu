@@ -9,7 +9,8 @@ import dagger.Module;
 @Module(library = true,
     complete = false,
     injects = {
-        MainTabbedActivity.class, PicturesFragment.class, VideoFragment.class, InstagrammersFragment.class,
+        MainTabbedActivity.class, PicturesFragment.class, VideoFragment.class,
+        InstagrammersFragment.class,
         LatestFragment.class
     }) public class MainModule {
 }

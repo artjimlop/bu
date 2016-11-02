@@ -46,6 +46,5 @@ public class VideoViewHolder extends RecyclerView.ViewHolder {
         return false;
       }
     });
-
   }
 }

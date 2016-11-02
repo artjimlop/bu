@@ -17,8 +17,8 @@ import dagger.Provides;
         UserRepository.class,
     }) public class LoginModule {
 
-    @Provides
-    public UserDatasource providesUserDataSource(FirebaseService firebaseService) {
-        return new ServiceUserDataSource(firebaseService);
-    }
+  @Provides
+  public UserDatasource providesUserDataSource(FirebaseService firebaseService) {
+    return new ServiceUserDataSource(firebaseService);
+  }
 }

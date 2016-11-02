@@ -85,16 +85,17 @@ public class InstagrammersFragment extends BaseFragment
   }
 
   private void setupAdapter() {
-    adapter = new InstagrammersAdapter(getContext(), new InstagrammersListPresenter.ItemClickListener() {
-      @Override public void onItemClick(View view, InstagrammerModel instagrammerModel) {
-        sharedImage = view.findViewById(R.id.instagrammer_avatar);
-        instagrammersListPresenter.goToInstagrammerDetail(instagrammerModel);
-      }
-    }, new OnInstagrammerClickListener() {
-      @Override public void onItemLongClick(View view, String username) {
-        showRemoveInstagrammerAlert(username);
-      }
-    });
+    adapter =
+        new InstagrammersAdapter(getContext(), new InstagrammersListPresenter.ItemClickListener() {
+          @Override public void onItemClick(View view, InstagrammerModel instagrammerModel) {
+            sharedImage = view.findViewById(R.id.instagrammer_avatar);
+            instagrammersListPresenter.goToInstagrammerDetail(instagrammerModel);
+          }
+        }, new OnInstagrammerClickListener() {
+          @Override public void onItemLongClick(View view, String username) {
+            showRemoveInstagrammerAlert(username);
+          }
+        });
     instagrammersList.setAdapter(adapter);
     linearLayoutManager = new LinearLayoutManager(getContext());
     instagrammersList.setLayoutManager(linearLayoutManager);

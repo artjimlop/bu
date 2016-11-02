@@ -45,7 +45,6 @@ public class VideoFragment extends BaseFragment
   private LinearLayoutManager linearLayoutManager;
   private Timer timer;
 
-
   public static VideoFragment newInstance() {
     return new VideoFragment();
   }
@@ -82,7 +81,8 @@ public class VideoFragment extends BaseFragment
       }
     }, new OnVideoClick() {
       @Override public void onItemClick(View view, VideoModel videoModel) {
-        startActivity(WatchVideoActivity.getIntentForPicturesActivity(view.getContext(), videoModel));
+        startActivity(
+            WatchVideoActivity.getIntentForPicturesActivity(view.getContext(), videoModel));
       }
     });
     videoRecycler.setAdapter(adapter);

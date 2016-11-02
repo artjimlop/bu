@@ -14,8 +14,9 @@ import dagger.Provides;
     complete = false,
     injects = {
         ServiceVideoDataSource.class,
-        VideoRepository.class, VideoFragment.class, MainTabbedActivity.class, WatchVideoActivity.class
-    })public class VideosModule {
+        VideoRepository.class, VideoFragment.class, MainTabbedActivity.class,
+        WatchVideoActivity.class
+    }) public class VideosModule {
   @Provides
   public VideoDataSource providesVideoDataSource(FirebaseService firebaseService) {
     return new ServiceVideoDataSource(firebaseService);

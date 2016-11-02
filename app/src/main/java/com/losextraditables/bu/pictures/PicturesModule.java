@@ -26,8 +26,8 @@ import dagger.Provides;
         PictureRepository.class, GalleryActivity.class, MainTabbedActivity.class
     }) public class PicturesModule {
 
-    @Provides
-    public PictureDataSource providesPictureDataSource(FirebaseService firebaseService) {
-        return new ServicePictureDataSource(firebaseService);
-    }
+  @Provides
+  public PictureDataSource providesPictureDataSource(FirebaseService firebaseService) {
+    return new ServicePictureDataSource(firebaseService);
+  }
 }
