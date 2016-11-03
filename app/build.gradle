@@ -50,7 +50,7 @@
 
     def versionMajor = 1
     def versionMinor = 0
-    def versionRevision = 5
+    def versionRevision = 7
 
     android {
         compileSdkVersion 24

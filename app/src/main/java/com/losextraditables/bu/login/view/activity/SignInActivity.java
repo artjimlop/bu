@@ -10,8 +10,8 @@ import android.view.Window;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import butterknife.Bind;
-import butterknife.OnClick;
+import android.widget.TextView;
+
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -19,9 +19,16 @@ import com.losextraditables.bu.login.LoginModule;
 import com.losextraditables.bu.login.view.presenter.SignInPresenter;
 import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.utils.SessionManager;
+
 import java.util.Collections;
 import java.util.List;
+
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.OnClick;
+
+import static android.view.View.GONE;
 
 public class SignInActivity extends BuAppCompatActivity implements SignInPresenter.View {
 
@@ -31,6 +38,7 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
   @Bind(R.id.email) AutoCompleteTextView email;
   @Bind(R.id.password) EditText password;
   @Bind(R.id.email_login_button) Button signInButton;
+  @Bind(R.id.switch_to_login) TextView swithToLoginButton;
 
   @Override protected List<Object> getActivityScopeModules() {
     return Collections.singletonList((Object) new LoginModule());
@@ -58,6 +66,11 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
 
   @OnClick(R.id.email_login_button) public void onSignInClick() {
     presenter.signInClicked(email.getText().toString(), password.getText().toString());
+  }
+
+  @OnClick(R.id.switch_to_login) public void onSwithToLoginCLicked() {
+    swithToLoginButton.setVisibility(GONE);
+    signInButton.setText(getString(R.string.log_in_text));
   }
 
   @Override public void showSignUp(final String username, final String password) {
@@ -98,7 +111,7 @@ public class SignInActivity extends BuAppCompatActivity implements SignInPresent
   }
 
   @Override public void hideSignInButton() {
-    signInButton.setVisibility(View.GONE);
+    signInButton.setVisibility(GONE);
   }
 
   @Override public void showSignInButton() {
