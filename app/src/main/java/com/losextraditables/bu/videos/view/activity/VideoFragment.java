@@ -91,7 +91,7 @@ public class VideoFragment extends BaseFragment
   private void showRemoveVideoAlert(final String url) {
     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-    builder.setMessage("Do you want to delete the video?");
+    builder.setMessage(R.string.delete_video_question);
 
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override

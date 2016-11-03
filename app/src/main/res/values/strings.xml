@@ -147,4 +147,8 @@
   </string>
   <string name="share_app_website">https://losextraditablesstudio.github.io/</string>
   <string name="share_app_chooser_title">Share</string>
+  <string name="delete_video_question">Do you want to delete the video?</string>
+  <string name="delete_instagrammer_question">Do you want to delete the instagrammer?</string>
+  <string name="bu_disclaimer">bu will not publish in your instagram account</string>
+  <string name="shame_on_instagram_disclaimer">Instagram don\'t let us show you this :(\nClick to go to the profile</string>
 </resources>

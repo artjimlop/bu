@@ -104,7 +104,7 @@ public class InstagrammersFragment extends BaseFragment
   private void showRemoveInstagrammerAlert(final String usename) {
     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-    builder.setMessage("Do you want to delete the instagrammer?");
+    builder.setMessage(R.string.delete_instagrammer_question);
 
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override

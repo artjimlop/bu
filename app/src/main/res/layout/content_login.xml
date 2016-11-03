@@ -48,7 +48,7 @@
             android:layout_gravity="bottom|center_horizontal"
             android:paddingBottom="10dp"
             android:alpha="0"
-            android:text="bu will not publish in your instagram account"
+            android:text="@string/bu_disclaimer"
             android:textColor="@color/white"
             android:textSize="12sp"
             android:translationY="100dp"
