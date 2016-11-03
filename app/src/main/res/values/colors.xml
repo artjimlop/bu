@@ -12,4 +12,5 @@
     <color name="gradientColorPrimary">#F44336</color>
     <color name="bermuda_gray">#6F88A2</color>
     <color name="textLightColor">#DDE4EA</color>
+    <color name="sign_in_background">#37474F</color>
 </resources>
