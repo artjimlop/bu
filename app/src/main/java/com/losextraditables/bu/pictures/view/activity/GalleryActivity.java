@@ -116,4 +116,9 @@ public class GalleryActivity extends BuAppCompatActivity {
   @OnClick(R.id.picture_background) public void onClickOutside() {
     finish();
   }
+
+  @OnClick(R.id.download_button_container)
+  public void onDownloadClicked() {
+    saveImage();
+  }
 }

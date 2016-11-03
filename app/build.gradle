@@ -1,143 +1,137 @@
-buildscript {
-  repositories {
-    maven { url 'https://maven.fabric.io/public' }
-  }
+    buildscript {
+        repositories {
+            maven { url 'https://maven.fabric.io/public' }
+        }
 
-  dependencies {
-    classpath 'io.fabric.tools:gradle:1.22.0'
-  }
-}
-apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
-
-repositories {
-  maven { url 'https://maven.fabric.io/public' }
-}
-
-private Properties loadProperties() {
-  Properties props = new Properties()
-  props.load(new FileInputStream("./bu.properties"))
-  props
-}
-
-private checkProperties() {
-  new File("./bu.properties").exists()
-}
-
-def getClientId() {
-  if (checkProperties()) {
-    Properties props = loadProperties()
-    return props['CLIENT_ID']
-  }
-  "null"
-}
-
-def getClientSecret() {
-  if (checkProperties()) {
-    Properties props = loadProperties()
-    return props['CLIENT_SECRET']
-  }
-  "null"
-}
-
-def getRedirectUri() {
-  if (checkProperties()) {
-    Properties props = loadProperties()
-    return props['REDIRECT_URI']
-  }
-  "null"
-}
-
-def versionMajor = 1
-def versionMinor = 0
-def versionRevision = 5
-
-android {
-  compileSdkVersion 24
-  buildToolsVersion "24.0.2"
-
-  dexOptions {
-    jumboMode = true
-  }
-
-  compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
-  }
-
-  defaultConfig {
-    applicationId "com.losextraditables.bu"
-    minSdkVersion 15
-    targetSdkVersion 24
-    versionCode versionMajor * 1000000 + versionMinor * 1000 + versionRevision
-    versionName versionMajor + "." + versionMinor + "." + versionRevision
-    buildConfigField "String", "CLIENT_ID", getClientId()
-    buildConfigField "String", "CLIENT_SECRET", getClientSecret()
-    buildConfigField "String", "REDIRECT_URI", getRedirectUri()
-    testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-    renderscriptTargetApi 19
-    renderscriptSupportModeEnabled true
-
-    jackOptions {
-      enabled true
+        dependencies {
+            classpath 'io.fabric.tools:gradle:1.22.0'
+        }
     }
-  }
+    apply plugin: 'com.android.application'
+    apply plugin: 'io.fabric'
 
-  buildTypes {
-    release {
-      minifyEnabled false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
     }
-  }
 
-  lintOptions {
-    abortOnError false
-  }
-
-  android {
-    packagingOptions {
-      exclude 'META-INF/LICENSE'
-      exclude 'META-INF/LICENSE-FIREBASE.txt'
-      exclude 'META-INF/NOTICE'
+    private Properties loadProperties() {
+        Properties props = new Properties()
+        props.load(new FileInputStream("./bu.properties"))
+        props
     }
-  }
-}
 
-dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  testCompile 'junit:junit:4.12'
-  compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-    transitive = true;
-  }
-  compile('com.mopub:mopub-sdk:4.6.0@aar') {
-    transitive = true;
-  }
-  compile 'com.android.support:appcompat-v7:25.0.0'
-  compile 'com.android.support:support-v13:25.0.0'
-  compile 'com.android.support:design:25.0.0'
-  compile 'com.android.support:cardview-v7:25.0.0'
-  compile 'com.nineoldandroids:library:2.4.0'
-  compile 'de.hdodenhof:circleimageview:2.0.0'
-  compile 'com.karumi.rosie:rosie:2.0.0'
-  compile 'com.squareup.picasso:picasso:2.5.2'
-  compile 'com.squareup.retrofit:retrofit:1.9.0'
-  compile 'com.squareup.okhttp:okhttp:2.2.0'
-  compile 'com.firebase:firebase-client-android:2.5.2'
-  compile 'io.reactivex:rxjava:1.0.16'
-  compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.7'
-  compile 'com.roughike:bottom-bar:1.4.0.1'
-  compile 'org.jsoup:jsoup:1.9.1'
-  compile 'io.reactivex:rxandroid:1.1.0'
-  compile 'com.github.chrisbanes:PhotoView:1.2.6'
-  compile 'com.artjimlop:AllStarr:0.0.1'
-  compile 'com.artjimlop:altex-image-downloader:0.0.4'
-  compile 'fm.jiecao:jiecaovideoplayer:3.6'
-  compile 'cn.yangbingqiang.android:parallaxviewpager:1.0.1'
-  compile 'com.android.support:support-v4:25.0.0'
-  testCompile 'junit:junit:4.12'
-  testCompile 'org.mockito:mockito-core:1.10.19'
-  androidTestCompile 'com.android.support:support-annotations:25.0.0'
-  provided 'com.squareup.dagger:dagger-compiler:1.2.2'
-  provided 'org.projectlombok:lombok:1.12.6'
-  compile 'com.koushikdutta.ion:ion:2.1.9'
-}
+    private checkProperties() {
+        new File("./bu.properties").exists()
+    }
+
+    def getClientId() {
+        if (checkProperties()) {
+            Properties props = loadProperties()
+            return props['CLIENT_ID']
+        }
+        "null"
+    }
+
+    def getClientSecret() {
+        if (checkProperties()) {
+            Properties props = loadProperties()
+            return props['CLIENT_SECRET']
+        }
+        "null"
+    }
+
+    def getRedirectUri() {
+        if (checkProperties()) {
+            Properties props = loadProperties()
+            return props['REDIRECT_URI']
+        }
+        "null"
+    }
+
+    def versionMajor = 1
+    def versionMinor = 0
+    def versionRevision = 5
+
+    android {
+        compileSdkVersion 24
+        buildToolsVersion '24.0.2'
+
+        dexOptions {
+            jumboMode = true
+        }
+
+        defaultConfig {
+            applicationId "com.losextraditables.bu"
+            minSdkVersion 15
+            targetSdkVersion 24
+            versionCode versionMajor * 1000000 + versionMinor * 1000 + versionRevision
+            versionName versionMajor + "." + versionMinor + "." + versionRevision
+            buildConfigField "String", "CLIENT_ID", getClientId()
+            buildConfigField "String", "CLIENT_SECRET", getClientSecret()
+            buildConfigField "String", "REDIRECT_URI", getRedirectUri()
+            testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+            renderscriptTargetApi 19
+            renderscriptSupportModeEnabled true
+
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            }
+        }
+
+        lintOptions {
+            abortOnError false
+        }
+
+        android {
+            packagingOptions {
+                exclude 'META-INF/LICENSE'
+                exclude 'META-INF/LICENSE-FIREBASE.txt'
+                exclude 'META-INF/NOTICE'
+            }
+        }
+    }
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        testCompile 'junit:junit:4.12'
+        compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+            transitive = true;
+        }
+        compile('com.mopub:mopub-sdk:4.6.0@aar') {
+            transitive = true;
+        }
+        compile 'com.android.support:appcompat-v7:24.2.1'
+        compile 'com.android.support:support-v13:24.2.1'
+        compile 'com.android.support:design:24.2.1'
+        compile 'com.android.support:cardview-v7:24.2.1'
+        compile 'com.nineoldandroids:library:2.4.0'
+        compile 'de.hdodenhof:circleimageview:2.0.0'
+        compile 'com.karumi.rosie:rosie:2.0.0'
+        compile 'com.squareup.picasso:picasso:2.5.2'
+        compile 'com.squareup.retrofit:retrofit:1.9.0'
+        compile 'com.squareup.okhttp:okhttp:2.2.0'
+        compile 'com.firebase:firebase-client-android:2.5.2'
+        compile 'io.reactivex:rxjava:1.0.16'
+        compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.7'
+        compile 'com.roughike:bottom-bar:1.4.0.1'
+        compile 'org.jsoup:jsoup:1.9.1'
+        compile 'io.reactivex:rxandroid:1.1.0'
+        compile 'com.github.chrisbanes:PhotoView:1.2.6'
+        compile 'com.artjimlop:AllStarr:0.0.1'
+        compile 'com.artjimlop:altex-image-downloader:0.0.4'
+        compile 'fm.jiecao:jiecaovideoplayer:3.6'
+        compile 'cn.yangbingqiang.android:parallaxviewpager:1.0.1'
+        compile 'com.android.support:support-v4:24.2.1'
+        provided 'com.squareup.dagger:dagger-compiler:1.2.2'
+        provided 'org.projectlombok:lombok:1.12.6'
+        compile 'com.koushikdutta.ion:ion:2.1.9'
+        testCompile 'junit:junit:4.12'
+        testCompile 'org.mockito:mockito-core:1.10.19'
+        androidTestCompile 'com.android.support:support-annotations:24.2.1'
+        androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+        androidTestCompile 'com.android.support.test:runner:0.5'
+    }

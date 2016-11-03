@@ -6,20 +6,25 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.koushikdutta.ion.ProgressCallback;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.utils.DownloadService;
+import com.losextraditables.bu.utils.WritePermissionManager;
 import com.losextraditables.bu.videos.VideosModule;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import com.squareup.picasso.Picasso;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
 import java.util.Collections;
 import java.util.List;
+
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class WatchVideoActivity extends BuAppCompatActivity {
 
@@ -28,6 +33,8 @@ public class WatchVideoActivity extends BuAppCompatActivity {
   private static final String EXTRA_VIDEO_TITLE = "videoTitle";
   private static final String EMPTY_STRING = "";
   @Inject DownloadService downloadService;
+  @Inject
+  WritePermissionManager writePermissionManager;
   @Bind(R.id.video_title) TextView title;
   @Bind(R.id.video) JCVideoPlayerStandard videoPlayer;
   @Bind(R.id.download_button) TextView donwloadView;
@@ -50,6 +57,7 @@ public class WatchVideoActivity extends BuAppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
+    writePermissionManager.init(this);
     renderVideo();
   }
 
@@ -77,6 +85,14 @@ public class WatchVideoActivity extends BuAppCompatActivity {
   }
 
   @OnClick(R.id.download_button) public void onDownloadClicked() {
+    if (writePermissionManager.hasWritePermission()) {
+      performVideoDownload();
+    } else {
+      writePermissionManager.requestWritePermissionToUser();
+    }
+  }
+
+  private void performVideoDownload() {
     loadingView.setVisibility(View.VISIBLE);
     donwloadView.setVisibility(View.GONE);
     downloadService.donwload(videoUrl, new ProgressCallback() {
