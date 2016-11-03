@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.ShareCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -24,6 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import hotchemi.android.rate.AppRate;
+import hotchemi.android.rate.OnClickButtonListener;
 
 public class MainTabbedActivity extends BuAppCompatActivity {
 
@@ -51,6 +54,22 @@ public class MainTabbedActivity extends BuAppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main_tabbed);
     setupBottomBar(savedInstanceState, this);
+    setupRateAppDialog();
+  }
+
+  private void setupRateAppDialog() {
+    AppRate.with(this)
+            .setInstallDays(1)
+            .setShowLaterButton(true)
+            .setOnClickButtonListener(new OnClickButtonListener() {
+              @Override
+              public void onClickButton(int which) {
+                Log.d(MainTabbedActivity.class.getName(), Integer.toString(which));
+              }
+            })
+            .monitor();
+
+    AppRate.showRateDialogIfMeetsConditions(this);
   }
 
   private void setupBottomBar(Bundle savedInstanceState, final Context context) {

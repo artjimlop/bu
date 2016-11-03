@@ -2,22 +2,25 @@ package com.losextraditables.bu.pictures.view.activity;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
@@ -27,12 +30,19 @@ import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
 import com.losextraditables.bu.pictures.view.adapter.OnItemLongClickListener;
 import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
+import com.losextraditables.bu.utils.Intents;
 import com.losextraditables.bu.utils.RemindTask;
 import com.losextraditables.bu.utils.SessionManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PicturesFragment extends BaseFragment
     implements PicturesPresenter.View {
@@ -195,5 +205,36 @@ public class PicturesFragment extends BaseFragment
     if (timer != null) {
       timer.cancel();
     }
+  }
+
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    inflater.inflate(R.menu.menu_share, menu);
+    super.onCreateOptionsMenu(menu, inflater);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      return true;
+    } else if (item.getItemId() == R.id.menu_share) {
+      shareApp();
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void shareApp() {
+    String subject = getString(R.string.share_app_subject);
+    String message = getString(R.string.share_app_message);
+    String url = getString(R.string.share_app_website);
+
+    String sharedText = message + " " + url;
+
+    Intent chooserIntent = ShareCompat.IntentBuilder.from(getActivity())
+            .setType("text/plain")
+            .setSubject(subject)
+            .setText(sharedText)
+            .setChooserTitle(R.string.share_app_chooser_title)
+            .createChooserIntent();
+    Intents.maybeStartActivity(getActivity(), chooserIntent);
   }
 }

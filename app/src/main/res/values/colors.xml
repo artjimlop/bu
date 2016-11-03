@@ -2,8 +2,8 @@
 <resources>
     <color name="colorPrimary">#FEFEFE</color>
     <color name="colorPrimaryDark">#D3DBE4</color>
-    <color name="colorAccent">#DDE4EA</color>
-    <color name="application_background">@color/colorAccent</color>
+    <color name="colorAccent">@color/bermuda_gray</color>
+    <color name="application_background">@color/textLightColor</color>
     <color name="old_application_background">@color/white</color>
     <color name="white">#FFFFFF</color>
     <color name="textColorPrimary">#F44336</color>
@@ -11,4 +11,5 @@
     <color name="textColorAccent">#F44336</color>
     <color name="gradientColorPrimary">#F44336</color>
     <color name="bermuda_gray">#6F88A2</color>
+    <color name="textLightColor">#DDE4EA</color>
 </resources>
