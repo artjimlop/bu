@@ -8,20 +8,22 @@ import android.support.annotation.IdRes;
 import android.support.v4.app.ShareCompat;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
 import com.losextraditables.bu.instagrammers.view.activity.InstagrammersFragment;
 import com.losextraditables.bu.login.view.activity.LoginActivity;
-import com.losextraditables.bu.pictures.view.activity.LatestFragment;
 import com.losextraditables.bu.pictures.view.activity.PicturesFragment;
 import com.losextraditables.bu.utils.Intents;
 import com.losextraditables.bu.videos.view.activity.VideoFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+
 import java.util.Collections;
 import java.util.List;
+
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainTabbedActivity extends BuAppCompatActivity {
 
@@ -55,7 +57,7 @@ public class MainTabbedActivity extends BuAppCompatActivity {
     bottomBar = BottomBar.attach(this, savedInstanceState);
     bottomBar.noTopOffset();
     bottomBar.noNavBarGoodness();
-    bottomBar.setMaxFixedTabs(3);
+    bottomBar.setMaxFixedTabs(2);
     bottomBar.setItemsFromMenu(R.menu.bottombar_menu, new OnMenuTabClickListener() {
       @Override
       public void onMenuTabSelected(@IdRes int menuItemId) {
@@ -65,11 +67,11 @@ public class MainTabbedActivity extends BuAppCompatActivity {
             currentFragment = picturesFragment;
             switchTab(picturesFragment);
             break;
-          case R.id.bottom_latest:
-            Fragment latestFragment = LatestFragment.newInstance();
-            currentFragment = latestFragment;
-            switchTab(latestFragment);
-            break;
+//          case R.id.bottom_latest:
+//            Fragment latestFragment = LatestFragment.newInstance();
+//            currentFragment = latestFragment;
+//            switchTab(latestFragment);
+//            break;
           case R.id.bottom_videos:
             Fragment videoFragment = VideoFragment.newInstance();
             currentFragment = videoFragment;
@@ -93,7 +95,7 @@ public class MainTabbedActivity extends BuAppCompatActivity {
     bottomBar.mapColorForTab(0, "#6F88A2");
     bottomBar.mapColorForTab(1, "#6F88A2");
     bottomBar.mapColorForTab(2, "#6F88A2");
-    bottomBar.mapColorForTab(3, "#6F88A2");
+//    bottomBar.mapColorForTab(3, "#6F88A2");
   }
 
   protected void switchTab(Fragment fragment) {

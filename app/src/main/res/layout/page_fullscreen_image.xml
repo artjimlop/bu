@@ -9,8 +9,7 @@
   <ImageView
       android:id="@+id/picture"
       android:background="@color/white"
-      android:scaleType="fitCenter"
-      android:adjustViewBounds="true"
+      android:scaleType="centerCrop"
       tools:src="@mipmap/ic_launcher"
       android:layout_width="match_parent"
       android:layout_height="match_parent"/>
