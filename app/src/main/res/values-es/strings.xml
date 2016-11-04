@@ -149,4 +149,5 @@
   <string name="bottombar_users">Usuarios</string>
   <string name="switch_to_login">¿Ya tienes una cuenta? ¡Haz click aquí!</string>
   <string name="log_in_text">Iniciar sesión</string>
+  <string name="bottombar_latest">Lo último</string>
 </resources>

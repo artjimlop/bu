@@ -156,4 +156,5 @@
   <string name="bottombar_users">Users</string>
   <string name="switch_to_login">Do you already have an account? Then click here!</string>
   <string name="log_in_text">Log in</string>
+  <string name="bottombar_latest">Latest</string>
 </resources>

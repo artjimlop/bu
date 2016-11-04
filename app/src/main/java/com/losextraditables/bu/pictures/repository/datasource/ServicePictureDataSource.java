@@ -10,13 +10,17 @@ import com.losextraditables.bu.base.view.error.ConnectionError;
 import com.losextraditables.bu.pictures.domain.model.Latest;
 import com.losextraditables.bu.pictures.domain.model.Picture;
 import com.losextraditables.bu.utils.FirebaseService;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.inject.Inject;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.Subscriber;
 

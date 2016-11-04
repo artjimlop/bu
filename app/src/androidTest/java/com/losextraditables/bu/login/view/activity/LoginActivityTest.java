@@ -1,14 +1,17 @@
 package com.losextraditables.bu.login.view.activity;
 
 import android.content.Intent;
-import android.support.test.espresso.intent.rule.IntentsTestRule;
+
 import com.losextraditables.bu.InjectedInstrumentationTest;
 import com.losextraditables.bu.R;
-import dagger.Module;
-import java.util.Arrays;
-import java.util.List;
+
 import org.junit.Rule;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
+
+import dagger.Module;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;

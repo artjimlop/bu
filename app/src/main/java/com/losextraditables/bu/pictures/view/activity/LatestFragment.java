@@ -8,8 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
@@ -19,8 +18,13 @@ import com.losextraditables.bu.pictures.view.adapter.LatestAdapter;
 import com.losextraditables.bu.pictures.view.adapter.OnItemLongClickListener;
 import com.losextraditables.bu.pictures.view.presenter.LatestPresenter;
 import com.losextraditables.bu.utils.SessionManager;
+
 import java.util.List;
+
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class LatestFragment extends BaseFragment implements LatestPresenter.View {
 
@@ -109,8 +113,10 @@ public class LatestFragment extends BaseFragment implements LatestPresenter.View
 
   @Override
   public void hideLoading() {
-    latestList.setVisibility(View.VISIBLE);
-    progressBar.setVisibility(View.GONE);
+    if (latestList != null && progressBar != null) {
+      latestList.setVisibility(View.VISIBLE);
+      progressBar.setVisibility(View.GONE);
+    }
   }
 
   @Override
