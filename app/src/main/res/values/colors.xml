@@ -13,4 +13,5 @@
     <color name="bermuda_gray">#6F88A2</color>
     <color name="textLightColor">#DDE4EA</color>
     <color name="sign_in_background">#37474F</color>
+    <color name="no_resource">#E8EEF3</color>
 </resources>

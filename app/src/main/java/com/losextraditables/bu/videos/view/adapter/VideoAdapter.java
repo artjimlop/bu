@@ -87,7 +87,7 @@ public class VideoAdapter extends BaseAdapter {
     Picasso.with(context)
         .load(item.getImage())
         .noFade()
-        .placeholder(R.drawable.no_image_placeholder)
+        .placeholder(R.drawable.no_resource_placeholder)
         .into(picture);
     return view;
   }
