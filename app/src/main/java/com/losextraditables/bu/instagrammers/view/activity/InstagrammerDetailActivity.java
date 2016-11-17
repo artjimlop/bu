@@ -249,6 +249,7 @@ public class InstagrammerDetailActivity extends BuAppCompatActivity
 
   private void goToSavedPictureActivity(String url) {
     PictureActivity.init(this, null, url);
+    overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
   }
 
   @Override

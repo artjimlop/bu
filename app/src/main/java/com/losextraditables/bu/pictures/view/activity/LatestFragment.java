@@ -15,6 +15,7 @@ import com.losextraditables.bu.pictures.view.adapter.LatestAdapter;
 import com.losextraditables.bu.pictures.view.adapter.OnItemLongClickListener;
 import com.losextraditables.bu.pictures.view.presenter.LatestPresenter;
 import com.losextraditables.bu.utils.SessionManager;
+import com.losextraditables.bu.videos.view.activity.WatchVideoActivity;
 
 import java.util.List;
 
@@ -87,11 +88,12 @@ public class LatestFragment extends BaseFragment implements LatestPresenter.View
   private void goToSavedPictureActivity(View view, int position) {
     LatestItemModel item = adapter.getItem(position);
     if (item.getHasPicture()) {
-      startActivity(
-          GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(),
-              position));
+      PictureActivity.init(getActivity(), null, item.getPicture().getUrl());
+      getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
     } else {
-      //TODO Create video layout
+      startActivity(
+              WatchVideoActivity.getIntentForPicturesActivity(view.getContext(), item.getVideo()));
+      getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
     }
   }
 

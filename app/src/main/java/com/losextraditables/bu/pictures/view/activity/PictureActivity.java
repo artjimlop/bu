@@ -12,9 +12,7 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
+
 import com.artjimlop.altex.AltexImageDownloader;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -22,10 +20,16 @@ import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.utils.WritePermissionManager;
 import com.squareup.picasso.Picasso;
+
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+
 import javax.inject.Inject;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 public class PictureActivity extends BuAppCompatActivity {
@@ -147,7 +151,13 @@ public class PictureActivity extends BuAppCompatActivity {
     super.onBackPressed();
     if (getIntent().getBooleanExtra(EXTRA_REFRESH, false)) {
       startActivity(MainTabbedActivity.getIntentForActivity(this));
+      overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
     }
+  }
+
+  @Override public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
   }
 
   @OnClick(R.id.download_button_container)

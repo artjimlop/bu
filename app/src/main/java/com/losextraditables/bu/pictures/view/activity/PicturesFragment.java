@@ -152,6 +152,7 @@ public class PicturesFragment extends BaseFragment
     startActivity(
         GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(),
             position));
+    getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
   }
 
   @Override

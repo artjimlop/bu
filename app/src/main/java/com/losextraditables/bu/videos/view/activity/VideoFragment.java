@@ -76,6 +76,7 @@ public class VideoFragment extends BaseFragment
       @Override public void onItemClick(View view, VideoModel videoModel) {
         startActivity(
             WatchVideoActivity.getIntentForPicturesActivity(view.getContext(), videoModel));
+        getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
       }
     });
     videoRecycler.setAdapter(adapter);

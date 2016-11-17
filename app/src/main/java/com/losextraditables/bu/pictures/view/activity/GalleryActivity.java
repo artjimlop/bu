@@ -86,6 +86,11 @@ public class GalleryActivity extends BuAppCompatActivity {
     return super.onOptionsItemSelected(item);
   }
 
+  @Override public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
+  }
+
   private void saveImage() {
     if (writePermissionManager.hasWritePermission()) {
       performImageDownload();
