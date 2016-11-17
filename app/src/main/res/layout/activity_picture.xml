@@ -28,16 +28,17 @@
           android:id="@+id/video_background"
           android:layout_width="match_parent"
           android:layout_height="400dp"
+          android:gravity="center"
           tools:background="@color/colorPrimaryDark"
           android:background="@color/white">
 
         <ImageView android:id="@+id/picture"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:scaleType="fitCenter"
+            android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            tools:src="@drawable/bu_ic_launcher"/>
+            android:gravity="center"
+            tools:background="@drawable/no_resource_placeholder"/>
       </FrameLayout>
 
       <FrameLayout android:id="@+id/download_button_container"

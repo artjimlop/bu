@@ -19,6 +19,7 @@ import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.PicturesModule;
 import com.losextraditables.bu.utils.WritePermissionManager;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -105,7 +106,17 @@ public class PictureActivity extends BuAppCompatActivity {
   }
 
   private void loadImages() {
-    Picasso.with(this).load(imageUrl).fit().centerInside().into(imageView);
+    Picasso.with(this).load(imageUrl).into(imageView, new Callback() {
+      @Override public void onSuccess() {
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+        PhotoViewAttacher attacher = new PhotoViewAttacher(imageView, true);
+        attacher.update();
+      }
+
+      @Override public void onError() {
+        /* no-op */
+      }
+    });
   }
 
   private void saveImage() {
