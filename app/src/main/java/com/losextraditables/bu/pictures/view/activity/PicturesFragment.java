@@ -44,7 +44,6 @@ public class PicturesFragment extends BaseFragment
 
   @Bind(R.id.pictures_list) GridView picturesList;
   @Bind(R.id.saved_pictures_progress) ProgressBar progressBar;
-  @Bind(R.id.toolbar) Toolbar toolbar;
 
   @Inject
   @Presenter

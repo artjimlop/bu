@@ -1,11 +1,7 @@
 package com.losextraditables.bu.pictures.view.activity;
 
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
@@ -31,7 +27,6 @@ public class LatestFragment extends BaseFragment implements LatestPresenter.View
 
   @Bind(R.id.latest_list) GridView latestList;
   @Bind(R.id.latest_progress) ProgressBar progressBar;
-  @Bind(R.id.toolbar) Toolbar toolbar;
 
   @Inject @Presenter LatestPresenter latestPresenter;
 

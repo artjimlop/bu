@@ -34,7 +34,6 @@ public class VideoFragment extends BaseFragment
     implements VideoListPresenter.View {
 
   @Bind(R.id.videos) GridView videoRecycler;
-  @Bind(R.id.toolbar) Toolbar toolbar;
 
   @Inject @Presenter VideoListPresenter presenter;
   @Inject SessionManager session;

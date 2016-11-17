@@ -40,7 +40,6 @@ public class InstagrammersFragment extends BaseFragment
   private static final int ANIMATION_DURATION = 500;
   @Bind(R.id.instagrammers_list)
   RecyclerView instagrammersList;
-  @Bind(R.id.toolbar) Toolbar toolbar;
 
   @Bind(R.id.instagrammers_progress) ProgressBar progressBar;
 
