@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
+import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.model.LatestItemModel;
 import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
 import com.losextraditables.bu.pictures.view.adapter.LatestAdapter;
@@ -62,12 +63,8 @@ public class LatestFragment extends BaseFragment implements LatestPresenter.View
   }
 
   private void setupToolbar() {
-    toolbar.setTitle(this.getResources().getString(R.string.latest_fragment));
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      Window window = getActivity().getWindow();
-      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      window.setStatusBarColor(getResources().getColor(R.color.textColorPrimary));
-    }
+    ((MainTabbedActivity) getActivity()).setUpToolbar(false,
+        this.getResources().getString(R.string.latest_fragment));
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {

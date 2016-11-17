@@ -10,24 +10,6 @@
     tools:context=".videos.view.activity.VideoFragment"
     >
 
-  <android.support.design.widget.AppBarLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:theme="@style/BuTheme.AppBarOverlay"
-      >
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:background="@color/textColorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:theme="@style/ToolbarTheme"
-        />
-
-  </android.support.design.widget.AppBarLayout>
-
   <include layout="@layout/content_video"/>
 
   <android.support.design.widget.FloatingActionButton

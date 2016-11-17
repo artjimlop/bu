@@ -6,23 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".instagrammers.view.activity.InstagrammersFragment">
-
-  <android.support.design.widget.AppBarLayout
-      android:layout_height="wrap_content"
-      android:layout_width="match_parent"
-      android:theme="@style/AppTheme.AppBarOverlay">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:background="@color/textColorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:theme="@style/ToolbarTheme"/>
-
-  </android.support.design.widget.AppBarLayout>
+    tools:showIn=".main.MainTabbedActivity">
 
   <include layout="@layout/content_pictures"/>
 

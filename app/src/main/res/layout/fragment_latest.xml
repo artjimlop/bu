@@ -7,23 +7,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:background="@color/application_background">
 
-  <android.support.design.widget.AppBarLayout
-      android:id="@+id/appbar"
-      android:layout_height="wrap_content"
-      android:layout_width="match_parent"
-      android:theme="@style/AppTheme.AppBarOverlay">
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        android:background="@color/textColorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:theme="@style/ToolbarTheme"/>
-
-  </android.support.design.widget.AppBarLayout>
-
   <ProgressBar
       android:id="@+id/latest_progress"
       android:layout_width="100dp"
@@ -40,6 +23,5 @@
       android:horizontalSpacing="1dp"
       android:verticalSpacing="1dp"
       android:numColumns="auto_fit"
-      android:layout_below="@id/appbar"
       android:padding="1dp" />
 </RelativeLayout>

@@ -15,16 +15,17 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
-
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
 import com.losextraditables.bu.main.DialogAdapter;
+import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.model.PictureModel;
 import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
 import com.losextraditables.bu.pictures.view.adapter.OnItemLongClickListener;
@@ -33,16 +34,10 @@ import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
 import com.losextraditables.bu.utils.Intents;
 import com.losextraditables.bu.utils.RemindTask;
 import com.losextraditables.bu.utils.SessionManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
-
 import javax.inject.Inject;
-
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class PicturesFragment extends BaseFragment
     implements PicturesPresenter.View {
@@ -81,12 +76,8 @@ public class PicturesFragment extends BaseFragment
   }
 
   private void setupToolbar() {
-    toolbar.setTitle(this.getResources().getString(R.string.pictures_activity));
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      Window window = getActivity().getWindow();
-      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      window.setStatusBarColor(getResources().getColor(R.color.textColorPrimary));
-    }
+    ((MainTabbedActivity) getActivity()).setUpToolbar(false,
+        this.getResources().getString(R.string.pictures_activity));
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {
@@ -230,11 +221,11 @@ public class PicturesFragment extends BaseFragment
     String sharedText = message + " " + url;
 
     Intent chooserIntent = ShareCompat.IntentBuilder.from(getActivity())
-            .setType("text/plain")
-            .setSubject(subject)
-            .setText(sharedText)
-            .setChooserTitle(R.string.share_app_chooser_title)
-            .createChooserIntent();
+        .setType("text/plain")
+        .setSubject(subject)
+        .setText(sharedText)
+        .setChooserTitle(R.string.share_app_chooser_title)
+        .createChooserIntent();
     Intents.maybeStartActivity(getActivity(), chooserIntent);
   }
 }

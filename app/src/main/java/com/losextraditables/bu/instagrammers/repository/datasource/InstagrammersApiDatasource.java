@@ -92,7 +92,20 @@ public class InstagrammersApiDatasource implements InstagrammersDatasource {
     return Observable.just(getIntagrammerFromScrap(url));
   }
 
-  private Instagrammer getIntagrammerFromScrap(String url) {
+  @Override public Observable<List<Instagrammer>> getInstagrammersFromScrap(List<String> urls) {
+    return Observable.just(getIntagrammersFromScrap(urls));
+  }
+
+  private List<Instagrammer> getIntagrammersFromScrap(List<String> urls) {
+    List<Instagrammer> instagrammers = new ArrayList<>(urls.size());
+    for (String url : urls) {
+      instagrammers.add(getIntagrammerFromScrap(url));
+    }
+    return instagrammers;
+  }
+
+  @Override
+  public Instagrammer getIntagrammerFromScrap(String url) {
     try {
       Document doc = Jsoup.connect(url).get();
       String username = "";

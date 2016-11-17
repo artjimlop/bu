@@ -3,12 +3,18 @@ package com.losextraditables.bu.main;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.ShareCompat;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
+import android.view.WindowManager;
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
@@ -21,14 +27,14 @@ import com.losextraditables.bu.videos.view.activity.VideoFragment;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnMenuTabClickListener;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
+import hotchemi.android.rate.AppRate;
+import hotchemi.android.rate.OnClickButtonListener;
 import java.util.Collections;
 import java.util.List;
 
-import hotchemi.android.rate.AppRate;
-import hotchemi.android.rate.OnClickButtonListener;
-
 public class MainTabbedActivity extends BuAppCompatActivity {
 
+  @Bind(R.id.toolbar) Toolbar toolbar;
   private Fragment currentFragment;
   private BottomBar bottomBar;
 
@@ -52,8 +58,24 @@ public class MainTabbedActivity extends BuAppCompatActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main_tabbed);
+    ButterKnife.bind(this);
     setupBottomBar(savedInstanceState, this);
     setupRateAppDialog();
+  }
+
+  public void setUpToolbar(boolean showUpButton, String title) {
+    if (toolbar != null) {
+      setSupportActionBar(toolbar);
+      if (getSupportActionBar() != null) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(showUpButton);
+        toolbar.setTitle(title);
+      }
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        Window window = getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(getResources().getColor(R.color.textColorPrimary));
+      }
+    }
   }
 
   private void setupRateAppDialog() {

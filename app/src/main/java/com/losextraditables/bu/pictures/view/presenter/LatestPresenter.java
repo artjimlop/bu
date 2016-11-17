@@ -13,6 +13,7 @@ import com.losextraditables.bu.pictures.model.LatestItemModel;
 import com.losextraditables.bu.utils.SessionManager;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import javax.inject.Inject;
 import rx.Observable;
 import rx.Observer;
@@ -55,8 +56,9 @@ public class LatestPresenter extends BuPresenter<LatestPresenter.View> {
               }
 
               @Override public void onNext(List<Latest> pictures) {
+                long seed = System.currentTimeMillis();
+                Collections.shuffle(pictures, new Random(seed));
                 pictureModels = latestItemModelMapper.listMap(pictures);
-                Collections.reverse(pictureModels);
                 getView().hideLoading();
                 getView().showSavedPictures(pictureModels);
               }

@@ -13,4 +13,8 @@ public interface InstagrammersDatasource
   List<SearchedInstagrammer> searchIntagrammers(String query, String accessToken);
 
   Observable<Instagrammer> getInstagrammerFromScrap(String url);
+
+  Observable<List<Instagrammer>> getInstagrammersFromScrap(List<String> urls);
+
+  Instagrammer getIntagrammerFromScrap(String url);
 }
