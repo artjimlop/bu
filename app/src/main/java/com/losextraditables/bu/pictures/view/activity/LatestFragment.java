@@ -1,6 +1,7 @@
 package com.losextraditables.bu.pictures.view.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -26,96 +27,120 @@ import butterknife.ButterKnife;
 
 public class LatestFragment extends BaseFragment implements LatestPresenter.View {
 
-  @Bind(R.id.latest_list) GridView latestList;
-  @Bind(R.id.latest_progress) ProgressBar progressBar;
+    @Bind(R.id.latest_list)
+    GridView latestList;
+    @Bind(R.id.latest_progress)
+    ProgressBar progressBar;
 
-  @Inject @Presenter LatestPresenter latestPresenter;
+    @Inject
+    @Presenter
+    LatestPresenter latestPresenter;
 
-  @Inject SessionManager session;
+    @Inject
+    SessionManager session;
 
-  private LatestAdapter adapter;
+    private LatestAdapter adapter;
 
-  public LatestFragment() {
-    // Required empty public constructor
-  }
-
-  public static LatestFragment newInstance() {
-    return new LatestFragment();
-  }
-
-  @Override protected int getLayoutId() {
-    return R.layout.fragment_latest;
-  }
-
-  @Override public void onViewCreated(View view, Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    setupToolbar();
-    latestPresenter.loadLatest();
-  }
-
-  @Override public void onDestroyView() {
-    super.onDestroyView();
-    ButterKnife.unbind(this);
-  }
-
-  private void setupToolbar() {
-    ((MainTabbedActivity) getActivity()).setUpToolbar(false,
-        this.getResources().getString(R.string.latest_fragment));
-  }
-
-  @Override public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-  }
-
-  @Override public void scrollListToTop() {
-    latestList.smoothScrollToPosition(0);
-  }
-
-  @Override public void showSavedPictures(List<LatestItemModel> pictures) {
-    adapter = new LatestAdapter(getContext(), pictures, new ItemClickListener() {
-      @Override public void onItemClick(View view, int position) {
-        goToSavedPictureActivity(view, position);
-      }
-    }, new OnItemLongClickListener() {
-      @Override
-      public void onItemLongClick(View view, String url) {
-        //showRemovePictureAlert(url);
-      }
-    });
-    latestList.setAdapter(adapter);
-  }
-
-  private void goToSavedPictureActivity(View view, int position) {
-    LatestItemModel item = adapter.getItem(position);
-    if (item.getHasPicture()) {
-      PictureActivity.init(getActivity(), null, item.getPicture().getUrl());
-      getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
-    } else {
-      startActivity(
-              WatchVideoActivity.getIntentForPicturesActivity(view.getContext(), item.getVideo()));
-      getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
+    public LatestFragment() {
+        // Required empty public constructor
     }
-  }
 
-  @Override public void showGenericError() {
-
-  }
-
-  @Override public void showConnectionError() {
-
-  }
-
-  @Override
-  public void hideLoading() {
-    if (latestList != null && progressBar != null) {
-      latestList.setVisibility(View.VISIBLE);
-      progressBar.setVisibility(View.GONE);
+    public static LatestFragment newInstance() {
+        return new LatestFragment();
     }
-  }
 
-  @Override
-  public void showLoading() {
-    latestList.setVisibility(View.GONE);
-    progressBar.setVisibility(View.VISIBLE);
-  }
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_latest;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupToolbar();
+        latestPresenter.loadLatest();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    private void setupToolbar() {
+        ((MainTabbedActivity) getActivity()).setUpToolbar(false,
+                this.getResources().getString(R.string.latest_fragment));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void scrollListToTop() {
+        latestList.smoothScrollToPosition(0);
+    }
+
+    @Override
+    public void showSavedPictures(List<LatestItemModel> pictures) {
+        adapter = new LatestAdapter(getContext(), pictures, new ItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                goToSavedPictureActivity(view, position);
+            }
+        }, new OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, String url) {
+                //showRemovePictureAlert(url);
+            }
+        });
+        latestList.setAdapter(adapter);
+    }
+
+    @Override
+    public void showRetry() {
+        Snackbar.make(latestList, R.string.nothing_found, Snackbar.LENGTH_LONG).setAction(R.string.retry, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                latestPresenter.loadLatest();
+            }
+        }).show();
+    }
+
+    private void goToSavedPictureActivity(View view, int position) {
+        LatestItemModel item = adapter.getItem(position);
+        if (item.getHasPicture()) {
+            PictureActivity.init(getActivity(), null, item.getPicture().getUrl());
+            getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
+        } else {
+            startActivity(
+                    WatchVideoActivity.getIntentForPicturesActivity(view.getContext(), item.getVideo()));
+            getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
+        }
+    }
+
+    @Override
+    public void showGenericError() {
+
+    }
+
+    @Override
+    public void showConnectionError() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+        if (latestList != null && progressBar != null) {
+            latestList.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showLoading() {
+        latestList.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
 }

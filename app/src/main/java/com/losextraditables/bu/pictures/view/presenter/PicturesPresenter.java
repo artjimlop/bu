@@ -74,7 +74,11 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
                 pictureModels = pictureModelMapper.listMap(pictures);
                 Collections.reverse(pictureModels);
                 getView().hideLoading();
-                getView().showSavedPictures(pictureModels);
+                  if (pictureModels.isEmpty()) {
+                      getView().showRetry();
+                  } else {
+                      getView().showSavedPictures(pictureModels);
+                  }
               }
             });
       }
@@ -212,5 +216,7 @@ public class PicturesPresenter extends BuPresenter<PicturesPresenter.View> {
     void showSavePictureDialog();
 
     void showPicture(String pictureUrl);
+
+      void showRetry();
   }
 }

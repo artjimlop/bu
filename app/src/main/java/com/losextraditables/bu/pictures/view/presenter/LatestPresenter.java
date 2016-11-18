@@ -11,10 +11,13 @@ import com.losextraditables.bu.pictures.domain.model.Latest;
 import com.losextraditables.bu.pictures.domain.model.mapper.LatestItemModelMapper;
 import com.losextraditables.bu.pictures.model.LatestItemModel;
 import com.losextraditables.bu.utils.SessionManager;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+
 import javax.inject.Inject;
+
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,89 +25,106 @@ import rx.schedulers.Schedulers;
 
 public class LatestPresenter extends BuPresenter<LatestPresenter.View> {
 
-  private final GetLatestItemsUseCase getLatestItemsUseCase;
-  private final RefreshAuthUseCase refreshAuthUseCase;
-  private final SessionManager sessionManager;
-  private final LatestItemModelMapper latestItemModelMapper;
-  private List<LatestItemModel> pictureModels;
+    private final GetLatestItemsUseCase getLatestItemsUseCase;
+    private final RefreshAuthUseCase refreshAuthUseCase;
+    private final SessionManager sessionManager;
+    private final LatestItemModelMapper latestItemModelMapper;
+    private List<LatestItemModel> pictureModels;
 
-  @Inject public LatestPresenter(UseCaseHandler useCaseHandler,
-      GetLatestItemsUseCase getLatestItemsUseCase, RefreshAuthUseCase refreshAuthUseCase,
-      SessionManager sessionManager, LatestItemModelMapper latestItemModelMapper) {
-    super(useCaseHandler);
-    this.getLatestItemsUseCase = getLatestItemsUseCase;
-    this.refreshAuthUseCase = refreshAuthUseCase;
-    this.sessionManager = sessionManager;
-    this.latestItemModelMapper = latestItemModelMapper;
-  }
+    @Inject
+    public LatestPresenter(UseCaseHandler useCaseHandler,
+                           GetLatestItemsUseCase getLatestItemsUseCase, RefreshAuthUseCase refreshAuthUseCase,
+                           SessionManager sessionManager, LatestItemModelMapper latestItemModelMapper) {
+        super(useCaseHandler);
+        this.getLatestItemsUseCase = getLatestItemsUseCase;
+        this.refreshAuthUseCase = refreshAuthUseCase;
+        this.sessionManager = sessionManager;
+        this.latestItemModelMapper = latestItemModelMapper;
+    }
 
-  public void loadLatest() {
-    getView().showLoading();
-    createUseCaseCall(getLatestItemsUseCase).args().onSuccess(new OnSuccessCallback() {
-      @Success public void onLatestLoaded(Observable<List<Latest>> observable) {
-        observable.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Observer<List<Latest>>() {
-              @Override public void onCompleted() {
+    public void loadLatest() {
+        getView().showLoading();
+        createUseCaseCall(getLatestItemsUseCase).args().onSuccess(new OnSuccessCallback() {
+            @Success
+            public void onLatestLoaded(Observable<List<Latest>> observable) {
+                observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<List<Latest>>() {
+                            @Override
+                            public void onCompleted() {
+                                getView().hideLoading();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                getView().hideLoading();
+                                getView().showConnectionError();
+                                refreshAuth();
+                            }
+
+                            @Override
+                            public void onNext(List<Latest> pictures) {
+                                long seed = System.currentTimeMillis();
+                                Collections.shuffle(pictures, new Random(seed));
+                                pictureModels = latestItemModelMapper.listMap(pictures);
+                                getView().hideLoading();
+                                if (pictureModels.isEmpty()) {
+                                    getView().showRetry();
+                                } else {
+                                    getView().showSavedPictures(pictureModels.subList(0, 99));
+                                }
+                            }
+                        });
+            }
+        }).onError(new OnErrorCallback() {
+            @Override
+            public boolean onError(Error error) {
                 getView().hideLoading();
-              }
+                return false;
+            }
+        }).execute();
+    }
 
-              @Override public void onError(Throwable e) {
+    private void refreshAuth() {
+        String email = sessionManager.getEmail();
+        String password = sessionManager.getPassword();
+        createUseCaseCall(refreshAuthUseCase).args(email, password).onSuccess(new OnSuccessCallback() {
+            @Success
+            public void onAuthRefreshed(Observable<String> observable) {
+                observable.subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Observer<String>() {
+                            @Override
+                            public void onCompleted() {
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                            }
+
+                            @Override
+                            public void onNext(String uid) {
+                                sessionManager.setUid(uid);
+                            }
+                        });
+            }
+        }).onError(new OnErrorCallback() {
+            @Override
+            public boolean onError(Error error) {
                 getView().hideLoading();
-                getView().showConnectionError();
-                refreshAuth();
-              }
+                return false;
+            }
+        }).execute();
+    }
 
-              @Override public void onNext(List<Latest> pictures) {
-                long seed = System.currentTimeMillis();
-                Collections.shuffle(pictures, new Random(seed));
-                pictureModels = latestItemModelMapper.listMap(pictures);
-                getView().hideLoading();
-                getView().showSavedPictures(pictureModels.subList(0,99));
-              }
-            });
-      }
-    }).onError(new OnErrorCallback() {
-      @Override public boolean onError(Error error) {
-        getView().hideLoading();
-        return false;
-      }
-    }).execute();
-  }
+    public interface View extends BuPresenter.View {
 
-  private void refreshAuth() {
-    String email = sessionManager.getEmail();
-    String password = sessionManager.getPassword();
-    createUseCaseCall(refreshAuthUseCase).args(email, password).onSuccess(new OnSuccessCallback() {
-      @Success public void onAuthRefreshed(Observable<String> observable) {
-        observable.subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Observer<String>() {
-              @Override public void onCompleted() {
-              }
+        void showSavedPictures(List<LatestItemModel> pictures);
 
-              @Override public void onError(Throwable e) {
-              }
+        void showRetry();
 
-              @Override public void onNext(String uid) {
-                sessionManager.setUid(uid);
-              }
-            });
-      }
-    }).onError(new OnErrorCallback() {
-      @Override public boolean onError(Error error) {
-        getView().hideLoading();
-        return false;
-      }
-    }).execute();
-  }
-
-  public interface View extends BuPresenter.View {
-
-    void showSavedPictures(List<LatestItemModel> pictures);
-
-    //void showSavePictureDialog();
-    //
-    //void showPicture(String pictureUrl);
-  }
+        //void showSavePictureDialog();
+        //
+        //void showPicture(String pictureUrl);
+    }
 }

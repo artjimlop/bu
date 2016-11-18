@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -87,6 +88,16 @@ public class PicturesFragment extends BaseFragment
     startActivity(PictureActivity.getIntentForPicturesActivity(getActivity(), pictureUrl));
   }
 
+  @Override
+  public void showRetry() {
+    Snackbar.make(picturesList, R.string.nothing_found, Snackbar.LENGTH_LONG).setAction(R.string.retry, new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        picturesPresenter.loadSavedPictures(session.getUid());
+      }
+    }).show();
+  }
+
   @Override public void showSavedPictures(List<PictureModel> pictures) {
     adapter = new SavedPicturesAdapter(getContext(), pictures, new ItemClickListener() {
       @Override public void onItemClick(View view, int position) {
@@ -158,13 +169,17 @@ public class PicturesFragment extends BaseFragment
   @Override
   public void hideLoading() {
     picturesList.setVisibility(View.VISIBLE);
-    progressBar.setVisibility(View.GONE);
+    if (progressBar != null) {
+      progressBar.setVisibility(View.GONE);
+    }
   }
 
   @Override
   public void showLoading() {
     picturesList.setVisibility(View.GONE);
-    progressBar.setVisibility(View.VISIBLE);
+    if (progressBar != null) {
+      progressBar.setVisibility(View.VISIBLE);
+    }
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)

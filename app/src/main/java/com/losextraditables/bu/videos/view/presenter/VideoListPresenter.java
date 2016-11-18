@@ -74,7 +74,11 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
                   @Override public void onNext(List<Video> videos) {
                       Collections.reverse(videos);
                       videoModels = mapper.mapList(videos);
+                      if (!videoModels.isEmpty()) {
                       getView().showVideos(videoModels);
+                      } else {
+                          getView().showRetry();
+                      }
                   }
                 });
           }
@@ -213,5 +217,7 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
     void showAddVideoDialog();
 
     void refresh();
+
+      void showRetry();
   }
 }

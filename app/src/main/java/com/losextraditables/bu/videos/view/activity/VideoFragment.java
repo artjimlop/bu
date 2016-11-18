@@ -2,6 +2,7 @@ package com.losextraditables.bu.videos.view.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -136,6 +137,16 @@ public class VideoFragment extends BaseFragment
 
   @Override public void refresh() {
     presenter.showVideos(session.getUid());
+  }
+
+  @Override
+  public void showRetry() {
+    Snackbar.make(videoRecycler, R.string.nothing_found, Snackbar.LENGTH_LONG).setAction(R.string.retry, new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        presenter.showVideos(session.getUid());
+      }
+    }).show();
   }
 
   @Override public void hideLoading() {
