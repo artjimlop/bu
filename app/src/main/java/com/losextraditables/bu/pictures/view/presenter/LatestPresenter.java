@@ -60,7 +60,7 @@ public class LatestPresenter extends BuPresenter<LatestPresenter.View> {
                 Collections.shuffle(pictures, new Random(seed));
                 pictureModels = latestItemModelMapper.listMap(pictures);
                 getView().hideLoading();
-                getView().showSavedPictures(pictureModels.subList(0,100));
+                getView().showSavedPictures(pictureModels.subList(0,99));
               }
             });
       }
