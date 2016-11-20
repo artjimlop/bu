@@ -101,9 +101,6 @@
         compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
             transitive = true;
         }
-        compile('com.mopub:mopub-sdk:4.6.0@aar') {
-            transitive = true;
-        }
         compile 'com.android.support:appcompat-v7:24.2.1'
         compile 'com.android.support:support-v13:24.2.1'
         compile 'com.android.support:design:24.2.1'
