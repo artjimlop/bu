@@ -133,7 +133,7 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
                     List<InstagrammerModel> igs = new ArrayList<>();
                     for (InstagrammerModel instagrammerModel : instagrammerModels) {
                       if (!instagrammerModel.getUserName().equals(username)) {
-                          igs.add(instagrammerModel);
+                        igs.add(instagrammerModel);
                       }
                     }
                     Collections.sort(igs, InstagrammerModel.InstagrammerComparator);
@@ -221,7 +221,6 @@ public class InstagrammersListPresenter extends BuPresenter<InstagrammersListPre
     void goToInstagrammerDetail(InstagrammerModel instagrammerModel);
 
     void showSaveInstagrammerDialog();
-
   }
 
   public interface ItemClickListener {

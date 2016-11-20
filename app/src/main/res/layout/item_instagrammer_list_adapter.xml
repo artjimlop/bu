@@ -39,7 +39,7 @@
         android:fontFamily="sans-serif-medium"
         android:maxLines="2"
         android:singleLine="true"
-        android:textColor="#ffffff"
+        android:textColor="@color/colorPrimary"
         android:textSize="14sp"
         tools:text="Instagrammer Name"/>
 
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:singleLine="true"
-        android:textColor="#BDBDBD"
+        android:textColor="@color/textLightColor"
         tools:text="atInstagrammer"/>
   </LinearLayout>
 </RelativeLayout>

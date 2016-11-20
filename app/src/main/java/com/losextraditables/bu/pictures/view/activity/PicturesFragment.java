@@ -2,17 +2,19 @@ package com.losextraditables.bu.pictures.view.activity;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
@@ -23,11 +25,13 @@ import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
 import com.losextraditables.bu.main.DialogAdapter;
+import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.model.PictureModel;
 import com.losextraditables.bu.pictures.view.adapter.ItemClickListener;
 import com.losextraditables.bu.pictures.view.adapter.OnItemLongClickListener;
 import com.losextraditables.bu.pictures.view.adapter.SavedPicturesAdapter;
 import com.losextraditables.bu.pictures.view.presenter.PicturesPresenter;
+import com.losextraditables.bu.utils.Intents;
 import com.losextraditables.bu.utils.RemindTask;
 import com.losextraditables.bu.utils.SessionManager;
 import java.util.ArrayList;
@@ -40,7 +44,6 @@ public class PicturesFragment extends BaseFragment
 
   @Bind(R.id.pictures_list) GridView picturesList;
   @Bind(R.id.saved_pictures_progress) ProgressBar progressBar;
-  @Bind(R.id.toolbar) Toolbar toolbar;
 
   @Inject
   @Presenter
@@ -72,12 +75,8 @@ public class PicturesFragment extends BaseFragment
   }
 
   private void setupToolbar() {
-    toolbar.setTitle(this.getResources().getString(R.string.pictures_activity));
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      Window window = getActivity().getWindow();
-      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-      window.setStatusBarColor(Color.parseColor("#B71C1C"));
-    }
+    ((MainTabbedActivity) getActivity()).setUpToolbar(false,
+        this.getResources().getString(R.string.pictures_activity));
   }
 
   @Override public void onSaveInstanceState(Bundle outState) {
@@ -86,7 +85,18 @@ public class PicturesFragment extends BaseFragment
 
   @Override public void showPicture(String pictureUrl) {
     startActivity(PictureActivity.getIntentForPicturesActivity(getActivity(), pictureUrl));
-    getActivity().finish();
+  }
+
+  @Override
+  public void showRetry() {
+    Snackbar.make(picturesList, R.string.nothing_found, Snackbar.LENGTH_LONG)
+        .setAction(R.string.retry, new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            picturesPresenter.loadSavedPictures(session.getUid());
+          }
+        })
+        .show();
   }
 
   @Override public void showSavedPictures(List<PictureModel> pictures) {
@@ -117,6 +127,7 @@ public class PicturesFragment extends BaseFragment
 
     builder.create().show();
   }
+
   @Override public void showSavePictureDialog() {
     ArrayList<Integer> instructionPictures = new ArrayList<>();
     instructionPictures.add(R.drawable.instagram_picture);
@@ -150,19 +161,27 @@ public class PicturesFragment extends BaseFragment
   }
 
   private void goToSavedPictureActivity(View view, int position) {
-    startActivity(GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(), position));
+    startActivity(
+        GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(),
+            position));
+    getActivity().overridePendingTransition(R.anim.detail_activity_fade_in,
+        R.anim.detail_activity_fade_out);
   }
 
   @Override
   public void hideLoading() {
     picturesList.setVisibility(View.VISIBLE);
-    progressBar.setVisibility(View.GONE);
+    if (progressBar != null) {
+      progressBar.setVisibility(View.GONE);
+    }
   }
 
   @Override
   public void showLoading() {
     picturesList.setVisibility(View.GONE);
-    progressBar.setVisibility(View.VISIBLE);
+    if (progressBar != null) {
+      progressBar.setVisibility(View.VISIBLE);
+    }
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -194,5 +213,36 @@ public class PicturesFragment extends BaseFragment
     if (timer != null) {
       timer.cancel();
     }
+  }
+
+  @Override
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    inflater.inflate(R.menu.menu_share, menu);
+    super.onCreateOptionsMenu(menu, inflater);
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      return true;
+    } else if (item.getItemId() == R.id.menu_share) {
+      shareApp();
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void shareApp() {
+    String subject = getString(R.string.share_app_subject);
+    String message = getString(R.string.share_app_message);
+    String url = getString(R.string.share_app_website);
+
+    String sharedText = message + " " + url;
+
+    Intent chooserIntent = ShareCompat.IntentBuilder.from(getActivity())
+        .setType("text/plain")
+        .setSubject(subject)
+        .setText(sharedText)
+        .setChooserTitle(R.string.share_app_chooser_title)
+        .createChooserIntent();
+    Intents.maybeStartActivity(getActivity(), chooserIntent);
   }
 }

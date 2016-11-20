@@ -33,7 +33,7 @@ public class ProfilePictureViewHolder extends RecyclerView.ViewHolder {
     });
   }
 
-  public ImageView getImage(){
+  public ImageView getImage() {
     return picture;
   }
 }

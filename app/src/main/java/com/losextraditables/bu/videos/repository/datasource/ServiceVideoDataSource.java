@@ -7,6 +7,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 import com.losextraditables.bu.base.view.error.ConnectionError;
+import com.losextraditables.bu.pictures.domain.model.Latest;
 import com.losextraditables.bu.utils.FirebaseService;
 import com.losextraditables.bu.videos.domain.model.Video;
 import java.util.ArrayList;
@@ -23,6 +24,7 @@ public class ServiceVideoDataSource implements VideoDataSource {
 
   private Boolean changeMade = false;
   private final FirebaseService firebaseService;
+  private boolean itemSaved;
 
   @Inject public ServiceVideoDataSource(FirebaseService firebaseService) {
     this.firebaseService = firebaseService;
@@ -100,6 +102,7 @@ public class ServiceVideoDataSource implements VideoDataSource {
         subscriber.onError(new ConnectionError());
       }
     });
+    saveDownloadedItem(video);
   }
 
   private void removeVideoInFirebase(final Subscriber<? super Void> subscriber, String uid,
@@ -154,5 +157,48 @@ public class ServiceVideoDataSource implements VideoDataSource {
     } catch (Exception e) {
       throw new ConnectionError();
     }
+  }
+
+  public void saveDownloadedItem(final Video video) {
+    itemSaved = false;
+    final Latest latestToSave = Latest.builder().video(video).build();
+    Firebase firebase = firebaseService.getBaseReference();
+    final Firebase discover = firebase.child("discover");
+    discover.addValueEventListener(new ValueEventListener() {
+      @Override public void onDataChange(DataSnapshot dataSnapshot) {
+        GenericTypeIndicator<List<Latest>> t = new GenericTypeIndicator<List<Latest>>() {
+        };
+        List<Latest> videos = dataSnapshot.getValue(t);
+        if (!itemSaved) {
+          if (videos != null) {
+            boolean contained = false;
+            List<Latest> modifiedVideos = new ArrayList<>(videos.size());
+            modifiedVideos.addAll(videos);
+            for (Latest parameters : videos) {
+              if (parameters != null && parameters.getHasVideo() && parameters.getVideo()
+                  .getUrl()
+                  .equals(video.getUrl())) {
+                contained = true;
+                break;
+              } else {
+                contained = false;
+              }
+            }
+            if (!contained) {
+              modifiedVideos.add(latestToSave);
+              discover.setValue(modifiedVideos);
+            }
+          } else {
+            videos = Collections.singletonList(latestToSave);
+            discover.setValue(videos);
+          }
+          itemSaved = true;
+        }
+      }
+
+      @Override public void onCancelled(FirebaseError firebaseError) {
+        //TODO something
+      }
+    });
   }
 }

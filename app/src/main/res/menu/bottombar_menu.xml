@@ -2,15 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
   <item
+      android:id="@+id/bottom_latest"
+      android:icon="@drawable/ic_latest"
+      android:title="@string/bottombar_latest" />
+
+  <item
       android:id="@+id/bottom_pictures"
       android:icon="@drawable/ic_pictures"
-      android:title="Pictures" />
+      android:title="@string/bottombar_pictures" />
+
   <item
       android:id="@+id/bottom_videos"
       android:icon="@drawable/ic_video_collection"
-      android:title="Videos" />
+      android:title="@string/bottombar_videos" />
   <item
       android:id="@+id/bottom_instagrammers"
       android:icon="@drawable/ic_instagrammers"
-      android:title="Users" />
+      android:title="@string/bottombar_users" />
 </menu>

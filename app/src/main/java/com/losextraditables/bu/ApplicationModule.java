@@ -2,6 +2,8 @@ package com.losextraditables.bu;
 
 import com.karumi.rosie.domain.usecase.error.ErrorHandler;
 import com.losextraditables.bu.base.view.error.BuErrorFactory;
+import com.losextraditables.bu.utils.DownloadHandler;
+import com.losextraditables.bu.utils.DownloadService;
 import com.losextraditables.bu.utils.FirebaseHandler;
 import com.losextraditables.bu.utils.FirebaseService;
 import com.losextraditables.bu.utils.SessionManager;
@@ -32,5 +34,9 @@ import dagger.Provides;
 
   @Provides FirebaseService providesFirebaseService() {
     return new FirebaseHandler();
+  }
+
+  @Provides DownloadService providesDownloadService() {
+    return new DownloadHandler(application);
   }
 }

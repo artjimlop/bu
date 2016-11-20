@@ -16,7 +16,8 @@ public class GetProfilePicturesUseCase extends RosieUseCase {
 
   @UseCase
   public void getProfilePictures(String profileUrl) {
-    List<String> pictureObservable = instagrammersRepository.getInstagrammerProfilePictures(profileUrl);
+    List<String> pictureObservable =
+        instagrammersRepository.getInstagrammerProfilePictures(profileUrl);
     notifySuccess(pictureObservable);
   }
 }

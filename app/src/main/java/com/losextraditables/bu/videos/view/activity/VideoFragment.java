@@ -2,14 +2,14 @@ package com.losextraditables.bu.videos.view.activity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.GridView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -17,6 +17,8 @@ import com.karumi.rosie.view.Presenter;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.fragment.BaseFragment;
 import com.losextraditables.bu.main.DialogAdapter;
+import com.losextraditables.bu.main.MainTabbedActivity;
+import com.losextraditables.bu.pictures.view.adapter.OnVideoClick;
 import com.losextraditables.bu.pictures.view.adapter.OnVideoClickListener;
 import com.losextraditables.bu.utils.RemindTask;
 import com.losextraditables.bu.utils.SessionManager;
@@ -31,8 +33,7 @@ import javax.inject.Inject;
 public class VideoFragment extends BaseFragment
     implements VideoListPresenter.View {
 
-  @Bind(R.id.videos) RecyclerView videoRecycler;
-  @Bind(R.id.toolbar) Toolbar toolbar;
+  @Bind(R.id.videos) GridView videoRecycler;
 
   @Inject @Presenter VideoListPresenter presenter;
   @Inject SessionManager session;
@@ -40,7 +41,6 @@ public class VideoFragment extends BaseFragment
   private VideoAdapter adapter;
   private LinearLayoutManager linearLayoutManager;
   private Timer timer;
-
 
   public static VideoFragment newInstance() {
     return new VideoFragment();
@@ -63,7 +63,8 @@ public class VideoFragment extends BaseFragment
   }
 
   private void setupToolbar() {
-    toolbar.setTitle(this.getResources().getString(R.string.title_activity_video));
+    ((MainTabbedActivity) getActivity()).setUpToolbar(false,
+        this.getResources().getString(R.string.title_activity_video));
   }
 
   private void setupAdapter() {
@@ -71,16 +72,21 @@ public class VideoFragment extends BaseFragment
       @Override public void onItemLongClick(View view, String url) {
         showRemoveVideoAlert(url);
       }
+    }, new OnVideoClick() {
+      @Override public void onItemClick(View view, VideoModel videoModel) {
+        startActivity(
+            WatchVideoActivity.getIntentForPicturesActivity(view.getContext(), videoModel));
+        getActivity().overridePendingTransition(R.anim.detail_activity_fade_in,
+            R.anim.detail_activity_fade_out);
+      }
     });
     videoRecycler.setAdapter(adapter);
-    linearLayoutManager = new LinearLayoutManager(getContext());
-    videoRecycler.setLayoutManager(linearLayoutManager);
   }
 
   private void showRemoveVideoAlert(final String url) {
     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-    builder.setMessage("Do you want to delete the video?");
+    builder.setMessage(R.string.delete_video_question);
 
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
@@ -131,6 +137,18 @@ public class VideoFragment extends BaseFragment
 
   @Override public void refresh() {
     presenter.showVideos(session.getUid());
+  }
+
+  @Override
+  public void showRetry() {
+    Snackbar.make(videoRecycler, R.string.nothing_found, Snackbar.LENGTH_LONG)
+        .setAction(R.string.retry, new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            presenter.showVideos(session.getUid());
+          }
+        })
+        .show();
   }
 
   @Override public void hideLoading() {
