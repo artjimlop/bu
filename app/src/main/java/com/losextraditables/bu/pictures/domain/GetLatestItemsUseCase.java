@@ -4,7 +4,6 @@ import com.karumi.rosie.domain.usecase.RosieUseCase;
 import com.karumi.rosie.domain.usecase.annotation.UseCase;
 import com.losextraditables.bu.pictures.domain.model.Latest;
 import com.losextraditables.bu.pictures.repository.PictureRepository;
-import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;

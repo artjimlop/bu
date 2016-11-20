@@ -9,7 +9,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ShareCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.Toolbar;
 import android.transition.Explode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -90,12 +89,14 @@ public class PicturesFragment extends BaseFragment
 
   @Override
   public void showRetry() {
-    Snackbar.make(picturesList, R.string.nothing_found, Snackbar.LENGTH_LONG).setAction(R.string.retry, new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        picturesPresenter.loadSavedPictures(session.getUid());
-      }
-    }).show();
+    Snackbar.make(picturesList, R.string.nothing_found, Snackbar.LENGTH_LONG)
+        .setAction(R.string.retry, new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            picturesPresenter.loadSavedPictures(session.getUid());
+          }
+        })
+        .show();
   }
 
   @Override public void showSavedPictures(List<PictureModel> pictures) {
@@ -163,7 +164,8 @@ public class PicturesFragment extends BaseFragment
     startActivity(
         GalleryActivity.getIntentForPicturesActivity(getContext(), adapter.getImagesUrls(),
             position));
-    getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
+    getActivity().overridePendingTransition(R.anim.detail_activity_fade_in,
+        R.anim.detail_activity_fade_out);
   }
 
   @Override

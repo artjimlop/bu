@@ -6,7 +6,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -77,7 +76,8 @@ public class VideoFragment extends BaseFragment
       @Override public void onItemClick(View view, VideoModel videoModel) {
         startActivity(
             WatchVideoActivity.getIntentForPicturesActivity(view.getContext(), videoModel));
-        getActivity().overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
+        getActivity().overridePendingTransition(R.anim.detail_activity_fade_in,
+            R.anim.detail_activity_fade_out);
       }
     });
     videoRecycler.setAdapter(adapter);
@@ -141,12 +141,14 @@ public class VideoFragment extends BaseFragment
 
   @Override
   public void showRetry() {
-    Snackbar.make(videoRecycler, R.string.nothing_found, Snackbar.LENGTH_LONG).setAction(R.string.retry, new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        presenter.showVideos(session.getUid());
-      }
-    }).show();
+    Snackbar.make(videoRecycler, R.string.nothing_found, Snackbar.LENGTH_LONG)
+        .setAction(R.string.retry, new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            presenter.showVideos(session.getUid());
+          }
+        })
+        .show();
   }
 
   @Override public void hideLoading() {
