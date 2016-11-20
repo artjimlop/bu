@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.artjimlop.altex.AltexImageDownloader;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -85,6 +86,11 @@ public class GalleryActivity extends BuAppCompatActivity {
     return super.onOptionsItemSelected(item);
   }
 
+  @Override public void finish() {
+    super.finish();
+    overridePendingTransition(R.anim.detail_activity_fade_in, R.anim.detail_activity_fade_out);
+  }
+
   private void saveImage() {
     if (writePermissionManager.hasWritePermission()) {
       performImageDownload();
@@ -110,5 +116,14 @@ public class GalleryActivity extends BuAppCompatActivity {
         // TODO feedbackMessage.showLong(getView(), R.string.download_photo_permission_denied);
       }
     }
+  }
+
+  @OnClick(R.id.picture_background) public void onClickOutside() {
+    finish();
+  }
+
+  @OnClick(R.id.download_button_container)
+  public void onDownloadClicked() {
+    saveImage();
   }
 }

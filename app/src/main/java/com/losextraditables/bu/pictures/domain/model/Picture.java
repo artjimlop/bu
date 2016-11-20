@@ -8,5 +8,4 @@ public class Picture {
   private String originalUrl;
   private String url;
   private String username;
-
 }

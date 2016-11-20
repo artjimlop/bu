@@ -10,7 +10,7 @@
       android:textSize="20sp"
       android:text="@string/save_picture"
       android:layout_margin="16dp"
-      android:textColor="@color/colorPrimaryDark"
+      android:textColor="@color/textColorPrimaryDark"
       android:textStyle="bold"
       />
 
@@ -21,12 +21,21 @@
       android:layout_gravity="center"
       />
 
-  <EditText
-      android:id="@+id/instagram_url"
+  <android.support.design.widget.TextInputLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:hint="@string/insert_picture_s_url_here"
-      android:textColorHint="#BDBDBD"
-      />
+      >
+
+    <EditText
+        android:id="@+id/instagram_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/insert_picture_s_url_here"
+        android:textColorHint="#BDBDBD"
+        android:singleLine="true"
+        android:layout_margin="16dp"
+        />
+
+  </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

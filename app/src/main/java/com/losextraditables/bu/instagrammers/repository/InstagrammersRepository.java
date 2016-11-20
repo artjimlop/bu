@@ -24,16 +24,20 @@ public class InstagrammersRepository {
     return apiDatasource.searchIntagrammers(query, accessToken);
   }
 
-  public Observable<Instagrammer> getInstagrammer(String url) {
-    return apiDatasource.getInstagrammerFromScrap(url);
-  }
-
   public Observable<Void> saveInstagrammer(Instagrammer instagrammer, String uid) {
     return apiDatasource.saveInstagrammer(instagrammer, uid);
   }
 
   public Observable<Void> removeInstagrammer(String uid, String username) {
     return apiDatasource.removeInstagrammer(username, uid);
+  }
+
+  public Observable<Instagrammer> getInstagrammer(String url) {
+    return apiDatasource.getInstagrammerFromScrap(url);
+  }
+
+  public Observable<List<Instagrammer>> getInstagrammers(List<String> urls) {
+    return apiDatasource.getInstagrammersFromScrap(urls);
   }
 
   public List<String> getInstagrammerProfilePictures(String profileUrl) {

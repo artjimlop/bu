@@ -25,7 +25,11 @@ public class GalleryAdapter extends PagerAdapter {
   }
 
   @Override public int getCount() {
-    return images.size();
+    if (images != null) {
+      return images.size();
+    } else {
+      return 0;
+    }
   }
 
   public String getItemByPosition(Integer position) {

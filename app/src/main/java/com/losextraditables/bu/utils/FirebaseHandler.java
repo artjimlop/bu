@@ -3,7 +3,7 @@ package com.losextraditables.bu.utils;
 import com.firebase.client.Firebase;
 import javax.inject.Inject;
 
-public class FirebaseHandler implements FirebaseService{
+public class FirebaseHandler implements FirebaseService {
 
   public static final String FIREBASE_URL = "https://buandroid.firebaseio.com";
 
@@ -14,19 +14,23 @@ public class FirebaseHandler implements FirebaseService{
     return new Firebase(FIREBASE_URL);
   }
 
+  public Firebase getBaseReference() {
+    return new Firebase(FIREBASE_URL + "/");
+  }
+
   public Firebase createUserReference(String uid) {
-    return new Firebase(FIREBASE_URL+"/users").child(uid);
+    return new Firebase(FIREBASE_URL + "/users").child(uid);
   }
 
   public Firebase getPicturesReference(String uid) {
-    return new Firebase(FIREBASE_URL+"/users").child(uid).child("pictures");
+    return new Firebase(FIREBASE_URL + "/users").child(uid).child("pictures");
   }
 
   public Firebase instagrammersReference(String uid) {
-    return new Firebase(FIREBASE_URL+"/users").child(uid).child("instagrammers");
+    return new Firebase(FIREBASE_URL + "/users").child(uid).child("instagrammers");
   }
 
   @Override public Firebase getVideosReference(String uid) {
-    return new Firebase(FIREBASE_URL+"/users").child(uid).child("videos");
+    return new Firebase(FIREBASE_URL + "/users").child(uid).child("videos");
   }
 }

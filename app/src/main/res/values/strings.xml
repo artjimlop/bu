@@ -103,7 +103,7 @@
   <!-- Strings related to login -->
   <string name="prompt_email">Email</string>
   <string name="prompt_password">Password</string>
-  <string name="action_sign_in">Sign in or register</string>
+  <string name="action_sign_in">Sign in</string>
   <string name="action_sign_in_short">Sign in</string>
   <string name="error_invalid_email">This email address is invalid</string>
   <string name="error_invalid_password">This password is too short</string>
@@ -124,6 +124,7 @@
   <string name="ok">Ok</string>
   <string name="cancel">Cancel</string>
   <string name="downloaded_pictures_subfolder">bu/</string>
+  <string name="downloaded_videos_subfolder">bu Videos/</string>
   <string name="menu_save_photo">Save picture</string>
   <string name="title_activity_saved_picture">Picture</string>
   <string name="pictures_activity">Pictures</string>
@@ -136,4 +137,26 @@
   <string name="insert_video_url_here">Insert video URL</string>
   <string name="insert_instagrammer_url">Insert instagrammer URL</string>
   <string name="save_instagrammer">Save instagrammer</string>
+
+  <!-- TODO: Remove or change this placeholder text -->
+  <string name="latest_fragment">Latest</string>
+  <string name="share_this_awesome_app">Share this awesome app</string>
+  <string name="share_app_subject">Download Instagram Images and Videos</string>
+  <string name="share_app_message">b.u. allows to download videos and images from INSTAGRAM\'s
+    links
+  </string>
+  <string name="share_app_website">https://losextraditablesstudio.github.io/</string>
+  <string name="share_app_chooser_title">Share</string>
+  <string name="delete_video_question">Do you want to delete the video?</string>
+  <string name="delete_instagrammer_question">Do you want to delete the instagrammer?</string>
+  <string name="bu_disclaimer">bu will not publish in your instagram account</string>
+  <string name="shame_on_instagram_disclaimer">Instagram don\'t let us show you this :(\nClick to go to the profile</string>
+  <string name="bottombar_pictures">Pictures</string>
+  <string name="bottombar_videos">Videos</string>
+  <string name="bottombar_users">Users</string>
+  <string name="switch_to_login">Do you already have an account? Then click here!</string>
+  <string name="log_in_text">Log in</string>
+  <string name="bottombar_latest">Latest</string>
+  <string name="nothing_found">Nothing found</string>
+  <string name="retry">Retry</string>
 </resources>

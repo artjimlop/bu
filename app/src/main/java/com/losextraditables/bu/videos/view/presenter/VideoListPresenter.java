@@ -16,6 +16,7 @@ import com.losextraditables.bu.videos.domain.model.Video;
 import com.losextraditables.bu.videos.view.model.VideoModel;
 import com.losextraditables.bu.videos.view.model.mapper.VideoModelMapper;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.inject.Inject;
 import rx.Observable;
@@ -36,7 +37,8 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
 
   @Inject public VideoListPresenter(UseCaseHandler useCaseHandler,
       GetVideosUseCase getVideosUseCase, SaveVideoUseCase saveVideoUseCase,
-      GetVideoUseCase getVideoUseCase, RemoveVideoUseCase removeVideoUseCase, RefreshAuthUseCase refreshAuthUseCase,
+      GetVideoUseCase getVideoUseCase, RemoveVideoUseCase removeVideoUseCase,
+      RefreshAuthUseCase refreshAuthUseCase,
       SessionManager sessionManager, VideoModelMapper mapper) {
     super(useCaseHandler);
     this.getVideosUseCase = getVideosUseCase;
@@ -70,8 +72,13 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
                   }
 
                   @Override public void onNext(List<Video> videos) {
-                    videoModels = mapper.mapList(videos);
-                    getView().showVideos(videoModels);
+                      Collections.reverse(videos);
+                      videoModels = mapper.mapList(videos);
+                      if (!videoModels.isEmpty()) {
+                      getView().showVideos(videoModels);
+                      } else {
+                          getView().showRetry();
+                      }
                   }
                 });
           }
@@ -210,5 +217,7 @@ public class VideoListPresenter extends BuPresenter<VideoListPresenter.View> {
     void showAddVideoDialog();
 
     void refresh();
+
+      void showRetry();
   }
 }

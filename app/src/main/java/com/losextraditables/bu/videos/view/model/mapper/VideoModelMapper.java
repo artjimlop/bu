@@ -9,7 +9,8 @@ import javax.inject.Inject;
 
 public class VideoModelMapper extends Mapper<Video, VideoModel> {
 
-  @Inject public VideoModelMapper(){}
+  @Inject public VideoModelMapper() {
+  }
 
   @Override public VideoModel map(Video video) {
     VideoModel videoModel = new VideoModel();
@@ -30,7 +31,7 @@ public class VideoModelMapper extends Mapper<Video, VideoModel> {
   public List<VideoModel> mapList(List<Video> videos) {
     List<VideoModel> videoModels = new ArrayList<>();
     for (Video video : videos) {
-      if(video.getUrl() != null && !video.getUrl().isEmpty()) {
+      if (video.getUrl() != null && !video.getUrl().isEmpty()) {
         videoModels.add(map(video));
       }
     }

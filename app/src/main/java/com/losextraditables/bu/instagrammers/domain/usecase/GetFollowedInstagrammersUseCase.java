@@ -22,7 +22,8 @@ public class GetFollowedInstagrammersUseCase extends RosieUseCase {
     notifySuccess(getInstagrammersFromRepository(uid));
   }
 
-  protected Observable<List<Instagrammer>> getInstagrammersFromRepository(String uid) throws Exception {
+  protected Observable<List<Instagrammer>> getInstagrammersFromRepository(String uid)
+      throws Exception {
     return instagrammersRepository.getInstagrammers(uid);
   }
 }

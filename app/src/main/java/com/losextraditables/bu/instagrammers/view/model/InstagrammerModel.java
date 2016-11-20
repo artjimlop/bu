@@ -65,6 +65,5 @@ public class InstagrammerModel {
     public int compare(InstagrammerModel instagrammerModel, InstagrammerModel anotherInstagrammer) {
       return instagrammerModel.getUserName().compareTo(anotherInstagrammer.getUserName());
     }
-
   };
 }

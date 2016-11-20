@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#F44336</color>
-    <color name="colorPrimaryDark">#B71C1C</color>
-    <color name="colorAccent">#F44336</color>
-    <color name="application_background">#ffffff</color>
-    <color name="old_application_background">#3d404d</color>
-    <color name="white">#ffffff</color>
+    <color name="colorPrimary">#FEFEFE</color>
+    <color name="colorPrimaryDark">#D3DBE4</color>
+    <color name="colorAccent">@color/bermuda_gray</color>
+    <color name="application_background">@color/textLightColor</color>
+    <color name="old_application_background">@color/white</color>
+    <color name="white">#FFFFFF</color>
+    <color name="textColorPrimary">#F44336</color>
+    <color name="textColorPrimaryDark">#B71C1C</color>
+    <color name="textColorAccent">#F44336</color>
+    <color name="gradientColorPrimary">#F44336</color>
+    <color name="bermuda_gray">#6F88A2</color>
+    <color name="textLightColor">#DDE4EA</color>
+    <color name="sign_in_background">#37474F</color>
+    <color name="no_resource">#E8EEF3</color>
 </resources>

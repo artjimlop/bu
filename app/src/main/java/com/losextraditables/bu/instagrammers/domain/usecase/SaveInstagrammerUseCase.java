@@ -17,7 +17,8 @@ public class SaveInstagrammerUseCase extends RosieUseCase {
 
   @UseCase
   public void saveInstagrammer(Instagrammer instagrammer, String uid) {
-    Observable<Void> pictureObservable = instagrammersRepository.saveInstagrammer(instagrammer, uid);
+    Observable<Void> pictureObservable =
+        instagrammersRepository.saveInstagrammer(instagrammer, uid);
     notifySuccess(pictureObservable);
   }
 }

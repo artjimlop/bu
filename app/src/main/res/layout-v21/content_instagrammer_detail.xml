@@ -48,7 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="Instagram don't let us show you this :(\nClick to go to the profile"
+        android:text="@string/shame_on_instagram_disclaimer"
         android:layout_gravity="bottom"
         android:textColor="@color/application_background"
         />

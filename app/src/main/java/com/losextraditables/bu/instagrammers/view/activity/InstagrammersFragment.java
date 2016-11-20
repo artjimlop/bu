@@ -6,7 +6,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -22,6 +21,7 @@ import com.losextraditables.bu.instagrammers.view.adapter.InstagrammersAdapter;
 import com.losextraditables.bu.instagrammers.view.model.InstagrammerModel;
 import com.losextraditables.bu.instagrammers.view.presenter.InstagrammersListPresenter;
 import com.losextraditables.bu.main.DialogAdapter;
+import com.losextraditables.bu.main.MainTabbedActivity;
 import com.losextraditables.bu.pictures.view.adapter.OnInstagrammerClickListener;
 import com.losextraditables.bu.utils.RemindTask;
 import com.losextraditables.bu.utils.SessionManager;
@@ -36,7 +36,6 @@ public class InstagrammersFragment extends BaseFragment
   private static final int ANIMATION_DURATION = 500;
   @Bind(R.id.instagrammers_list)
   RecyclerView instagrammersList;
-  @Bind(R.id.toolbar) Toolbar toolbar;
 
   @Bind(R.id.instagrammers_progress) ProgressBar progressBar;
 
@@ -67,7 +66,8 @@ public class InstagrammersFragment extends BaseFragment
   @Override public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     setupAdapter();
-    toolbar.setTitle(this.getResources().getString(R.string.instagrammers_activity));
+    ((MainTabbedActivity) getActivity()).setUpToolbar(false,
+        this.getResources().getString(R.string.instagrammers_activity));
     instagrammersListPresenter.showInstagrammers(session.getUid());
   }
 
@@ -77,16 +77,17 @@ public class InstagrammersFragment extends BaseFragment
   }
 
   private void setupAdapter() {
-    adapter = new InstagrammersAdapter(getContext(), new InstagrammersListPresenter.ItemClickListener() {
-      @Override public void onItemClick(View view, InstagrammerModel instagrammerModel) {
-        sharedImage = view.findViewById(R.id.instagrammer_avatar);
-        instagrammersListPresenter.goToInstagrammerDetail(instagrammerModel);
-      }
-    }, new OnInstagrammerClickListener() {
-      @Override public void onItemLongClick(View view, String username) {
-        showRemoveInstagrammerAlert(username);
-      }
-    });
+    adapter =
+        new InstagrammersAdapter(getContext(), new InstagrammersListPresenter.ItemClickListener() {
+          @Override public void onItemClick(View view, InstagrammerModel instagrammerModel) {
+            sharedImage = view.findViewById(R.id.instagrammer_avatar);
+            instagrammersListPresenter.goToInstagrammerDetail(instagrammerModel);
+          }
+        }, new OnInstagrammerClickListener() {
+          @Override public void onItemLongClick(View view, String username) {
+            showRemoveInstagrammerAlert(username);
+          }
+        });
     instagrammersList.setAdapter(adapter);
     linearLayoutManager = new LinearLayoutManager(getContext());
     instagrammersList.setLayoutManager(linearLayoutManager);
@@ -95,7 +96,7 @@ public class InstagrammersFragment extends BaseFragment
   private void showRemoveInstagrammerAlert(final String usename) {
     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
 
-    builder.setMessage("Do you want to delete the instagrammer?");
+    builder.setMessage(R.string.delete_instagrammer_question);
 
     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
       @Override
@@ -132,6 +133,7 @@ public class InstagrammersFragment extends BaseFragment
     timer.scheduleAtFixedRate(new RemindTask(getActivity(), dialogPager, 2, timer), 0, 3000);
 
     final EditText url = (EditText) dialogView.findViewById(R.id.instagram_url);
+    url.clearFocus();
     new android.app.AlertDialog.Builder(getActivity()).setView(dialogView)
         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
           public void onClick(DialogInterface dialog, int whichButton) {

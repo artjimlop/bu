@@ -7,21 +7,27 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.GenericTypeIndicator;
 import com.firebase.client.ValueEventListener;
 import com.losextraditables.bu.base.view.error.ConnectionError;
+import com.losextraditables.bu.pictures.domain.model.Latest;
 import com.losextraditables.bu.pictures.domain.model.Picture;
 import com.losextraditables.bu.utils.FirebaseService;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import javax.inject.Inject;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.Subscriber;
 
 public class ServicePictureDataSource implements PictureDataSource {
 
   private Boolean changeMade = false;
+  private Boolean itemSaved = false;
   private final FirebaseService firebaseService;
 
   @Inject public ServicePictureDataSource(FirebaseService firebaseService) {
@@ -53,6 +59,28 @@ public class ServicePictureDataSource implements PictureDataSource {
     return Observable.create(new Observable.OnSubscribe<Void>() {
       @Override public void call(final Subscriber<? super Void> subscriber) {
         removePictureInFirebase(subscriber, uid, url);
+      }
+    });
+  }
+
+  @Override public Observable<List<Latest>> getLatestItems() {
+    return Observable.create(new Observable.OnSubscribe<List<Latest>>() {
+      @Override public void call(final Subscriber<? super List<Latest>> subscriber) {
+        Firebase firebase = firebaseService.getBaseReference();
+        final Firebase discover = firebase.child("discover");
+        discover.addValueEventListener(new ValueEventListener() {
+          @Override public void onDataChange(DataSnapshot dataSnapshot) {
+            GenericTypeIndicator<List<Latest>> t = new GenericTypeIndicator<List<Latest>>() {
+            };
+            List<Latest> instagrammers = dataSnapshot.getValue(t);
+            subscriber.onNext(instagrammers);
+          }
+
+          @Override public void onCancelled(FirebaseError firebaseError) {
+            Crashlytics.log(firebaseError.getMessage());
+            subscriber.onError(new ConnectionError());
+          }
+        });
       }
     });
   }
@@ -101,6 +129,7 @@ public class ServicePictureDataSource implements PictureDataSource {
         subscriber.onError(new ConnectionError());
       }
     });
+    saveDownloadedItem(picture);
   }
 
   private void removePictureInFirebase(final Subscriber<? super Void> subscriber, String uid,
@@ -111,15 +140,15 @@ public class ServicePictureDataSource implements PictureDataSource {
         GenericTypeIndicator<List<Picture>> t = new GenericTypeIndicator<List<Picture>>() {
         };
         List<Picture> pictures = dataSnapshot.getValue(t);
-          if (pictures != null) {
-            List<Picture> pics = new ArrayList<>();
-            for (Picture picture : pictures) {
-              if (!picture.getUrl().equals(position)) {
-                pics.add(picture);
-              }
+        if (pictures != null) {
+          List<Picture> pics = new ArrayList<>();
+          for (Picture picture : pictures) {
+            if (!picture.getUrl().equals(position)) {
+              pics.add(picture);
             }
-            picturesReference.setValue(pics);
           }
+          picturesReference.setValue(pics);
+        }
         subscriber.onCompleted();
       }
 
@@ -153,5 +182,48 @@ public class ServicePictureDataSource implements PictureDataSource {
     } catch (Exception e) {
       throw new ConnectionError();
     }
+  }
+
+  public void saveDownloadedItem(final Picture picture) {
+    itemSaved = false;
+    final Latest latestToSave = Latest.builder().picture(picture).build();
+    Firebase firebase = firebaseService.getBaseReference();
+    final Firebase discover = firebase.child("discover");
+    discover.addValueEventListener(new ValueEventListener() {
+      @Override public void onDataChange(DataSnapshot dataSnapshot) {
+        GenericTypeIndicator<List<Latest>> t = new GenericTypeIndicator<List<Latest>>() {
+        };
+        List<Latest> pictures = dataSnapshot.getValue(t);
+        if (!itemSaved) {
+          if (pictures != null) {
+            boolean contained = false;
+            List<Latest> modifiedPictures = new ArrayList<>(pictures.size());
+            modifiedPictures.addAll(pictures);
+            for (Latest parameters : pictures) {
+              if (parameters != null && parameters.getHasPicture() && parameters.getPicture()
+                  .getOriginalUrl()
+                  .equals(picture.getOriginalUrl())) {
+                contained = true;
+                break;
+              } else {
+                contained = false;
+              }
+            }
+            if (!contained) {
+              modifiedPictures.add(latestToSave);
+              discover.setValue(modifiedPictures);
+            }
+          } else {
+            pictures = Collections.singletonList(latestToSave);
+            discover.setValue(pictures);
+          }
+          itemSaved = true;
+        }
+      }
+
+      @Override public void onCancelled(FirebaseError firebaseError) {
+        //TODO something
+      }
+    });
   }
 }

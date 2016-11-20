@@ -159,6 +159,5 @@ public class BottomBarPresenter extends BuPresenter<BottomBarPresenter.View> {
     void showSaveInstagrammerDialog();
 
     void showSavedInstagrammer();
-
   }
 }

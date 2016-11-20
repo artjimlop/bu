@@ -50,7 +50,7 @@
         android:layout_height="1dp"
         android:alpha="0.2"
         android:layout_gravity="bottom"
-        android:background="#ffffff"
+        android:background="@color/application_background"
         />
   </FrameLayout>
 
