@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.artjimlop.altex.AltexImageDownloader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.main.MainTabbedActivity;
@@ -42,6 +44,7 @@ public class PictureActivity extends BuAppCompatActivity {
   private String imageUrl;
   private PhotoViewAttacher attacher;
   @Bind(R.id.download_button_container) View downloadView;
+  @Bind(R.id.av_bottom_banner) AdView mAdMobAdView;
   @Inject WritePermissionManager writePermissionManager;
 
   public static void init(Activity activity, View sharedView, String imageUrl) {
@@ -70,6 +73,9 @@ public class PictureActivity extends BuAppCompatActivity {
     super.onCreate(savedInstanceState);
     ButterKnife.bind(this);
     initializeViews(savedInstanceState);
+    AdRequest adRequest = new AdRequest.Builder()
+            .build();
+    mAdMobAdView.loadAd(adRequest);
   }
 
   @Override protected void redirectToLogin() {

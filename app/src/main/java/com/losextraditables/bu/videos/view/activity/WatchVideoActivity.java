@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.koushikdutta.ion.ProgressCallback;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
@@ -39,6 +41,7 @@ public class WatchVideoActivity extends BuAppCompatActivity {
   @Bind(R.id.video) JCVideoPlayerStandard videoPlayer;
   @Bind(R.id.download_button) TextView donwloadView;
   @Bind(R.id.download_loading) ProgressBar loadingView;
+  @Bind(R.id.av_bottom_banner) AdView mAdMobAdView;
   private String videoUrl;
 
   public static Intent getIntentForPicturesActivity(Context context, VideoModel videoModel) {
@@ -59,6 +62,9 @@ public class WatchVideoActivity extends BuAppCompatActivity {
     ButterKnife.bind(this);
     writePermissionManager.init(this);
     renderVideo();
+    AdRequest adRequest = new AdRequest.Builder()
+            .build();
+    mAdMobAdView.loadAd(adRequest);
   }
 
   @Override protected void redirectToLogin() {

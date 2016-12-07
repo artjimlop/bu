@@ -55,8 +55,6 @@ public class GalleryActivity extends BuAppCompatActivity {
     setupActionBar();
     setupPager();
     AdRequest adRequest = new AdRequest.Builder()
-            .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-            .addTestDevice("4DD0986B8BB49093161F4F00CF61B887")// Add your real device id here
             .build();
     mAdMobAdView.loadAd(adRequest);
   }
