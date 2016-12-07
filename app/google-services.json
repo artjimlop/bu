@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "231774068437",
+    "firebase_url": "https://buandroid.firebaseio.com",
+    "project_id": "project-226583362306489169",
+    "storage_bucket": "project-226583362306489169.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231774068437:android:3eb25cdeb557566b",
+        "android_client_info": {
+          "package_name": "com.extraditables.los.brokin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231774068437-3jflj0rddgs8euhcmcqlv66msi7fuhjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPCALgm2OqMOYWWoECG_TcOleorVjLSnY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231774068437:android:dd04d6523bf6608c",
+        "android_client_info": {
+          "package_name": "com.losextraditables.bu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "231774068437-3jflj0rddgs8euhcmcqlv66msi7fuhjp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPCALgm2OqMOYWWoECG_TcOleorVjLSnY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

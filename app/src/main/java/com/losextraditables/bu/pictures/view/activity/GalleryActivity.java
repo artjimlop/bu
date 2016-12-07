@@ -13,6 +13,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.artjimlop.altex.AltexImageDownloader;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.base.view.activity.BuAppCompatActivity;
 import com.losextraditables.bu.pictures.view.adapter.GalleryAdapter;
@@ -27,6 +29,7 @@ public class GalleryActivity extends BuAppCompatActivity {
   private static final String EXTRA_IMAGE_POSITION = "position";
 
   @Bind(R.id.pager) CustomViewPager pager;
+  @Bind(R.id.av_bottom_banner) AdView mAdMobAdView;
 
   @Inject WritePermissionManager writePermissionManager;
 
@@ -51,6 +54,11 @@ public class GalleryActivity extends BuAppCompatActivity {
     writePermissionManager.init(this);
     setupActionBar();
     setupPager();
+    AdRequest adRequest = new AdRequest.Builder()
+            .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+            .addTestDevice("4DD0986B8BB49093161F4F00CF61B887")// Add your real device id here
+            .build();
+    mAdMobAdView.loadAd(adRequest);
   }
 
   @Override protected void redirectToLogin() {

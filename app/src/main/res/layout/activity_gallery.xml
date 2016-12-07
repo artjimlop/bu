@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:pv="http://schemas.android.com/apk/res-auto"
     android:id="@+id/picture_background"
@@ -42,6 +43,15 @@
             pv:outset="99%"
             pv:shadow_width="30dp"/>
       </FrameLayout>
+
+      <com.google.android.gms.ads.AdView
+          android:id="@+id/av_bottom_banner"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:layout_centerHorizontal="true"
+          ads:adSize="BANNER"
+          ads:adUnitId="@string/banner_inferior_ad_unit_id" />
 
       <FrameLayout android:id="@+id/download_button_container"
           android:layout_width="match_parent"
