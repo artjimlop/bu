@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
 import com.losextraditables.bu.R;
 import com.losextraditables.bu.pictures.model.LatestItemModel;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,19 +70,20 @@ public class LatestAdapter extends BaseAdapter {
         return false;
       }
     });
-
-    if (item.getHasPicture()) {
-      Picasso.with(context)
-          .load(item.getPicture().getUrl())
-          .noFade()
-          .placeholder(R.drawable.no_resource_placeholder)
-          .into(picture);
-    } else {
-      Picasso.with(context)
-          .load(item.getVideo().getImage())
-          .noFade()
-          .placeholder(R.drawable.no_resource_placeholder)
-          .into(picture);
+    if (item != null) {
+      if (item.getHasPicture()) {
+        Picasso.with(context)
+                .load(item.getPicture().getUrl())
+                .noFade()
+                .placeholder(R.drawable.no_resource_placeholder)
+                .into(picture);
+      } else {
+        Picasso.with(context)
+                .load(item.getVideo().getImage())
+                .noFade()
+                .placeholder(R.drawable.no_resource_placeholder)
+                .into(picture);
+      }
     }
     return view;
   }
