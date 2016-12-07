@@ -150,4 +150,7 @@
   <string name="switch_to_login">¿Ya tienes una cuenta? ¡Haz click aquí!</string>
   <string name="log_in_text">Iniciar sesión</string>
   <string name="bottombar_latest">Lo último</string>
+  <string name="nothing_found">No se encontró nada</string>
+  <string name="retry">Reintentar</string>
+  <string name="banner_inferior_ad_unit_id">ca-app-pub-6142616154749060/2899051437</string>
 </resources>

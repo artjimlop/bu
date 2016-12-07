@@ -1,6 +1,8 @@
 package com.losextraditables.bu;
 
 import android.content.Context;
+import android.support.multidex.MultiDex;
+
 import com.crashlytics.android.Crashlytics;
 import com.firebase.client.Firebase;
 import com.karumi.rosie.application.RosieApplication;
@@ -24,6 +26,7 @@ public class BuApplication extends RosieApplication {
 
   @Override public void onCreate() {
     super.onCreate();
+    MultiDex.install(this);
     Fabric.with(this, new Crashlytics());
     Firebase.setAndroidContext(this);
     authenticationHandler.authenticationRefresh(getApplicationContext());
